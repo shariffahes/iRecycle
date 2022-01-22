@@ -1,8 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import 'react-native-gesture-handler';
 import MainNavigator from "./src/Navigation/MainNavigator";
 import AppLoading from "expo-app-loading";
 import { useState } from "react";
+import * as Font from "expo-font";
 
 // Fonts
 const fetchFonts = () => {
@@ -11,7 +11,6 @@ const fetchFonts = () => {
     "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
 };
-
 export default function App() {
   const [loadedFont, setLoadedFont] = useState(false);
 
@@ -26,12 +25,3 @@ export default function App() {
   }
   return <MainNavigator />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
