@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { StyleSheet } from "react-native";
-import MapScreen from "../Screens/MapScreen";
+import HomeStack from "./HomeStack";
 import BlogScreen from "../Screens/BlogScreen";
 import StoreScreen from "../Screens/StoreScreen";
 import RequestScreen from "../Screens/RequestScreen";
@@ -50,7 +50,8 @@ const MenuIcon = ({ size, color }) => {
 const BottomNavBar = () => {
     return (
         <BottomStack.Navigator screenOptions={renderScreenOptions}>
-            <BottomStack.Screen name="Map"component={MapScreen}/>
+            <BottomStack.Screen name="Map"component={HomeStack}
+              options={{headerShown: false}}/>
             <BottomStack.Screen name="Store" component={StoreScreen} />
             <BottomStack.Screen name="Request" component={RequestScreen} />
             <BottomStack.Screen name="Blog" component={BlogScreen} />

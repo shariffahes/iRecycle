@@ -1,10 +1,14 @@
+import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
     return (
       <View>
-        <Text>MapScreen</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Scan")}>
+          <Text>Scan</Text>
+        </TouchableOpacity>
       </View>
         );
 };
