@@ -1,51 +1,35 @@
 import { Camera } from "expo-camera";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Image, StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import * as cocossd from "@tensorflow-models/coco-ssd";
-import * as tf from '@tensorflow/tfjs';
 import { fetch } from '@tensorflow/tfjs-react-native';
+import * as tf from '@tensorflow/tfjs';
 import * as ImageManipulator from "expo-image-manipulator";
 import * as jpeg from "jpeg-js";
 import CustomText from "../Components/CustomUI/CustomText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import Colors from "../constants/Colors";
 import { ScrollView } from "react-native-gesture-handler";
+import { useModel } from "../contexts/ModelContext";
+
 
 
 const ScanScreen = () => {
-    const [hasCameraPermission, setCameraAccessPermission] = useState(null);
-    const [isTFReady, setTFStatus] = useState(false);
-    const [isModelReady, setModelStatus] = useState(false);
-    const [predictions, setPredictions] = useState(null);
-    const [imageToAnalyze, setImageToAnalyze] = useState(null);
-    const [isModalDetecting, setModalActivityStatus] = useState(false);
-    const model = useRef(null);
-    const camera = useRef(null);
-  
-    useEffect(async () => {
-      const getPermission = async () => {
-        const { status } = await Camera.requestCameraPermissionsAsync();
-        setCameraAccessPermission(status === "granted");
-      }
-      const initializeTF = async () => {
-        await tf.ready();
-        console.log('tensorflow done');
-        setTFStatus(true);
-      }
-      const initializeModel = async () => {
-        try{
-          console.log("initializing model");
-          model.current = await cocossd.load();
-          setModelStatus(true);
-        } catch(error) {
-          console.error(error.toString());
-        }
-      }
-      initializeTF();
-      initializeModel();
-      getPermission();
+  const [hasCameraPermission, setCameraAccessPermission] = useState(null);
+  const [predictions, setPredictions] = useState(null);
+  const [imageToAnalyze, setImageToAnalyze] = useState(null);
+  const [ismodelDetecting, setmodelActivityStatus] = useState(false);
+  const { model, isModelReady, error} = useModel();
+  console.log(isModelReady);
+  const camera = useRef(null);
 
-    }, []);
+  
+  useEffect(async () => {
+    const getPermission = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setCameraAccessPermission(status === "granted");
+    }
+    getPermission();
+  }, []);
     
   const imageToTensor = useCallback((rawImageData) => {
     const { width, height, data } = jpeg.decode(rawImageData, {
@@ -72,9 +56,9 @@ const ScanScreen = () => {
       const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
       const rawImageData = await response.arrayBuffer();
       const imageTensor = imageToTensor(rawImageData);
-      const newPredictions = await model.current.detect(imageTensor);
+      const newPredictions = await model.detect(imageTensor);
       setPredictions(newPredictions);
-      setModalActivityStatus(false);
+      setmodelActivityStatus(false);
       console.log('predictions');
       console.log(newPredictions);
 
@@ -85,7 +69,7 @@ const ScanScreen = () => {
 
   const detectObject = useCallback(async () => {
     console.log('identify object pressed');
-    setModalActivityStatus(true);
+    setmodelActivityStatus(true);
     const response = await camera.current.takePictureAsync();
     const manipResponse = await ImageManipulator.manipulateAsync(
       response.uri,
@@ -99,34 +83,35 @@ const ScanScreen = () => {
     await classifyImageAsync(source);
   }, [camera, setImageToAnalyze, setPredictions, classifyImageAsync]);
 
-    if(!isModelReady) {
-        return (
-          <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            <ActivityIndicator size={33}/>
-          </View>
-        );
-    }
-    if (!hasCameraPermission || !isModelReady) {
-        return <Text>No Camera Permission</Text>
-    }
-
-    return (
-      <Camera ref={camera} style={styles.camContainer}>
-        <View style={styles.mainContainer}>
-          <CustomText style={styles.textStyle}>Scan your object here</CustomText>
-          <View style={styles.scanContainer}>
-          </View>
-          <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={isModalDetecting}/>
+  if (!isModelReady) {
+      return (
+        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+          <ActivityIndicator size={33}/>
         </View>
-      </Camera>
-    );
+      );
+  }
+  if (!hasCameraPermission || error) {
+      console.log(hasCameraPermission);
+      return <Text>No Camera Permission. {error}</Text>
+  }
+
+  return (
+    <Camera ref={camera} style={styles.camContainer}>
+      <View style={styles.mainContainer}>
+        <CustomText style={styles.textStyle}>Scan your object here</CustomText>
+        <View style={styles.scanContainer}>
+        </View>
+        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting}/>
+      </View>
+    </Camera>
+  );
 };
 
 const ResultConfirmation = ({predictions, onDetectObjectPressed, loading}) => {
   return (
     <View>
-      {!predictions ? <CustomButton title='Detect Object' onPressHandler=  {onDetectObjectPressed} loading={loading}/>
-                   : <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center', margin: 12}}>
+      {!predictions ? <CustomButton title='Detect Object' onPressHandler={onDetectObjectPressed} loading={loading}/>
+                    : <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center', margin: 12}}>
                         <CustomText>Is this </CustomText>
                         {predictions.map((p, index) => <CustomText key={index}>{p.class}</CustomText>)} 
                         <View style={styles.actionButtonsContainer}>

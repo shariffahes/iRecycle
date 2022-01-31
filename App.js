@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
 import MainNavigator from "./src/Navigation/MainNavigator";
 import AppLoading from "expo-app-loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Font from "expo-font";
+import { ModelProvider } from './src/contexts/ModelContext';
 
 // Fonts
 const fetchFonts = () => {
@@ -23,5 +24,9 @@ export default function App() {
       />
     );
   }
-  return <MainNavigator />;
+  return (
+    //<ModelProvider>
+      <MainNavigator />
+    //</ModelProvider>
+  );
 }
