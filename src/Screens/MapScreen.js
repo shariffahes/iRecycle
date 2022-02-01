@@ -1,9 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import ScanButton from "../Components/ScanButton";
+import * as Location from "expo-location";
 
 const MapScreen = ({ navigation }) => {
   const location = {
@@ -12,6 +13,28 @@ const MapScreen = ({ navigation }) => {
     latitudeDelta: 0.006,
     longitudeDelta: 0.02,
   };
+
+  const [myLocation, setMyLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let myLocation = await Location.getCurrentPositionAsync({});
+      setMyLocation(myLocation);
+    })();
+  }, []);
+
+  if (errorMsg) {
+    console.log(errorMsg);
+  } else if (myLocation) {
+    console.log(myLocation.coords.latitude);
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -43,6 +66,13 @@ const MapScreen = ({ navigation }) => {
           coordinate={{
             latitude: 33.893956,
             longitude: 35.4783872,
+          }}
+        />
+
+        <Marker
+          coordinate={{
+            latitude: myLocation.coords.latitude,
+            longitude: myLocation.coords.longitude,
           }}
         />
       </MapView>
