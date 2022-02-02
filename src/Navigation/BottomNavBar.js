@@ -7,6 +7,7 @@ import StoreScreen from "../Screens/StoreScreen";
 import RequestScreen from "../Screens/RequestScreen";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import MenuScreen from "../Screens/MenuScreen";
+import { renderHeaderOptions } from "../constants/CustomFts";
 
 const BottomStack = createBottomTabNavigator();
 
@@ -51,11 +52,11 @@ const BottomNavBar = () => {
     return (
         <BottomStack.Navigator screenOptions={renderScreenOptions}>
             <BottomStack.Screen name="Map"component={HomeStack}
-              options={{headerShown: false}}/>
-            <BottomStack.Screen name="Store" component={StoreScreen} />
-            <BottomStack.Screen name="Request" component={RequestScreen} />
-            <BottomStack.Screen name="Blog" component={BlogScreen} />
-            <BottomStack.Screen name="Menu" component={MenuScreen} />
+              options={{headerShown: false}} />
+            <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
+            <BottomStack.Screen name="Request" component={RequestScreen} options={renderHeaderOptions({applyMargin: true})}/>
+            <BottomStack.Screen name="Blog" component={BlogScreen} options={renderHeaderOptions({applyMargin: true})}/>
+            <BottomStack.Screen name="Menu" component={MenuScreen} options={renderHeaderOptions({applyMargin: true})}/>
         </BottomStack.Navigator>
     );
 };

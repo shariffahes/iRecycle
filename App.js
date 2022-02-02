@@ -10,6 +10,8 @@ const fetchFonts = () => {
   return Font.loadAsync({
     "roboto": require("./assets/fonts/Roboto-Regular.ttf"),
     "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Poppins": require("./assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf")
   });
 };
 export default function App() {
@@ -25,8 +27,8 @@ export default function App() {
     );
   }
   return (
-    //<ModelProvider>
+    <ModelProvider>
       <MainNavigator />
-    //</ModelProvider>
+    </ModelProvider>
   );
 }
