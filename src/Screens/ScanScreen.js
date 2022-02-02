@@ -1,27 +1,25 @@
 import { Camera } from "expo-camera";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Image, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { Image, StyleSheet, Text, View, ActivityIndicator, Modal, TouchableWithoutFeedback } from "react-native";
 import { fetch } from '@tensorflow/tfjs-react-native';
 import * as tf from '@tensorflow/tfjs';
 import * as ImageManipulator from "expo-image-manipulator";
 import * as jpeg from "jpeg-js";
 import CustomText from "../Components/CustomUI/CustomText";
-import CustomButton from "../Components/CustomUI/CustomButton";
-import Colors from "../constants/Colors";
-import { ScrollView } from "react-native-gesture-handler";
-import { useModel } from "../contexts/ModelContext";
+import CustomButton from '../Components/CustomUI/CustomButton';
+import Colors from '../constants/Colors';
+import { useModel } from '../contexts/ModelContext';
+import { identifyWhichBin } from '../constants/CustomFts';
+import OptionsModal from '../Components/CustomUI/OptionsModal';
+import BackIcon from '../../assets/svg/BackIcon.svg';
 
 
-
-const ScanScreen = () => {
+const ScanScreen = ({navigation}) => {
   const [hasCameraPermission, setCameraAccessPermission] = useState(null);
   const [predictions, setPredictions] = useState(null);
-  const [imageToAnalyze, setImageToAnalyze] = useState(null);
   const [ismodelDetecting, setmodelActivityStatus] = useState(false);
   const { model, isModelReady, error} = useModel();
-  console.log(isModelReady);
   const camera = useRef(null);
-
   
   useEffect(async () => {
     const getPermission = async () => {
@@ -59,8 +57,6 @@ const ScanScreen = () => {
       const newPredictions = await model.detect(imageTensor);
       setPredictions(newPredictions);
       setmodelActivityStatus(false);
-      console.log('predictions');
-      console.log(newPredictions);
 
     } catch (error) {
       console.log("Exception Error: ", error);
@@ -78,10 +74,16 @@ const ScanScreen = () => {
     );
     const source = { uri: manipResponse.uri };
 
-    setImageToAnalyze(source);
     setPredictions(null);
     await classifyImageAsync(source);
-  }, [camera, setImageToAnalyze, setPredictions, classifyImageAsync]);
+  }, [camera, setPredictions, classifyImageAsync]);
+
+  const onConfirm = useCallback((item) => {
+    setPredictions(null);
+    //move to next page
+    const result = identifyWhichBin(item);
+    console.log(result);
+  },[]);
 
   if (!isModelReady) {
       return (
@@ -97,31 +99,60 @@ const ScanScreen = () => {
 
   return (
     <Camera ref={camera} style={styles.camContainer}>
+      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+        <View style={{ margin: 13 }}>
+          <BackIcon />
+        </View>
+      </TouchableWithoutFeedback>
       <View style={styles.mainContainer}>
         <CustomText style={styles.textStyle}>Scan your object here</CustomText>
         <View style={styles.scanContainer}>
         </View>
-        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting}/>
+        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm}/>
       </View>
     </Camera>
   );
 };
 
-const ResultConfirmation = ({predictions, onDetectObjectPressed, loading}) => {
+const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loading}) => {
+  const [isModalOpen, setModalStatus] = useState(false);
+  const onModalCloseHandler = useCallback((name) => {
+    setModalStatus(false);
+    if(name !== "other") onConfirm(name);
+  }, []);
+  useEffect(() => {
+    if (predictions && predictions.length > 1) setModalStatus(true);
+  }, [predictions]);
   return (
     <View>
       {!predictions ? <CustomButton title='Detect Object' onPressHandler={onDetectObjectPressed} loading={loading}/>
-                    : <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center', margin: 12}}>
-                        <CustomText>Is this </CustomText>
-                        {predictions.map((p, index) => <CustomText key={index}>{p.class}</CustomText>)} 
-                        <View style={styles.actionButtonsContainer}>
-                          <CustomButton title='yes' style={{width: '40%' }}/>
-                          <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red'}}/>
-                        </View>
-                     </ScrollView>
+                    : <>
+                      {predictions.length == 1 && <SingleResult prediction={predictions[0]} onConfirm={onConfirm}/>}
+                      <OptionsModal data={predictions} isOpen={isModalOpen} onClose={onModalCloseHandler}/>
+                      </> 
                    }
     </View>
   );
+};
+
+const SingleResult = ({prediction, onConfirm}) => {
+  return (
+    <View style={{alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
+      <CustomText>Is this {prediction.class}</CustomText>
+      <View style={styles.actionButtonsContainer}>
+        <CustomButton title='yes' style={{ width: '40%' }} onPressHandler={onConfirm}/>
+        <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red' }} />
+      </View>
+    </View>);
+}
+const MultipleResult = (predictions, closeModal, isClosed) => {
+  return (
+    <Modal animated={true} visible={!closeModal} animationType="slide" onRequestClose={closeModal} transparent={true}>
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <View style={{backgroundColor: 'red', height: 100, width: 200}}/>
+      </View>
+    </Modal>
+    );
 }
 const styles = StyleSheet.create({
   mainContainer: {
