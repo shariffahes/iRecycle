@@ -23,6 +23,7 @@
     "expo-camera": "^12.1.0",
     "expo-gl": "^11.1.1",
     "expo-image-manipulator": "~10.2.0",
+    "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
     "jpeg-js": "^0.4.3",
     "react": "17.0.1",
@@ -36,8 +37,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^1.0.0",
-    "react-native-web": "0.17.1",
-    "expo-location": "~14.0.1"
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
