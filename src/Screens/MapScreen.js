@@ -1,11 +1,12 @@
-import { NavigationContainer } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image, StyleSheet, Text, View } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import ScanButton from "../Components/ScanButton";
 import * as Location from "expo-location";
-
+import YellowBinIcon from '../../assets/svg/YellowBin.svg';
+import RecyclePointIcon from '../../assets/svg/RecyclePoint.svg';
+import ShoppingCenterIcon from '../../assets/svg/ShoppingCenter.svg';
+import CustomText from "../Components/CustomUI/CustomText";
 const MapScreen = ({ navigation }) => {
   const location = {
     latitude: 33.89653974328971,
@@ -33,42 +34,23 @@ const MapScreen = ({ navigation }) => {
   if (errorMsg) {
     console.log(errorMsg);
   } else if (myLocation) {
-    console.log(myLocation.coords.latitude);
+    // console.log(myLocation.coords.latitude);
   }
 
   return (
     <View style={styles.mainContainer}>
       <MapView
         style={StyleSheet.absoluteFillObject}
-        provider={PROVIDER_GOOGLE}
-        maptype="hybrid"
-        region={location}
-      >
-        <Marker
+        provider={PROVIDER_GOOGLE} maptype="hybrid" region={location}>
+        <Marker 
           coordinate={{
             latitude: 33.89291648510742,
             longitude: 35.47784753558452,
           }}
           title="LAU's Recycling Vending Machine"
-          description="Now students can recycle easily and gain discounts from their favorite stores"
-        >
-          <Callout tooltip>
-            <View>
-              <View style={styles.markerBox}>
-                <Text style={styles.markerName}>LAU's iRecycle</Text>
-                <Text>
-                  Now students can recycle easily and gain discounts from their
-                  favorite stores
-                </Text>
-                <Image
-                  style={styles.markerImage}
-                  source={require("../../assets/icons/vendingIcon.png")}
-                />
-              </View>
-              <View style={styles.arrowBorder} />
-              <View style={styles.arrow} />
-            </View>
-          </Callout>
+          description="Now students can recycle easily and gain discounts from their favorite stores">
+          <RecyclePointIcon/>
+          {renderPointPreview("LAU's iRecycle", "Now students can recycle easily and gain discounts from their favorite stores")}
         </Marker>
         <Marker
           coordinate={{
@@ -76,27 +58,10 @@ const MapScreen = ({ navigation }) => {
             longitude: 35.481416,
           }}
           title="Santona's Recycling Vending Machine"
-          description="Residents are encouraged to recycle in order to gain disounts on their rents"
-        >
-          <Callout tooltip>
-            <View>
-              <View style={styles.markerBox}>
-                <Text style={styles.markerName}>Santona's iRecycle</Text>
-                <Text>
-                  Residents are encouraged to recycle in order to gain disounts
-                  on their rents
-                </Text>
-                <Image
-                  style={styles.markerImage}
-                  source={require("../../assets/icons/vendingIcon.png")}
-                />
-              </View>
-              <View style={styles.arrowBorder} />
-              <View style={styles.arrow} />
-            </View>
-          </Callout>
+          description="Residents are encouraged to recycle in order to gain disounts on their rents">
+          <YellowBinIcon/>
+          {renderPointPreview("Santona's iRecycle", "Residents are encouraged to recycle in order to gain disounts on their rents")}
         </Marker>
-
         <Marker
           coordinate={{
             latitude: 33.893956,
@@ -105,31 +70,9 @@ const MapScreen = ({ navigation }) => {
           title="Palm's Recycling Vending Machine"
           description="Residents are encouraged to recycle in order to gain disounts on their rents"
         >
-          <Callout tooltip>
-            <View>
-              <View style={styles.markerBox}>
-                <Text style={styles.markerName}>Palm's iRecycle</Text>
-                <Text>
-                  Residents are encouraged to recycle in order to gain disounts
-                  on their rents
-                </Text>
-                <Image
-                  style={styles.markerImage}
-                  source={require("../../assets/icons/vendingIcon.png")}
-                />
-              </View>
-              <View style={styles.arrowBorder} />
-              <View style={styles.arrow} />
-            </View>
-          </Callout>
+          <ShoppingCenterIcon/>
+          {renderPointPreview("Palm's iRecycle", "Residents are encouraged to recycle in order to gain disounts on their rents")}
         </Marker>
-
-        {/* <Marker
-          coordinate={{
-            latitude: myLocation.coords.latitude,
-            longitude: myLocation.coords.longitude,
-          }}
-        /> */}
       </MapView>
       <ScanButton
         onPressHandler={() => navigation.navigate("Scan")}
@@ -139,6 +82,26 @@ const MapScreen = ({ navigation }) => {
   );
 };
 
+
+const renderPointPreview = (name, description) => {
+  return (
+    <Callout tooltip>
+      <View>
+        <View style={styles.markerBox}>
+          <Text style={styles.markerName}>{name}</Text>
+          <Text>{description}</Text>
+          <Image
+            style={styles.markerImage}
+            source={require("../../assets/icons/vendingIcon.png")}
+            resizeMode='contain'
+          />
+        </View>
+        <View style={styles.arrowBorder} />
+        <View style={styles.arrow} />
+      </View>
+    </Callout>
+  );
+}
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,

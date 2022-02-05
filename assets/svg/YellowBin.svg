@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="75" height="75" viewBox="0 0 75 75">
+  <defs>
+    <filter id="Ellipse_255" x="0" y="0" width="75" height="75" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_358" data-name="Group 358" transform="translate(-191.5 -387.5)">
+    <g transform="matrix(1, 0, 0, 1, 191.5, 387.5)" filter="url(#Ellipse_255)">
+      <circle id="Ellipse_255-2" data-name="Ellipse 255" cx="21" cy="21" r="21" transform="translate(16.5 13.5)" fill="#aa6969"/>
+    </g>
+    <path id="Icon_awesome-recycle" data-name="Icon awesome-recycle" d="M8.478,12.03a.735.735,0,0,1-1.106.789L5.5,11.65,3.164,15.389a1.473,1.473,0,0,0,1.246,2.25H6.8a.551.551,0,0,1,.551.551v1.837a.551.551,0,0,1-.551.551H4.415A4.413,4.413,0,0,1,.676,13.832L3.01,10.093,1.139,8.924a.735.735,0,0,1,.224-1.339L6.427,6.416a.735.735,0,0,1,.881.551L8.478,12.03Zm4.527-8.4,1.9,3.035L13.03,7.833a.735.735,0,0,0,.224,1.339l5.064,1.169A.735.735,0,0,0,19.2,9.79l1.169-5.064a.735.735,0,0,0-1.106-.789L17.394,5.106,15.5,2.071a4.412,4.412,0,0,0-7.479,0L7.195,3.392a.551.551,0,0,0,.175.759l1.558.974a.551.551,0,0,0,.76-.175l.825-1.32A1.471,1.471,0,0,1,13.005,3.628Zm9.838,10.2-1.264-2.024a.551.551,0,0,0-.76-.176l-1.555.972a.551.551,0,0,0-.175.76l1.266,2.026a1.472,1.472,0,0,1-1.246,2.249H14.7v-2.2a.735.735,0,0,0-1.255-.52L9.77,18.589a.735.735,0,0,0,0,1.039L13.444,23.3a.735.735,0,0,0,1.255-.52v-2.2h4.4A4.413,4.413,0,0,0,22.843,13.832Z" transform="translate(217 410)" fill="#fff"/>
+  </g>
+</svg>
