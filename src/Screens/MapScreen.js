@@ -6,7 +6,8 @@ import * as Location from "expo-location";
 import YellowBinIcon from '../../assets/svg/YellowBin.svg';
 import RecyclePointIcon from '../../assets/svg/RecyclePoint.svg';
 import ShoppingCenterIcon from '../../assets/svg/ShoppingCenter.svg';
-import CustomText from "../Components/CustomUI/CustomText";
+
+
 const MapScreen = ({ navigation }) => {
   const location = {
     latitude: 33.89653974328971,

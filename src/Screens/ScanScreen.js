@@ -12,7 +12,7 @@ import { useModel } from '../contexts/ModelContext';
 import { identifyWhichBin } from '../constants/CustomFts';
 import OptionsModal from '../Components/CustomUI/OptionsModal';
 import BackIcon from '../../assets/svg/BackIcon.svg';
-
+import { materialTypes } from "../Data/materialsList";
 
 const ScanScreen = ({navigation}) => {
   const [hasCameraPermission, setCameraAccessPermission] = useState(null);
@@ -20,6 +20,7 @@ const ScanScreen = ({navigation}) => {
   const [ismodelDetecting, setmodelActivityStatus] = useState(false);
   const { model, isModelReady, error} = useModel();
   const camera = useRef(null);
+  const imageURL = useRef(null);
   
   useEffect(async () => {
     const getPermission = async () => {
@@ -66,9 +67,10 @@ const ScanScreen = ({navigation}) => {
   const detectObject = useCallback(async () => {
     console.log('identify object pressed');
     setmodelActivityStatus(true);
-    const response = await camera.current.takePictureAsync();
+    const res = await camera.current.takePictureAsync();
+    imageURL.current = res.uri;
     const manipResponse = await ImageManipulator.manipulateAsync(
-      response.uri,
+      res.uri,
       [{ resize: { width: 900 } }],
       { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
     );
@@ -78,12 +80,13 @@ const ScanScreen = ({navigation}) => {
     await classifyImageAsync(source);
   }, [camera, setPredictions, classifyImageAsync]);
 
-  const onConfirm = useCallback((item) => {
+  const onConfirm = useCallback((item, isMaterialPath) => {
     setPredictions(null);
     //move to next page
-    const result = identifyWhichBin(item);
-    console.log(result);
+    const result = identifyWhichBin(item, isMaterialPath);
+    navigation.navigate('Result', {imageURL: imageURL.current, result});
   },[]);
+
 
   if (!isModelReady) {
       return (
@@ -108,7 +111,7 @@ const ScanScreen = ({navigation}) => {
         <CustomText style={styles.textStyle}>Scan your object here</CustomText>
         <View style={styles.scanContainer}>
         </View>
-        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm}/>
+        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm} />
       </View>
     </Camera>
   );
@@ -116,43 +119,47 @@ const ScanScreen = ({navigation}) => {
 
 const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loading}) => {
   const [isModalOpen, setModalStatus] = useState(false);
+  const [isMaterialModalOpen, setMaterialModalStatus] = useState(false);
   const onModalCloseHandler = useCallback((name) => {
     setModalStatus(false);
     if(name !== "other") onConfirm(name);
+    else setMaterialModalStatus(true);
   }, []);
+  const onMaterialModalClose = useCallback((materialType) => {
+    setMaterialModalStatus(false);
+    onConfirm(materialType, true);
+  }, []);
+  const [multipleObjects, setObjects] = useState([]);
   useEffect(() => {
-    if (predictions && predictions.length > 1) setModalStatus(true);
+    if (predictions && predictions.length > 1) {
+     const objcts = predictions.map(res => ({name: res.class}));
+      setObjects([...objcts, {name: 'other'}]);
+      setModalStatus(true);
+    }
   }, [predictions]);
   return (
     <View>
       {!predictions ? <CustomButton title='Detect Object' onPressHandler={onDetectObjectPressed} loading={loading}/>
                     : <>
-                      {predictions.length == 1 && <SingleResult prediction={predictions[0]} onConfirm={onConfirm}/>}
-                      <OptionsModal data={predictions} isOpen={isModalOpen} onClose={onModalCloseHandler}/>
+                      {predictions.length == 1 && <SingleResult prediction={predictions[0]} onConfirm={onConfirm} onReject={setMaterialModalStatus}/>}
+                      <OptionsModal data={multipleObjects} isOpen={isModalOpen} onClose={onModalCloseHandler} title="Multiple Objects detected"/>
+                       <OptionsModal data={materialTypes} isOpen={isMaterialModalOpen} onClose={onMaterialModalClose} title="Which material does this object made of ?"/>
                       </> 
                    }
     </View>
   );
 };
 
-const SingleResult = ({prediction, onConfirm}) => {
+const SingleResult = ({prediction, onConfirm, onReject}) => {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
       <CustomText>Is this {prediction.class}</CustomText>
       <View style={styles.actionButtonsContainer}>
-        <CustomButton title='yes' style={{ width: '40%' }} onPressHandler={onConfirm}/>
-        <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red' }} />
+        <CustomButton title='yes' style={{ width: '40%' }} onPressHandler={() => onConfirm(prediction.class)}/>
+        <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red' }} 
+          onPressHandler={() => onReject(true)} />
       </View>
     </View>);
-}
-const MultipleResult = (predictions, closeModal, isClosed) => {
-  return (
-    <Modal animated={true} visible={!closeModal} animationType="slide" onRequestClose={closeModal} transparent={true}>
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <View style={{backgroundColor: 'red', height: 100, width: 200}}/>
-      </View>
-    </Modal>
-    );
 }
 const styles = StyleSheet.create({
   mainContainer: {

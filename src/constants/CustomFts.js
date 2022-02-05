@@ -3,9 +3,13 @@ import { redBinItems } from '../Data/redBinList';
 import Logo from '../../assets/svg/Logo.svg';
 import RedeemedPointsView from "../Components/CustomUI/RedeemedPointsView";
 import { View, StyleSheet } from 'react-native';
-
-export const identifyWhichBin = (itemName) => {
+import { materials } from '../Data/materialsList';
+export const identifyWhichBin = (itemName, isMaterial) => {
     let res;
+    if(isMaterial) {
+      res = materials[itemName];
+      return res;
+    }
     res = yellowBinItems.find(item => item == itemName);
     if(res) return "YELLOW";
     res = redBinItems.find(item => item == itemName);

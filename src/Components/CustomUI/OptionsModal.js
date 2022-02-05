@@ -3,19 +3,18 @@ import { Modal, TouchableOpacity, View, StyleSheet, ScrollView } from 'react-nat
 import Colors from '../../constants/Colors';
 import CustomText from './CustomText';
 
-const OptionsModal = ({data, isOpen, onClose}) => {
+const OptionsModal = ({data, title, isOpen, onClose}) => {
 
-  const d = data.concat([{class: 'other'}])
   return (
     <Modal visible={isOpen} transparent={true} animationType='slide' animated={true}>
       <View style={styles.modalContentStyle}>
         <ScrollView style={{flex: 1, margin: 15}} contentContainerStyle={{alignItems: 'center', justifyContent:'center'}}>
-          <CustomText style={{color: 'black', fontSize: 15}}>Multiple Objects detected</CustomText>
+          <CustomText style={{color: 'black', fontSize: 15}}>{title}</CustomText>
           <CustomText style={{color: 'black', fontSize: 15}}>Choose one of the following: </CustomText>
-          {d.map((item, index) => {
+          {data.map((item, index) => {
             return (
-              <TouchableOpacity key={index} style={{width: '100%', alignItems: 'center', justifyContent: 'center'}} onPress={() => onClose(item.class)}>
-                <OptionCard name={item.class}/>
+              <TouchableOpacity key={index} style={{width: '100%', alignItems: 'center', justifyContent: 'center'}} onPress={() => onClose(item.name)}>
+                <OptionCard name={item.name}/>
               </TouchableOpacity>);
           })}
         </ScrollView>
