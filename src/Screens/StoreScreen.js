@@ -7,7 +7,7 @@ const StoreScreen = () => {
     <View style={styles.screen}>
       <View style={styles.list}>
         {/* <FlatList style={styles.list}> */}
-        <InfoCard title={"Hello World"} website={"helloworld.com"}></InfoCard>
+        <InfoCard title={"Hello World"} website={"helloworld.com"} coins={200} discount={20} image={"../../assets/icons/vendingIcon.png"}></InfoCard>
       </View>
     </View>
   );

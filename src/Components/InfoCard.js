@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
-import CardTitleText from "../Components/CustomUI/CardTitleText"
+import CardTitleText from "../Components/CustomUI/CardTitleText";
+import RedeemedPointsViewVertical from "./CustomUI/RedeemedPointsViewVertical";
 const InfoCard = ({
   title,
   coins,
@@ -17,10 +18,10 @@ const InfoCard = ({
         source={require("../../assets/icons/vendingIcon.png")}
       />
       <View style={styles.info}>
-
         <CardTitleText>{title}</CardTitleText>
         <Text>{website}</Text>
       </View>
+      <RedeemedPointsViewVertical coins={coins} discount={discount}></RedeemedPointsViewVertical>
     </View>
   );
 };
@@ -38,11 +39,10 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: "column",
-    backgroundColor: "red",
     height: "100%",
-    width: "100%",
+    width: "40%",
     padding: 15,
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
   image: {
     width: "20%",
