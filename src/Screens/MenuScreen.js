@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 
-const MenuScreen = () => {
+const MenuScreen = ({ navigation }) => {
     return (
         <View>
-            <Text>MenuScreen</Text>
+            <Button title="User Profile" onPress={() => navigation.navigate("Auth")}/>
         </View>
     );
 };
