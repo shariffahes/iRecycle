@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View, Text } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import InputBar from "../Components/InputBar";
 
 const AuthScreen = () => {
@@ -15,22 +22,24 @@ const AuthScreen = () => {
   };
 
   return (
-    <View style={styles.screen}>
-      <InputBar
-        icon="mail-outline"
-        keyboardType="email-address"
-        placeholder="Email"
-        onChangeTextHandler={setUsernameHandler}
-      ></InputBar>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.screen}>
+        <InputBar
+          icon="mail-outline"
+          keyboardType="email-address"
+          placeholder="Email"
+          onChangeTextHandler={setUsernameHandler}
+        ></InputBar>
 
-      <InputBar
-        icon="lock-closed-outline"
-        keyboardType="default"
-        placeholder="Password"
-        secureTextBool={true}
-        onChangeTextHandler={setPasswordHandler}
-      ></InputBar>
-    </View>
+        <InputBar
+          icon="lock-closed-outline"
+          keyboardType="default"
+          placeholder="Password"
+          secureTextBool={true}
+          onChangeTextHandler={setPasswordHandler}
+        ></InputBar>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     borderRadius: 5,
     alignItems: "center",
-    marginVertical:10
+    marginVertical: 10,
   },
   input: {
     marginLeft: 10,
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 30,
+    color: "grey",
   },
 });
 
