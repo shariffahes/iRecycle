@@ -9,7 +9,7 @@ const OptionsStack = createNativeStackNavigator();
 const MenuStack = () => {
   return (
     <OptionsStack.Navigator>
-      <OptionsStack.Screen name="Menu" component={MenuScreen} options={renderHeaderOptions}/>
+      <OptionsStack.Screen name="MainMenu" component={MenuScreen} options={renderHeaderOptions}/>
       <OptionsStack.Screen name="Auth" component={AuthScreen} options={renderHeaderOptions}/>
     </OptionsStack.Navigator>
   );

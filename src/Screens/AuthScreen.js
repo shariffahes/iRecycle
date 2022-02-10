@@ -6,6 +6,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView
 } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
@@ -26,34 +27,39 @@ const AuthScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.screen}>
-        <AuthBanner></AuthBanner>
-        <View style={styles.titleContainer}>
-          <CardTitleText style={styles.title}>
-            Log in your account.
-          </CardTitleText>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.screen}>
+          <AuthBanner></AuthBanner>
+          <View style={styles.titleContainer}>
+            <CardTitleText style={styles.title}>
+              Log in your account.
+            </CardTitleText>
+          </View>
+          <InputBar
+            icon="mail-outline"
+            keyboardType="email-address"
+            placeholder="Email"
+            onChangeTextHandler={setUsernameHandler}
+          ></InputBar>
+
+          <InputBar
+            icon="lock-closed-outline"
+            keyboardType="default"
+            placeholder="Password"
+            secureTextBool={true}
+            onChangeTextHandler={setPasswordHandler}
+          ></InputBar>
+
+          <CustomButton title="Log in" style={styles.button}></CustomButton>
+
+          <Text style={styles.quote}>Keep on Recycling!</Text>
         </View>
-        <InputBar
-          icon="mail-outline"
-          keyboardType="email-address"
-          placeholder="Email"
-          onChangeTextHandler={setUsernameHandler}
-        ></InputBar>
-
-        <InputBar
-          icon="lock-closed-outline"
-          keyboardType="default"
-          placeholder="Password"
-          secureTextBool={true}
-          onChangeTextHandler={setPasswordHandler}
-        ></InputBar>
-
-        <CustomButton title="Log in" style={styles.button}></CustomButton>
-
-        <Text style={styles.quote}>Keep on Recycling!</Text>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -63,6 +69,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5F5F5",
     justifyContent: "center",
+  },
+  container:{
+    flex:1,
   },
   titleContainer: {
     flexDirection: "row",
