@@ -7,6 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import CardTitleText from "../Components/CustomUI/CardTitleText";
+import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
 
 const AuthScreen = () => {
@@ -24,6 +26,11 @@ const AuthScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.screen}>
+        <View style={styles.titleContainer}>
+          <CardTitleText style={styles.title}>
+            Log in your account.
+          </CardTitleText>
+        </View>
         <InputBar
           icon="mail-outline"
           keyboardType="email-address"
@@ -38,6 +45,8 @@ const AuthScreen = () => {
           secureTextBool={true}
           onChangeTextHandler={setPasswordHandler}
         ></InputBar>
+
+        <CustomButton title="Log in" style={styles.button}></CustomButton>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -48,6 +57,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#F5F5F5",
+    justifyContent: "center",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    marginVertical: 20,
+    justifyContent: "flex-start",
+    width: "80%",
+  },
+  title: {
+    fontSize: 25,
+    justifyContent: "flex-start",
+  },
+  button: {
+    width: "90%",
+    borderRadius: 40,
+    height: 50,
+    marginVertical: 30,
   },
 });
 export default AuthScreen;
