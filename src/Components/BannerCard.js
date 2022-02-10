@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: 5,
     marginBottom: 10,
+    borderRadius: 5,
   },
   image: {
     flex: 1,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding:5
+    padding: 5,
   },
   coins: {
     flexDirection: "row",

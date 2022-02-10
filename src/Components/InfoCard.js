@@ -21,7 +21,10 @@ const InfoCard = ({
         <CardTitleText>{title}</CardTitleText>
         <Text>{website}</Text>
       </View>
-      <RedeemedPointsViewVertical coins={coins} discount={discount}></RedeemedPointsViewVertical>
+      <RedeemedPointsViewVertical
+        coins={coins}
+        discount={discount}
+      ></RedeemedPointsViewVertical>
     </View>
   );
 };
@@ -36,6 +39,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 2, height: 10 },
     alignItems: "center",
+    borderRadius: 5,
   },
   info: {
     flexDirection: "column",

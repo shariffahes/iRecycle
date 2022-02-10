@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { StyleSheet } from "react-native";
 import HomeStack from "./HomeStack";
+import MenuStack from "./MenuStack";
 import BlogScreen from "../Screens/BlogScreen";
 import StoreScreen from "../Screens/StoreScreen";
 import RequestScreen from "../Screens/RequestScreen";
@@ -56,7 +57,7 @@ const BottomNavBar = () => {
             <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
             <BottomStack.Screen name="Request" component={RequestScreen} options={renderHeaderOptions({applyMargin: true})}/>
             <BottomStack.Screen name="Blog" component={BlogScreen} options={renderHeaderOptions({applyMargin: true})}/>
-            <BottomStack.Screen name="Menu" component={MenuScreen} options={renderHeaderOptions({applyMargin: true})}/>
+            <BottomStack.Screen name="Menu" component={MenuStack} options={renderHeaderOptions({applyMargin: true})} options={{headerShown: false}} />
         </BottomStack.Navigator>
     );
 };
