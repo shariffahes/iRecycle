@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -6,13 +6,14 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
 import AuthBanner from "../../assets/svg/AuthBanner";
+import * as Crypto from "expo-crypto";
 
 const AuthScreen = () => {
   const [username, setUsername] = useState("");
@@ -21,6 +22,14 @@ const AuthScreen = () => {
   const setUsernameHandler = (selectedUsername) => {
     setUsername(selectedUsername);
   };
+
+  const onSubmit = useCallback(async () => {
+    const encryptedPassword = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      password
+    );
+    //Dispatch to firebase
+  }, [password]);
 
   const setPasswordHandler = (selectedPassword) => {
     setPassword(selectedPassword);
@@ -54,7 +63,11 @@ const AuthScreen = () => {
             onChangeTextHandler={setPasswordHandler}
           ></InputBar>
 
-          <CustomButton title="Log in" style={styles.button}></CustomButton>
+          <CustomButton
+            title="Log in"
+            style={styles.button}
+            onPressHandler={onSubmit}
+          ></CustomButton>
 
           <Text style={styles.quote}>Keep on Recycling!</Text>
         </View>
@@ -70,8 +83,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     justifyContent: "center",
   },
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
   },
   titleContainer: {
     flexDirection: "row",
