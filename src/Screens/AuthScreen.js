@@ -14,13 +14,14 @@ import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
 import AuthBanner from "../../assets/svg/AuthBanner";
 import * as Crypto from "expo-crypto";
+import { firebaseAPI } from "../constants/Constants";
 
 const AuthScreen = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const setUsernameHandler = (selectedUsername) => {
-    setUsername(selectedUsername);
+  const setEmailHandler = (selectedEmail) => {
+    setEmail(selectedEmail);
   };
 
   const onSubmit = useCallback(async () => {
@@ -29,6 +30,27 @@ const AuthScreen = () => {
       password
     );
     //Dispatch to firebase
+      
+    try {
+      const response = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseAPI}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            password: encryptedPassword,
+            returnSecureToken: true,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+    } catch (er) {
+      console.error(er);
+    }
   }, [password]);
 
   const setPasswordHandler = (selectedPassword) => {
@@ -52,7 +74,7 @@ const AuthScreen = () => {
             icon="mail-outline"
             keyboardType="email-address"
             placeholder="Email"
-            onChangeTextHandler={setUsernameHandler}
+            onChangeTextHandler={setEmailHandler}
           ></InputBar>
 
           <InputBar
