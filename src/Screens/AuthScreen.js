@@ -11,6 +11,7 @@ import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
+import AuthBanner from "../../assets/svg/AuthBanner";
 
 const AuthScreen = () => {
   const [username, setUsername] = useState("");
@@ -27,6 +28,7 @@ const AuthScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.screen}>
+        <AuthBanner></AuthBanner>
         <View style={styles.titleContainer}>
           <CardTitleText style={styles.title}>
             Log in your account.

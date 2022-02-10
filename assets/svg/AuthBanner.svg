@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="474" height="243.53" viewBox="0 0 474 243.53">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.965" x2="-0.035" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4d8d6e"/>
+      <stop offset="1" stop-color="#5fb288"/>
+    </linearGradient>
+    <filter id="Path_724" x="0" y="0" width="474" height="243.53" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_724)">
+    <path id="Path_724-2" data-name="Path 724" d="M0,0H183.53V414H0Z" transform="translate(444 27) rotate(90)" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="Group_3483" data-name="Group 3483" transform="translate(131 -77)">
+    <g id="Group_841" data-name="Group 841" transform="translate(-166 55)">
+      <text id="iRecycle" transform="translate(152 149)" fill="#fff" font-size="52" font-family="Poppins-SemiBold, Poppins" font-weight="600"><tspan x="0" y="0">iRecycle</tspan></text>
+      <rect id="Rectangle_1679" data-name="Rectangle 1679" width="11" height="11" transform="translate(382 131)" fill="#fff"/>
+    </g>
+  </g>
+  <text id="Think_for_nature" data-name="Think for nature" transform="translate(180 161)" fill="#fff" font-size="15" font-family="Poppins-Medium, Poppins" font-weight="500"><tspan x="0" y="0">think for nature</tspan></text>
+</svg>
