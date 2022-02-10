@@ -10,6 +10,7 @@ import {
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
+import Colors from "../constants/Colors";
 
 const AuthScreen = () => {
   const [username, setUsername] = useState("");
@@ -47,6 +48,8 @@ const AuthScreen = () => {
         ></InputBar>
 
         <CustomButton title="Log in" style={styles.button}></CustomButton>
+
+        <Text style={styles.quote}>Keep on Recycling!</Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -73,7 +76,12 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 40,
     height: 50,
-    marginVertical: 30,
+    marginTop: 30,
+  },
+  quote: {
+    fontSize: 10,
+    color: Colors.green,
+    fontStyle: "italic",
   },
 });
 export default AuthScreen;
