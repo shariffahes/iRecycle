@@ -14,10 +14,12 @@ import OptionsModal from '../Components/CustomUI/OptionsModal';
 import BackIcon from '../../assets/svg/BackIcon.svg';
 import { materialTypes } from "../Data/materialsList";
 
+
 const ScanScreen = ({navigation}) => {
   const [hasCameraPermission, setCameraAccessPermission] = useState(null);
   const [predictions, setPredictions] = useState(null);
   const [ismodelDetecting, setmodelActivityStatus] = useState(false);
+  const [isMaterialModalOpen, setMaterialModalStatus] = useState(false);
   const { model, isModelReady, error} = useModel();
   const camera = useRef(null);
   const imageURL = useRef(null);
@@ -56,6 +58,9 @@ const ScanScreen = ({navigation}) => {
       const rawImageData = await response.arrayBuffer();
       const imageTensor = imageToTensor(rawImageData);
       const newPredictions = await model.detect(imageTensor);
+      if(newPredictions.length == 0) {
+        setMaterialModalStatus(true);
+      }
       setPredictions(newPredictions);
       setmodelActivityStatus(false);
 
@@ -81,9 +86,13 @@ const ScanScreen = ({navigation}) => {
   }, [camera, setPredictions, classifyImageAsync]);
 
   const onConfirm = useCallback((item, isMaterialPath) => {
-    setPredictions(null);
     //move to next page
     const result = identifyWhichBin(item, isMaterialPath);
+    if(result === "UNKNOWN") {
+      setMaterialModalStatus(true);
+      return;
+    }
+    setPredictions(null);
     navigation.navigate('Result', {imageURL: imageURL.current, result});
   },[]);
 
@@ -102,24 +111,23 @@ const ScanScreen = ({navigation}) => {
 
   return (
     <Camera ref={camera} style={styles.camContainer}>
-      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-        <View style={{ margin: 13 }}>
-          <BackIcon />
-        </View>
-      </TouchableWithoutFeedback>
       <View style={styles.mainContainer}>
+        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+          <View style={{ position: 'absolute', left: 10, top: 10}}>
+            <BackIcon />
+          </View>
+        </TouchableWithoutFeedback>
         <CustomText style={styles.textStyle}>Scan your object here</CustomText>
         <View style={styles.scanContainer}>
         </View>
-        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm} />
+        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm} setMaterialModalStatus={setMaterialModalStatus} isMaterialModalOpen={isMaterialModalOpen}/>
       </View>
     </Camera>
   );
 };
 
-const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loading}) => {
+const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loading, isMaterialModalOpen, setMaterialModalStatus}) => {
   const [isModalOpen, setModalStatus] = useState(false);
-  const [isMaterialModalOpen, setMaterialModalStatus] = useState(false);
   const onModalCloseHandler = useCallback((name) => {
     setModalStatus(false);
     if(name !== "other") onConfirm(name);
