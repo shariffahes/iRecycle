@@ -31,7 +31,7 @@ export default function App() {
   }
   return (
     <ModelProvider>
-      <MainNavigator authenticated={true}/>
+      <MainNavigator authenticated={false}/>
     </ModelProvider>
   );
 }
