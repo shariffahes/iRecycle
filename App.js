@@ -1,11 +1,20 @@
 import 'react-native-gesture-handler';
 import MainNavigator from "./src/Navigation/MainNavigator";
 import AppLoading from "expo-app-loading";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Font from "expo-font";
 import { ModelProvider } from './src/contexts/ModelContext';
 import { LogBox } from 'react-native';
 import { warningMSG } from './WarningMessage';
+import { Provider } from 'react-redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import authReducer from './src/Store/Reducers/auth';
+import ReduxThunk from "redux-thunk";
+
+const rootReducer = combineReducers({
+  auth: authReducer
+});
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 // Fonts
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -15,6 +24,7 @@ const fetchFonts = () => {
     "Poppins-SemiBold": require("./assets/fonts/Poppins-SemiBold.ttf")
   });
 };
+
 export default function App() {
   const [loadedFont, setLoadedFont] = useState(false);
   //ignore the ANNOYING warning about tf supress :|
@@ -31,7 +41,13 @@ export default function App() {
   }
   return (
     <ModelProvider>
-      <MainNavigator authenticated={false}/>
+      <Provider store={store}>
+        <MainNavigator />
+      </Provider>
     </ModelProvider>
   );
+};
+
+const _checkForToken = () => {
+
 }

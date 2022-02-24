@@ -14,22 +14,32 @@ import Colors from "../constants/Colors";
 import AuthBanner from "../../assets/svg/AuthBanner";
 import * as Crypto from "expo-crypto";
 import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch } from 'react-redux';
+import { logIn } from "../Store/Actions/auth";
 
 const SignInScreen = () => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const [isLoading, setLoading] = useState(false);
 
-    const setUsernameHandler = (selectedUsername) => {
-        setUsername(selectedUsername);
+    const setEmailHandler = (selectedEmail) => {
+        setEmail(selectedEmail);
     };
 
     const onSubmit = useCallback(async () => {
-        const encryptedPassword = await Crypto.digestStringAsync(
-            Crypto.CryptoDigestAlgorithm.SHA256,
-            password
-        );
-        //Dispatch to firebase
-    }, [password]);
+      setLoading(true);
+      const encryptedPassword = await Crypto.digestStringAsync(
+        Crypto.CryptoDigestAlgorithm.SHA256,
+        password
+      );
+      dispatch(logIn(email, encryptedPassword))
+      .catch(error => {
+        //present toast
+        console.log(error);
+      });
+      setLoading(false);
+    }, [email, password, dispatch]);
 
     const setPasswordHandler = (selectedPassword) => {
         setPassword(selectedPassword);
@@ -52,7 +62,7 @@ const SignInScreen = () => {
                         icon="mail-outline"
                         keyboardType="email-address"
                         placeholder="Email"
-                        onChangeTextHandler={setUsernameHandler}
+                        onChangeTextHandler={setEmailHandler}
                     ></InputBar>
 
                     <InputBar
@@ -67,6 +77,7 @@ const SignInScreen = () => {
                         title="Log in"
                         style={styles.button}
                         onPressHandler={onSubmit}
+                        loading={isLoading}
                     ></CustomButton>
 
                     <Text style={styles.quote}>Keep on Recycling!</Text>

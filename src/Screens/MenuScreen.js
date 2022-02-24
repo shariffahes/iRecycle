@@ -1,9 +1,17 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import CustomButton from "../Components/CustomUI/CustomButton";
+import { useDispatch } from 'react-redux';
+import { Logout } from "../Store/Actions/auth";
 
-const MenuScreen = ({ navigation }) => {
+const MenuScreen = () => {
+    const dispatch = useDispatch();
     return (
-        <View/>
+        <View>
+          <CustomButton onPressHandler={() => {
+            dispatch(Logout());
+          }} title='Log out'/>
+        </View>
     );
 };
 
