@@ -13,26 +13,34 @@ import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
 import * as Crypto from "expo-crypto";
 import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch } from 'react-redux';
+import { signUp } from "../Store/Actions/auth";
 
 const SignUpScreen = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading,setLoading] = useState(false);
+  const dispatch = useDispatch();
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const setUsernameHandler = (selectedUsername) => {
-    setUsername(selectedUsername);
+  const setEmailHandler = (selectedEmail) => {
+    setEmail(selectedEmail);
   };
 
   const onSubmit = useCallback(async () => {
+    setLoading(true);
     if (password === confirmPassword) {
       const encryptedPassword = await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA256,
         password
       );
+      dispatch(signUp(email, encryptedPassword));
     }else{
       //Passwords did not match!
+      console.log('password difference');
     }
-    //Dispatch to firebase
+    setLoading(false);
+    
   }, [password]);
 
   const setPasswordHandler = (selectedPassword) => {
@@ -60,7 +68,7 @@ const SignUpScreen = () => {
               icon="mail-outline"
               keyboardType="email-address"
               placeholder="Email"
-              onChangeTextHandler={setUsernameHandler}
+              onChangeTextHandler={setEmailHandler}
             ></InputBar>
 
             <InputBar
@@ -83,6 +91,7 @@ const SignUpScreen = () => {
               title="Join Us!"
               style={styles.button}
               onPressHandler={onSubmit}
+              loading={isLoading}
             ></CustomButton>
 
             <Text style={styles.quote}>Keep on Recycling!</Text>
