@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
     StyleSheet,
     View,
@@ -14,7 +14,7 @@ import Colors from "../constants/Colors";
 import AuthBanner from "../../assets/svg/AuthBanner";
 import * as Crypto from "expo-crypto";
 import { ScrollView } from "react-native-gesture-handler";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from "../Store/Actions/auth";
 
 const SignInScreen = () => {
@@ -35,10 +35,10 @@ const SignInScreen = () => {
       );
       dispatch(logIn(email, encryptedPassword))
       .catch(error => {
-        //present toast
+        setLoading(false)
         console.log(error);
       });
-      setLoading(false);
+      
     }, [email, password, dispatch]);
 
     const setPasswordHandler = (selectedPassword) => {
@@ -62,6 +62,7 @@ const SignInScreen = () => {
                         icon="mail-outline"
                         keyboardType="email-address"
                         placeholder="Email"
+                        autoCapitalize="none"
                         onChangeTextHandler={setEmailHandler}
                     ></InputBar>
 
@@ -70,6 +71,7 @@ const SignInScreen = () => {
                         keyboardType="default"
                         placeholder="Password"
                         secureTextBool={true}
+                        autoCapitalize="none"
                         onChangeTextHandler={setPasswordHandler}
                     ></InputBar>
 
@@ -78,7 +80,7 @@ const SignInScreen = () => {
                         style={styles.button}
                         onPressHandler={onSubmit}
                         loading={isLoading}
-                    ></CustomButton>
+                    />
 
                     <Text style={styles.quote}>Keep on Recycling!</Text>
                 </View>

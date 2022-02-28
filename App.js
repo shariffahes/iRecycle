@@ -11,10 +11,12 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import authReducer from './src/Store/Reducers/auth';
 import ReduxThunk from "redux-thunk";
 import prodReducer from "./src/Store/Reducers/products";
+import userReducer from "./src/Store/Reducers/user";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  prod: prodReducer
+  prod: prodReducer,
+  user: userReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 // Fonts

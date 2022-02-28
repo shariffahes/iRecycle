@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FireBaseKey } from "../../constants/Constants";
+import { baseFireBaseURL, FireBaseKey } from "../../constants/Constants";
+import { linkUser, resetUserInfo } from "./user";
 export const SIGN_UP = "SIGN_UP";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOG_OUT = "LOG_OUT";
@@ -13,6 +14,18 @@ export const signUp = (email, password) => {
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       console.log('completed');
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
+      const response = await fetch(baseFireBaseURL + `/users/${data.localId}.json`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          points: 0
+        })
+      });
+      const serverPostResponse = await response.json();
+      if (serverPostResponse.error?.message) _handleError(serverPostResponse.error?.message);
+      dispatch(linkUser({ userId: data.localId, points: 0 }));
     } catch (error) {
         throw error;
     }
@@ -28,6 +41,10 @@ export const logIn = (email, password) => {
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       console.log('completed');
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
+      const userRequest = await fetch(baseFireBaseURL+`/users/${data.localId}.json`);
+      const userDataResponse = await userRequest.json();
+      if (userDataResponse.error?.message) _handleError(userDataResponse.error?.messag);
+      dispatch(linkUser({userId: data.localId, points: userDataResponse.points }));
     } catch (error) {
         console.log(error);
         throw error;
@@ -39,9 +56,10 @@ export const Logout = () => {
   AsyncStorage.removeItem("userData");
   _clearAnyPrevTimer();
   console.log('log out successful');
-  return {
-    type: LOG_OUT,
-  };
+  return (dispatch) => {
+    dispatch({type: LOG_OUT});
+    dispatch(resetUserInfo());
+  }
 };
 
 let timer;
@@ -108,5 +126,6 @@ const _handleError = (errorRes) => {
     default: 
       message = "Ops, an error has occured from our side. Please try again shortly";
   }
+  console.log(errorRes);
   throw new Error(message);
 }

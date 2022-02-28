@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TextInput } from "react-native";
-import { Ionicons, Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const InputBar = ({
   keyboardType,
@@ -19,6 +19,7 @@ const InputBar = ({
         placeholder={placeholder}
         style={styles.input}
         secureTextEntry={secureTextBool}
+        {...rest}
       ></TextInput>
     </View>
   );
