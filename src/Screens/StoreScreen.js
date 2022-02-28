@@ -4,14 +4,15 @@ import BannerCard from "../Components/BannerCard";
 import InfoCard from "../Components/InfoCard";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from "../Store/Actions/products";
+import { addPoints, decrementPoints } from "../Store/Actions/user";
 
 const StoreScreen = () => {
   const products = useSelector(state => state.prod.products);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchProducts());
   },[dispatch]);
-  console.log(products)
   return (
     <View style={styles.screen}>
       <View style={styles.list}>

@@ -4,7 +4,6 @@ import Colors from '../../constants/Colors';
 import CustomText from './CustomText';
 
 const CustomButton = ({ onPressHandler, title, style, loading }) => {
-  console.log(loading);
     return (
       <TouchableOpacity onPress={onPressHandler} style={[styles.buttonStyle, style]}>
         { loading ? <ActivityIndicator color='#fff'/> 

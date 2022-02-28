@@ -34,12 +34,15 @@ const SignUpScreen = () => {
         Crypto.CryptoDigestAlgorithm.SHA256,
         password
       );
-      dispatch(signUp(email, encryptedPassword));
+      dispatch(signUp(email, encryptedPassword)).catch(error => {
+        setLoading(false);
+        console.log(error);
+      });
     }else{
       //Passwords did not match!
+      setLoading(false);
       console.log('password difference');
     }
-    setLoading(false);
     
   }, [password]);
 
@@ -68,6 +71,7 @@ const SignUpScreen = () => {
               icon="mail-outline"
               keyboardType="email-address"
               placeholder="Email"
+              autoCapitalize="none"
               onChangeTextHandler={setEmailHandler}
             ></InputBar>
 
@@ -76,6 +80,7 @@ const SignUpScreen = () => {
               keyboardType="default"
               placeholder="Password"
               secureTextBool={true}
+              autoCapitalize="none"
               onChangeTextHandler={setPasswordHandler}
             ></InputBar>
 
@@ -84,6 +89,7 @@ const SignUpScreen = () => {
               keyboardType="default"
               placeholder="Confirm Password"
               secureTextBool={true}
+              autoCapitalize="none"
               onChangeTextHandler={setConfirmPasswordHandler}
             ></InputBar>
 
@@ -92,7 +98,7 @@ const SignUpScreen = () => {
               style={styles.button}
               onPressHandler={onSubmit}
               loading={isLoading}
-            ></CustomButton>
+            />
 
             <Text style={styles.quote}>Keep on Recycling!</Text>
           </View>
