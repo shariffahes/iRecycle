@@ -13,7 +13,7 @@ const HomeStack = () => {
     <MainStack.Navigator>
       <MainStack.Screen name="Main Map" component={MapScreen} options={renderHeaderOptions}/>
       <MainStack.Screen name="Scan" component={ScanScreen} options={renderHeaderOptions}/>
-      <MainStack.Screen name="Result" component={RecycleResultScreen} options={renderHeaderOptions}/>
+      <MainStack.Screen name="Result" component={RecycleResultScreen} options={{headerShown: false}}/>
     </MainStack.Navigator>
   );
 };

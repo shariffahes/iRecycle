@@ -27,7 +27,8 @@ export const renderHeaderOptions = ({applyMargin}) => {
                        </View>,
     title: ''
   });
-}
+};
+
 
 const styles = StyleSheet.create({
   leftStyles: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import ScanButton from "../Components/ScanButton";
@@ -6,9 +6,25 @@ import * as Location from "expo-location";
 import YellowBinIcon from '../../assets/svg/YellowBin.svg';
 import RecyclePointIcon from '../../assets/svg/RecyclePoint.svg';
 import ShoppingCenterIcon from '../../assets/svg/ShoppingCenter.svg';
+import FilterView from "../Components/FilterView";
+import { useDispatch, useSelector } from "react-redux";
+import { PopulateData } from "../Store/Actions/RecyclePoints";
 
 
-const MapScreen = ({ navigation }) => {
+const MapScreen = ({ navigation, route }) => {
+  const materialType = useRef(route.params?.materialType);
+  const [shouldFilterOpen, setFilterStatus] = useState(materialType);
+  const dispatch = useDispatch();
+  const recycleAreas = useSelector(state => state.recycleAreas);
+
+  useEffect(() => {
+    materialType.current = route.params?.materialType;
+    setFilterStatus(materialType.current);
+  },[route.params]);
+
+  if(materialType) {
+    //apply filters
+  }
   const location = {
     latitude: 33.89653974328971,
     longitude: 35.479633221996096,
@@ -40,6 +56,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainContainer}>
+      <FilterView enabled={shouldFilterOpen} setFilterOff={() => setFilterStatus(null)}>
       <MapView
         style={StyleSheet.absoluteFillObject}
         provider={PROVIDER_GOOGLE} maptype="hybrid" region={location}>
@@ -79,10 +96,10 @@ const MapScreen = ({ navigation }) => {
         onPressHandler={() => navigation.navigate("Scan")}
         style={styles.scanButton}
       />
+      </FilterView>
     </View>
   );
 };
-
 
 const renderPointPreview = (name, description) => {
   return (

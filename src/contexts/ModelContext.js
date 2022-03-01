@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useContext } from 'react';
 import {ready} from '@tensorflow/tfjs';
-import * as cocossd from "@tensorflow-models/coco-ssd";
+import * as mobilenet from "@tensorflow-models/mobilenet";
 import '@tensorflow/tfjs-react-native';
 
 const ModelContext = React.createContext();
@@ -36,7 +36,7 @@ export const ModelProvider = ({children}) => {
     const initializeModel = async () => {
       try {
         console.log("initializing model");
-        const mod = await cocossd.load();
+        const mod = await mobilenet.load({ version: 2, alpha: 1 });
         console.log('done');
         dispatch({ type: 'model-is-ready', model: mod });
 

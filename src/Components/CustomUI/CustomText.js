@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, Text} from 'react-native';
 
-const CustomText = ({ style, children, ...rest }) => {
-    return <Text style={{...styles.customStyle, ...style}} {...rest}>{children}</Text>;
+const CustomText = ({ style, color, bold, fontSize, children, ...rest }) => {
+  const dynamicStyles = useMemo(() => StyleSheet.create({
+    textStyle: {
+      fontFamily: bold ? 'roboto-bold' : 'roboto',
+      color: color,
+      fontSize: fontSize
+    }
+  }), [bold, color, fontSize])
+    return (
+    <Text style={{...dynamicStyles.textStyle, ...style}} {...rest}>
+      {children}
+    </Text>);
 };
 
-const styles = StyleSheet.create({
-  customStyle: {
-    fontFamily: 'roboto',
-    color: '#fff',
-    fontSize: 17
-  }
-});
+CustomText.defaultProps = {
+  bold: false,
+  color: '#fff',
+  fontSize: 17
+};
+
 export default CustomText;

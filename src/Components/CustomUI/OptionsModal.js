@@ -9,8 +9,8 @@ const OptionsModal = ({data, title, isOpen, onClose}) => {
     <Modal visible={isOpen} transparent={true} animationType='slide' animated={true}>
       <View style={styles.modalContentStyle}>
         <ScrollView style={{flex: 1, margin: 15}} contentContainerStyle={{alignItems: 'center', justifyContent:'center'}}>
-          <CustomText style={{color: 'black', fontSize: 15}}>{title}</CustomText>
-          <CustomText style={{color: 'black', fontSize: 15}}>Choose one of the following: </CustomText>
+          <CustomText color='black' fontSize={15}>{title}</CustomText>
+          <CustomText color='black' fontSize={15}>Choose one of the following: </CustomText>
           {data.map((item, index) => {
             return (
               <TouchableOpacity key={index} style={{width: '100%', alignItems: 'center', justifyContent: 'center'}} onPress={() => onClose(item.name)}>

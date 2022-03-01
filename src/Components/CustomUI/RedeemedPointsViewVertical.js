@@ -10,12 +10,12 @@ const RedeemedPointsViewVertical = ({ coins, discount }) => {
     <TouchableOpacity style={styles.mainContainer}>
       <View style={styles.coin}>
         <CurrencyCoin />
-        <CustomText style={styles.font}>{coins}</CustomText>
+        <CustomText fontSize={20} bold={true}>{coins}</CustomText>
       </View>
       <View style={{ paddingHorizontal: 7 }}>
         <HDivider />
       </View>
-      <CustomText style={styles.font}>-{discount}%</CustomText>
+      <CustomText fontSize={20} bold={true}>-{discount}%</CustomText>
     </TouchableOpacity>
   );
 };
@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 3,
     marginRight: 3,
-  },
-  font: {
-    fontSize: 20,
-    fontFamily: "roboto-bold",
   },
   coin:{
     flexDirection:"row",

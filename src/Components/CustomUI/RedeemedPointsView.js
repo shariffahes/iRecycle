@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   font: {
     fontSize: 22,
-      fontFamily: 'roboto-bold'
+    fontFamily: 'roboto-bold'
   }
 });
 export default RedeemedPointsView;

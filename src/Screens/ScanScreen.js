@@ -13,7 +13,7 @@ import { identifyWhichBin } from '../constants/CustomFts';
 import OptionsModal from '../Components/CustomUI/OptionsModal';
 import BackIcon from '../../assets/svg/BackIcon.svg';
 import { materialTypes } from "../Data/materialsList";
-
+import Toast from 'react-native-toast-message';
 
 const ScanScreen = ({navigation}) => {
   const [hasCameraPermission, setCameraAccessPermission] = useState(null);
@@ -57,11 +57,21 @@ const ScanScreen = ({navigation}) => {
       const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
       const rawImageData = await response.arrayBuffer();
       const imageTensor = imageToTensor(rawImageData);
-      const newPredictions = await model.detect(imageTensor);
+      const newPredictions = await model.classify(imageTensor, 1);
+      console.log(newPredictions);
       if(newPredictions.length == 0) {
         setMaterialModalStatus(true);
       }
       setPredictions(newPredictions);
+      const result = identifyWhichBin(newPredictions.className);
+      Toast.show({
+        type: 'recycleResult',
+        position: 'bottom',
+        autoHide: true,
+        visibilityTime: 10000,
+        bottomOffset: 100,
+        props: { materialType: newPredictions[0].className, pointsValue: 20, binType: result, navigation: navigation }
+      });
       setmodelActivityStatus(false);
 
     } catch (error) {
@@ -120,7 +130,7 @@ const ScanScreen = ({navigation}) => {
         <CustomText style={styles.textStyle}>Scan your object here</CustomText>
         <View style={styles.scanContainer}>
         </View>
-        <ResultConfirmation predictions={predictions} onDetectObjectPressed={detectObject} loading={ismodelDetecting} onConfirm={onConfirm} setMaterialModalStatus={setMaterialModalStatus} isMaterialModalOpen={isMaterialModalOpen}/>
+        <CustomButton title='Detect Object' onPressHandler={detectObject} loading={ismodelDetecting} />
       </View>
     </Camera>
   );
@@ -140,7 +150,7 @@ const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loa
   const [multipleObjects, setObjects] = useState([]);
   useEffect(() => {
     if (predictions && predictions.length > 1) {
-     const objcts = predictions.map(res => ({name: res.class}));
+     const objcts = predictions.map(res => ({name: res.className}));
       setObjects([...objcts, {name: 'other'}]);
       setModalStatus(true);
     }
@@ -161,7 +171,7 @@ const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loa
 const SingleResult = ({prediction, onConfirm, onReject}) => {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
-      <CustomText>Is this {prediction.class}</CustomText>
+      <CustomText>Is this {prediction.className}</CustomText>
       <View style={styles.actionButtonsContainer}>
         <CustomButton title='yes' style={{ width: '40%' }} onPressHandler={() => onConfirm(prediction.class)}/>
         <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red' }} 

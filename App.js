@@ -12,11 +12,15 @@ import authReducer from './src/Store/Reducers/auth';
 import ReduxThunk from "redux-thunk";
 import prodReducer from "./src/Store/Reducers/products";
 import userReducer from "./src/Store/Reducers/user";
+import recycleAreasReducer from "./src/Store/Reducers/RecyclePoints";
+import Toast from "react-native-toast-message";
+import { toastConfig } from './src/constants/toastConfig';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   prod: prodReducer,
-  user: userReducer
+  user: userReducer,
+  recycleAreas: recycleAreasReducer
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 // Fonts
@@ -47,6 +51,7 @@ export default function App() {
     <ModelProvider>
       <Provider store={store}>
         <MainNavigator />
+        <Toast config={toastConfig}/>
       </Provider>
     </ModelProvider>
   );

@@ -8,7 +8,7 @@ const CustomButton = ({ onPressHandler, title, style, loading }) => {
       <TouchableOpacity onPress={onPressHandler} style={[styles.buttonStyle, style]}>
         { loading ? <ActivityIndicator color='#fff'/> 
                   :
-                    <CustomText style={styles.buttonTitle}>{title}</CustomText>}
+                    <CustomText bold={true}>{title}</CustomText>}
       </TouchableOpacity>
     );
 };
@@ -22,10 +22,6 @@ const styles = StyleSheet.create({
       padding: 10,
       alignItems: 'center',
       justifyContent: 'center'
-    },
-    buttonTitle: {
-      color: '#fff',
-      fontFamily: 'roboto-bold'
     }
 });
 export default CustomButton;
