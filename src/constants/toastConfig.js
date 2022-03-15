@@ -4,19 +4,21 @@ import CustomText from '../Components/CustomUI/CustomText';
 
 export const toastConfig = {
   recycleResult: (setting) => {
-    const {materialType, pointsValue, binType, navigation} = setting.props;
+    const {materialType, pointsValue, generalInfo, tips, bin, navigation} = setting.props;
     const {width} = useWindowDimensions();
     const dynamicStyles = useMemo(() => StyleSheet.create({
       container: {
         minWidth: width * 0.8
       }
     }), [width]);
-    const _onPressHandler = useCallback(() => {
-      navigation.navigate('Result', { result: materialType });
-    },[]);
+    const _onPressHandler = () => {
+      navigation.navigate('Result', { result: {materialType, generalInfo, tips, bin} });
+    };
 
     return (
-      <TouchableOpacity onPress={_onPressHandler}>
+      <TouchableOpacity onPress={() => {
+        _onPressHandler();
+      }}>
         <View style={[styles.mainContainer, dynamicStyles.container]}>
           <View style={styles.imageContainer}>
             <Image source={require('../../assets/png/bottle.png')} style={styles.icon}/>
@@ -29,7 +31,7 @@ export const toastConfig = {
               <CustomText color='#000' fontSize={14} bold={true}>  {pointsValue} <CustomText color='grey' fontSize={14}>points</CustomText></CustomText>
             </View>
             <CustomText color='#000' fontSize={15}>Put it in the 
-            <CustomText bold={true} color='#000' fontSize={15}> "{binType}"</CustomText> bin
+            <CustomText bold={true} color='#000' fontSize={15}> "{bin}"</CustomText> bin
             </CustomText>
           </View>
         </View>

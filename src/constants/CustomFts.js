@@ -1,20 +1,20 @@
-import { yellowBinItems } from '../Data/yellowBinList';
-import { redBinItems } from '../Data/redBinList';
 import Logo from '../../assets/svg/Logo.svg';
 import RedeemedPointsView from "../Components/CustomUI/RedeemedPointsView";
 import { View, StyleSheet } from 'react-native';
-import { materials } from '../Data/materialsList';
-export const identifyWhichBin = (itemName, isMaterial) => {
+import { materials, materialInfo } from '../Data/items';
+export const identifyMaterial = (itemName) => {
     let res;
-    if(isMaterial) {
-      res = materials[itemName];
-      return res;
+    console.log(itemName);
+    const alias = itemName.split(',');
+    for(let i = 0; i < alias.length; i++) {
+      for(const [key,value] of Object.entries(materials)) {
+        if(alias[i] === key) {
+          res = materialInfo[value];
+        }
+      }
     }
-    res = yellowBinItems.find(item => item == itemName);
-    if(res) return "YELLOW";
-    res = redBinItems.find(item => item == itemName);
-    if(res) return "RED";
-    return "UNKNOWN";
+   if(!res) res = {type: 'Unkniwn', generalInfo: 'no info', tips: [], pointsValue: 0};
+   return res;
 }
 
 export const renderHeaderOptions = ({applyMargin}) => {
