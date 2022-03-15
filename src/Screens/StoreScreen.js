@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from "../Store/Actions/products";
 import { addPoints, decrementPoints } from "../Store/Actions/user";
 
-const StoreScreen = () => {
+const StoreScreen = ({navigation}) => {
   const products = useSelector(state => state.prod.products);
   const dispatch = useDispatch();
 
@@ -33,6 +33,7 @@ const StoreScreen = () => {
           coins={200}
           discount={20}
           image={"../../assets/icons/vendingIcon.png"}
+          onPressHandler={() => navigation.navigate("Item")}
         ></InfoCard>
       </View>
     </View>

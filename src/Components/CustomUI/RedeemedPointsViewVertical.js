@@ -5,9 +5,9 @@ import HDivider from "../../../assets/svg/HorizontalDivider.svg";
 import CustomText from "./CustomText";
 import Colors from "../../constants/Colors";
 
-const RedeemedPointsViewVertical = ({ coins, discount }) => {
+const RedeemedPointsViewVertical = ({onPressHandler, coins, discount }) => {
   return (
-    <TouchableOpacity style={styles.mainContainer}>
+    <TouchableOpacity style={styles.mainContainer}  onPress={onPressHandler}>
       <View style={styles.coin}>
         <CurrencyCoin />
         <CustomText fontSize={20} bold={true}>{coins}</CustomText>

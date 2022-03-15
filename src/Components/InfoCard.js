@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import RedeemedPointsViewVertical from "./CustomUI/RedeemedPointsViewVertical";
-const InfoCard = ({
+const InfoCard = ({onPressHandler,
   title,
   coins,
   discount,
@@ -21,7 +21,7 @@ const InfoCard = ({
         <CardTitleText>{title}</CardTitleText>
         <Text>{website}</Text>
       </View>
-      <RedeemedPointsViewVertical
+      <RedeemedPointsViewVertical onPressHandler={onPressHandler}
         coins={coins}
         discount={discount}
       ></RedeemedPointsViewVertical>
