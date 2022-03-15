@@ -7,14 +7,14 @@ import CustomText from '../Components/CustomUI/CustomText';
 const RecycleResultScreen = ({route, navigation}) => {
   const {result} = route.params;
   const _findRecyclePoints = useCallback(() => {
-    navigation.navigate('Main Map', {materialType: result});
+    navigation.navigate('Main Map', {materialType: result.materialType});
   },[]);
   return (
     <>
-    <CustomHeader navigation={navigation} />
+    <CustomHeader navigation={navigation} title={result.materialType}/>
     <ScrollView style={{flexGrow: 1}} contentContainerStyle={{alignItems: 'center'}}>
       <CustomText color='#444' fontSize={14} style={{margin: 20, fontFamily: 'Poppins-SemiBold'}}>
-          It can take up to 1000 years for plastic to decompose in landfills. plastic bags we use in our everyday life take 10-20 years to decompose, while plastic bottles take 450 years.
+         {result.generalInfo}
       </CustomText>
       <Article imageURL='https://media.istockphoto.com/photos/plastic-pollution-picture-id1296032714?b=1&k=20&m=1296032714&s=170667a&w=0&h=ZJEpHOqwAqe6CWjsLGxWqkFJu0yBSrB_y0ZNanXOfr8=' title='Effect of plastic on the world'/>
       <Article imageURL='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDwG9WyHTBVG_8JkuNq2ckwqeh1v2o34hs5A&usqp=CAU' title='The crisis of plastic'/>

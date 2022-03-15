@@ -16,6 +16,10 @@ const MapScreen = ({ navigation, route }) => {
   const [shouldFilterOpen, setFilterStatus] = useState(materialType);
   const dispatch = useDispatch();
   const recycleAreas = useSelector(state => state.recycleAreas);
+  const [filterKey, setFilterKey] = useState([true, true, true]);
+  useEffect( () => {
+    dispatch(PopulateData());
+  }, []);
 
   useEffect(() => {
     materialType.current = route.params?.materialType;
@@ -56,41 +60,46 @@ const MapScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <FilterView enabled={shouldFilterOpen} setFilterOff={() => setFilterStatus(null)}>
+      <FilterView setFilter={setFilterKey} enabled={shouldFilterOpen} setFilterOff={() => {
+        setFilterStatus(null);
+        setFilterKey([true,true, true]);
+      }}>
       <MapView
         style={StyleSheet.absoluteFillObject}
         provider={PROVIDER_GOOGLE} maptype="hybrid" region={location}>
-        <Marker 
-          coordinate={{
-            latitude: 33.89291648510742,
-            longitude: 35.47784753558452,
-          }}
-          title="LAU's Recycling Vending Machine"
-          description="Now students can recycle easily and gain discounts from their favorite stores">
-          <RecyclePointIcon/>
-          {renderPointPreview("LAU's iRecycle", "Now students can recycle easily and gain discounts from their favorite stores")}
-        </Marker>
-        <Marker
-          coordinate={{
-            latitude: 33.8932688,
-            longitude: 35.481416,
-          }}
-          title="Santona's Recycling Vending Machine"
-          description="Residents are encouraged to recycle in order to gain disounts on their rents">
-          <YellowBinIcon/>
-          {renderPointPreview("Santona's iRecycle", "Residents are encouraged to recycle in order to gain disounts on their rents")}
-        </Marker>
-        <Marker
-          coordinate={{
-            latitude: 33.893956,
-            longitude: 35.4783872,
-          }}
-          title="Palm's Recycling Vending Machine"
-          description="Residents are encouraged to recycle in order to gain disounts on their rents"
-        >
-          <ShoppingCenterIcon/>
-          {renderPointPreview("Palm's iRecycle", "Residents are encouraged to recycle in order to gain disounts on their rents")}
-        </Marker>
+        {filterKey[0] && recycleAreas.vendingMachines.map((VM, index) => 
+          {  
+            const coordinate = VM.coordinates;
+            if(!coordinate.lat || !coordinate.lon) return;
+            console.log(coordinate);
+            return (
+              <Marker key={index} coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}} title={VM.title} description={VM.description}>
+                <RecyclePointIcon/>
+                {renderPointPreview(VM.title, VM.description)}
+              </Marker>);
+          })
+        }  
+          {filterKey[1] && recycleAreas.yellowBins.map((YBS, index) => 
+          {  
+            const coordinate = YBS.coordinates;
+            return (
+              <Marker key={index} coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
+                      title={YBS.title} description={YBS.description}>
+                <YellowBinIcon/>
+                {renderPointPreview(YBS.title, YBS.description)}
+              </Marker>);
+          })
+        }
+          {/*filterKey[2] && {recycleAreas.yellowBins.map((YBS, index) => {
+            const coordinate = YBS.coordinates;
+            return (
+              <Marker key={index} coordinate={{ latitude: coordinate.lat, longitude: coordinate.lon }}
+                title={YBS.title} description={YBS.description}>
+                <ShoppingCenterIcon />
+                {renderPointPreview(YBS.title, YBS.description)}
+              </Marker>);
+          })
+          } */}
       </MapView>
       <ScanButton
         onPressHandler={() => navigation.navigate("Scan")}
