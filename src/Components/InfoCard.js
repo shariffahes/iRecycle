@@ -31,7 +31,7 @@ const InfoCard = ({
         style={styles.image}
         resizeMode="cover"
         imageStyle={{ borderRadius: 8 }}
-        source={require("../../assets/icons/smoothies.png")}
+        source={{uri: image}}
       >
         <View style={styles.redeemPointsContainer}>
           <RedeemedPointsViewVertical coins={coins} discount={discount} />
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
     width: "45%",
-    height: "100%",
+    height: "110%",
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowOffset: { width: 1, height: 5 },

@@ -14,6 +14,8 @@ const StoreScreen = ({ navigation }) => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  console.log(products[1])
+  
   const renderItem = ({ item }) => (
     <InfoCard
       title={item.title}
@@ -42,14 +44,6 @@ const StoreScreen = ({ navigation }) => {
           keyExtractor={(item) => item.prodId}
           numColumns={2}
         />
-
-        {/* <InfoCard
-          title={"Smoothies"}
-          coins={200}
-          discount={20}
-          image={"../../assets/icons/smoothies.png"}
-          onPressHandler={() => navigation.navigate("Item")}
-        ></InfoCard> */}
     </View>
   );
 };
@@ -61,7 +55,6 @@ const styles = StyleSheet.create({
   },
   list:{
     width:"100%",
-    backgroundColor:Colors.greenFaded,
   }
 });
 export default StoreScreen;
