@@ -54,8 +54,8 @@ const InfoCard = ({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "white",
-    width: "48%",
-    height: "60%",
+    width: "45%",
+    height: "100%",
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowOffset: { width: 1, height: 5 },
