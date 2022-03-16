@@ -119,7 +119,7 @@ const renderPointPreview = (name, description) => {
           <Text>{description}</Text>
           <Image
             style={styles.markerImage}
-            source={require("../../assets/icons/vendingIcon.png")}
+            source={require("../../assets/icons/smoothies.png")}
             resizeMode='contain'
           />
         </View>

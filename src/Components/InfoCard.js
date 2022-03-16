@@ -1,57 +1,100 @@
 import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
-import CardTitleText from "../Components/CustomUI/CardTitleText";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import CustomText from "../Components/CustomUI/CustomText";
 import RedeemedPointsViewVertical from "./CustomUI/RedeemedPointsViewVertical";
-const InfoCard = ({onPressHandler,
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
+
+const InfoCard = ({
+  onPressHandler,
   title,
   coins,
   discount,
-  website,
   image,
   section,
   ...rest
 }) => {
   return (
-    <View {...rest} style={styles.card}>
-      <Image
+    <TouchableOpacity
+      {...rest}
+      style={styles.card}
+      onPress={onPressHandler}
+      activeOpacity="0.9"
+    >
+      <ImageBackground
         style={styles.image}
-        source={require("../../assets/icons/vendingIcon.png")}
-      />
-      <View style={styles.info}>
-        <CardTitleText>{title}</CardTitleText>
-        <Text>{website}</Text>
-      </View>
-      <RedeemedPointsViewVertical onPressHandler={onPressHandler}
-        coins={coins}
-        discount={discount}
-      ></RedeemedPointsViewVertical>
-    </View>
+        resizeMode="cover"
+        imageStyle={{ borderRadius: 8 }}
+        source={require("../../assets/icons/smoothies.png")}
+      >
+        <View style={styles.redeemPointsContainer}>
+          <RedeemedPointsViewVertical coins={coins} discount={discount} />
+        </View>
+
+        <View style={styles.bottom}>
+          <View style={styles.info}>
+            <CustomText>{title}</CustomText>
+          </View>
+          <View style={styles.cart}>
+            <CustomText bold={true}>- {discount}%</CustomText>
+            <Ionicons name="cart-outline" size={25} color={Colors.green} />
+          </View>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
     backgroundColor: "white",
-    width: 384,
-    height: 144,
+    width: "48%",
+    height: "60%",
     shadowColor: "black",
     shadowOpacity: 0.2,
-    shadowOffset: { width: 2, height: 10 },
+    shadowOffset: { width: 1, height: 5 },
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 8,
+    margin: 10,
   },
-  info: {
-    flexDirection: "column",
-    height: "100%",
-    width: "40%",
-    padding: 15,
+  redeemPointsContainer: {
+    width: "100%",
+    flex: 1,
+    alignItems: "flex-end",
+  },
+
+  bottom: {
+    flexDirection: "row",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    height: "20%",
+    alignItems: "center",
     justifyContent: "space-between",
   },
+
+  info: {
+    opacity: 1,
+    padding: 5,
+  },
+
   image: {
-    width: "20%",
-    height: "80%",
+    width: "100%",
+    height: "100%",
     marginHorizontal: 40,
+    justifyContent: "flex-end",
+    borderRadius: 8,
+  },
+  cart: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 5,
   },
 });
 

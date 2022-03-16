@@ -16,8 +16,8 @@ const StoreScreen = ({navigation}) => {
   },[dispatch]);
   return (
     <View style={styles.screen}>
-      <View style={styles.list}>
-        <BannerCard
+
+       <BannerCard
           title={"Hello World"}
           coins={250}
           discount={50}
@@ -26,16 +26,18 @@ const StoreScreen = ({navigation}) => {
           // image sending not working
         ></BannerCard>
 
+      <View >
         {/* <FlatList style={styles.list}> */}
         
         <InfoCard
-          title={"Hello World"}
-          website={"helloworld.com"}
+          title={"Smoothies"}
           coins={200}
           discount={20}
-          image={"../../assets/icons/vendingIcon.png"}
+          image={"../../assets/icons/smoothies.png"}
           onPressHandler={() => navigation.navigate("Item")}
         ></InfoCard>
+       
+        
       </View>
     </View>
   );
@@ -46,10 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
-  list: {
-    marginVertical: 10,
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
+
 });
 export default StoreScreen;
