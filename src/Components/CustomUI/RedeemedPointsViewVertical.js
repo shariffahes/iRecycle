@@ -10,12 +10,9 @@ const RedeemedPointsViewVertical = ({onPressHandler, coins, discount }) => {
     <TouchableOpacity style={styles.mainContainer}  onPress={onPressHandler}>
       <View style={styles.coin}>
         <CurrencyCoin />
-        <CustomText fontSize={20} bold={true}>{coins}</CustomText>
+        <CustomText fontSize={18} bold={true}>{coins}</CustomText>
       </View>
-      <View style={{ paddingHorizontal: 7 }}>
-        <HDivider />
-      </View>
-      <CustomText fontSize={20} bold={true}>-{discount}%</CustomText>
+     
     </TouchableOpacity>
   );
 };
@@ -24,11 +21,14 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignItems: "center",
     justifyContent: "space-evenly",
-    backgroundColor: Colors.green,
-    height: 85,
+    backgroundColor: Colors.greenFaded,
+    height: 40,
+    width:60,
     borderRadius: 10,
     marginBottom: 3,
     marginRight: 3,
+    marginTop:10,
+    
   },
   coin:{
     flexDirection:"row",
