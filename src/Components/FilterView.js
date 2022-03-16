@@ -5,17 +5,17 @@ import Colors from "../constants/Colors";
 import CustomText from "./CustomUI/CustomText";
 import { Ionicons } from '@expo/vector-icons';
 
-const FilterView = ({children, enabled, setFilterOff}) => {
+const FilterView = ({children, enabled, setFilterOff, setFilter}) => {
   const tabs = [{name: 'near me'}, {name: 'vending machines'}]
   return (
     <View style={{flex: 1}}>
-      {enabled && <FilterTabs tabs={tabs} setFilterOff={setFilterOff}/>}
+      {enabled && <FilterTabs tabs={tabs} setFilterOff={setFilterOff} setFilter={setFilter}/>}
       {children}
     </View>
  );
 };
 
-const FilterTabs = ({ tabs, setFilterOff}) => {
+const FilterTabs = ({ tabs, setFilterOff, setFilter}) => {
   const [selectedTab, selectTabWithIndex] = useState(0);
   return (
     <>
@@ -25,7 +25,16 @@ const FilterTabs = ({ tabs, setFilterOff}) => {
       </TouchableOpacity>
       {tabs.map((tab, index) => {
         return <TabView key={tab.name} tabName={tab.name} tabIndex={index} selectedTab={selectedTab}
-                 onTabSelected={(ind) => selectTabWithIndex(ind)}/>
+                 onTabSelected={(ind) => {
+                   setFilter(prev => {
+                     const temp = prev.map((v, index) => {
+                       if(index === ind) return true;
+                       return false;
+                     });
+                     return temp;
+                   });
+                   selectTabWithIndex(ind);
+                  }}/>
       })}
     </ScrollView>
     </>

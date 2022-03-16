@@ -1,6 +1,6 @@
 import { Camera } from "expo-camera";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Image, StyleSheet, Text, View, ActivityIndicator, Modal, TouchableWithoutFeedback } from "react-native";
+import { Image, StyleSheet, Text, View, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import { fetch } from '@tensorflow/tfjs-react-native';
 import * as tf from '@tensorflow/tfjs';
 import * as ImageManipulator from "expo-image-manipulator";
@@ -9,18 +9,15 @@ import CustomText from "../Components/CustomUI/CustomText";
 import CustomButton from '../Components/CustomUI/CustomButton';
 import Colors from '../constants/Colors';
 import { useModel } from '../contexts/ModelContext';
-import { identifyWhichBin } from '../constants/CustomFts';
-import OptionsModal from '../Components/CustomUI/OptionsModal';
+import { identifyMaterial } from '../constants/CustomFts';
 import BackIcon from '../../assets/svg/BackIcon.svg';
-import { materialTypes } from "../Data/materialsList";
 import Toast from 'react-native-toast-message';
 
 const ScanScreen = ({navigation}) => {
   const [hasCameraPermission, setCameraAccessPermission] = useState(null);
-  const [predictions, setPredictions] = useState(null);
   const [ismodelDetecting, setmodelActivityStatus] = useState(false);
-  const [isMaterialModalOpen, setMaterialModalStatus] = useState(false);
   const { model, isModelReady, error} = useModel();
+  const [newPredictions, setPredictions] = useState([]);
   const camera = useRef(null);
   const imageURL = useRef(null);
   
@@ -63,14 +60,15 @@ const ScanScreen = ({navigation}) => {
         setMaterialModalStatus(true);
       }
       setPredictions(newPredictions);
-      const result = identifyWhichBin(newPredictions.className);
+      const result = identifyMaterial(newPredictions[0].className);
+      console.log(result);
       Toast.show({
         type: 'recycleResult',
         position: 'bottom',
         autoHide: true,
         visibilityTime: 10000,
         bottomOffset: 100,
-        props: { materialType: newPredictions[0].className, pointsValue: 20, binType: result, navigation: navigation }
+        props: { ...result, navigation: navigation }
       });
       setmodelActivityStatus(false);
 
@@ -94,18 +92,6 @@ const ScanScreen = ({navigation}) => {
     setPredictions(null);
     await classifyImageAsync(source);
   }, [camera, setPredictions, classifyImageAsync]);
-
-  const onConfirm = useCallback((item, isMaterialPath) => {
-    //move to next page
-    const result = identifyWhichBin(item, isMaterialPath);
-    if(result === "UNKNOWN") {
-      setMaterialModalStatus(true);
-      return;
-    }
-    setPredictions(null);
-    navigation.navigate('Result', {imageURL: imageURL.current, result});
-  },[]);
-
 
   if (!isModelReady) {
       return (
@@ -136,49 +122,6 @@ const ScanScreen = ({navigation}) => {
   );
 };
 
-const ResultConfirmation = ({ predictions, onDetectObjectPressed, onConfirm, loading, isMaterialModalOpen, setMaterialModalStatus}) => {
-  const [isModalOpen, setModalStatus] = useState(false);
-  const onModalCloseHandler = useCallback((name) => {
-    setModalStatus(false);
-    if(name !== "other") onConfirm(name);
-    else setMaterialModalStatus(true);
-  }, []);
-  const onMaterialModalClose = useCallback((materialType) => {
-    setMaterialModalStatus(false);
-    onConfirm(materialType, true);
-  }, []);
-  const [multipleObjects, setObjects] = useState([]);
-  useEffect(() => {
-    if (predictions && predictions.length > 1) {
-     const objcts = predictions.map(res => ({name: res.className}));
-      setObjects([...objcts, {name: 'other'}]);
-      setModalStatus(true);
-    }
-  }, [predictions]);
-  return (
-    <View>
-      {!predictions ? <CustomButton title='Detect Object' onPressHandler={onDetectObjectPressed} loading={loading}/>
-                    : <>
-                      {predictions.length == 1 && <SingleResult prediction={predictions[0]} onConfirm={onConfirm} onReject={setMaterialModalStatus}/>}
-                      <OptionsModal data={multipleObjects} isOpen={isModalOpen} onClose={onModalCloseHandler} title="Multiple Objects detected"/>
-                       <OptionsModal data={materialTypes} isOpen={isMaterialModalOpen} onClose={onMaterialModalClose} title="Which material does this object made of ?"/>
-                      </> 
-                   }
-    </View>
-  );
-};
-
-const SingleResult = ({prediction, onConfirm, onReject}) => {
-  return (
-    <View style={{alignItems: 'center', justifyContent: 'center', marginVertical: 15}}>
-      <CustomText>Is this {prediction.className}</CustomText>
-      <View style={styles.actionButtonsContainer}>
-        <CustomButton title='yes' style={{ width: '40%' }} onPressHandler={() => onConfirm(prediction.class)}/>
-        <CustomButton title='No' style={{ width: '40%', backgroundColor: 'red' }} 
-          onPressHandler={() => onReject(true)} />
-      </View>
-    </View>);
-}
 const styles = StyleSheet.create({
   mainContainer: {
     height: '100%',

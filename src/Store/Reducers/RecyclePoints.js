@@ -21,7 +21,17 @@ export default (state = initialState, action) => {
         const temp = data.YBS[element];
         allYBNS.push(temp);
       });
-      return {vendingMachines: allVMS, yellowBins: allYBNS};
+      let allGreenBins = [];
+      Object.keys(data.GBS).forEach(element => {
+        const temp = data.GBS[element];
+        allGreenBins.push(temp);
+      });
+      let allRedBins = [];
+      Object.keys(data.RBS).forEach(element => {
+        const temp = data.RBS[element];
+        allRedBins.push(temp);
+      });
+      return {vendingMachines: allVMS, yellowBins: allYBNS, greenBins: allGreenBins, redBins: allRedBins};
     default: 
       return state;
   }

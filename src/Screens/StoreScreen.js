@@ -6,10 +6,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../Store/Actions/products";
 import { addPoints, decrementPoints } from "../Store/Actions/user";
 import Colors from "../constants/Colors";
+import { diffClamp } from "react-native-reanimated";
+
 
 const StoreScreen = ({ navigation }) => {
   const products = useSelector((state) => state.prod.products);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);

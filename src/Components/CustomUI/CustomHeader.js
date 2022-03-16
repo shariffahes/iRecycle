@@ -25,7 +25,7 @@ const CustomHeader = ({navigation, title}) => {
           </View>
         </TouchableWithoutFeedback>
       </SafeAreaView>
-      <CustomText fontSize={30} bold={true} style={styles.title}>Plastic</CustomText>
+      <CustomText fontSize={30} bold={true} style={styles.title}>{title}</CustomText>
       <View style={{ position: 'absolute', bottom: -35,  alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
         <View style={{width: 50, height: 50}}>
           <RecycleIcon/>
