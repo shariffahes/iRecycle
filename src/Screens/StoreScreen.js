@@ -29,7 +29,7 @@ const StoreScreen = ({navigation}) => {
         {/* <FlatList style={styles.list}> */}
         
         <InfoCard
-          title={"Hello World"}
+          title={"Smoothies"}
           coins={200}
           discount={20}
           image={"../../assets/icons/smoothies.png"}
