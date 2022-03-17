@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import BannerCard from "../Components/BannerCard";
 import InfoCard from "../Components/InfoCard";
@@ -7,9 +7,11 @@ import { fetchProducts } from "../Store/Actions/products";
 import { addPoints, decrementPoints } from "../Store/Actions/user";
 import Colors from "../constants/Colors";
 import { diffClamp } from "react-native-reanimated";
+import ItemModal from "../Components/ItemModal";
 
 
-const StoreScreen = ({ navigation }) => {
+const StoreScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const products = useSelector((state) => state.prod.products);
   const dispatch = useDispatch();
 
@@ -17,7 +19,10 @@ const StoreScreen = ({ navigation }) => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  console.log(products[1])
+  const closeDetails = useCallback( () =>{
+    setModalVisible(false)
+  }, [setModalVisible]);
+  // console.log(products[1])
   
   const renderItem = ({ item }) => (
     <InfoCard
@@ -25,7 +30,7 @@ const StoreScreen = ({ navigation }) => {
       coins={item.pointExchange}
       discount={item.discount}
       image={item.image}
-      onPressHandler={() => navigation.navigate("Item")}
+      onPressHandler={() => setModalVisible(true)}
     ></InfoCard>
   );
 
@@ -47,6 +52,7 @@ const StoreScreen = ({ navigation }) => {
           keyExtractor={(item) => item.prodId}
           numColumns={2}
         />
+        <ItemModal modalVisible={modalVisible} closeDetails={closeDetails}></ItemModal>
     </View>
   );
 };
