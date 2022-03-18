@@ -18,7 +18,7 @@ const ItemModal = ({
   ...rest
 }) => {
   const product = useSelector((state) => state.prod.products[index]);
-    console.log(product)
+    // console.log(product)
   return (
     <Modal
       animationType="slide"

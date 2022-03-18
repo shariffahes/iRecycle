@@ -22,10 +22,10 @@ const StoreScreen = () => {
     setModalVisible(false);
   }, [setModalVisible]);
 
-  const [selectedItemIndex, setItemIndex] = useState();
+  const [selectedItemIndex, setItemIndex] = useState(null);
 
-   console.log(selectedItemIndex)
-   console.log(modalVisible)
+  //  console.log(selectedItemIndex)
+  //  console.log(modalVisible)
 
 
   const renderItem = ({ item, index }) => (
