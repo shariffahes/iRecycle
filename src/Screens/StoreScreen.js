@@ -9,7 +9,6 @@ import Colors from "../constants/Colors";
 import { diffClamp } from "react-native-reanimated";
 import ItemModal from "../Components/ItemModal";
 
-
 const StoreScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const products = useSelector((state) => state.prod.products);
@@ -19,18 +18,26 @@ const StoreScreen = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const closeDetails = useCallback( () =>{
-    setModalVisible(false)
+  const closeDetails = useCallback(() => {
+    setModalVisible(false);
   }, [setModalVisible]);
-  console.log(products[1])
-  
-  const renderItem = ({ item }) => (
+
+  const [selectedItemIndex, setItemIndex] = useState();
+
+   console.log(selectedItemIndex)
+   console.log(modalVisible)
+
+
+  const renderItem = ({ item, index }) => (
     <InfoCard
       title={item.title}
       coins={item.pointExchange}
       discount={item.discount}
       image={item.image}
-      onPressHandler={() => setModalVisible(true)}
+      onPressHandler={() => {
+        setModalVisible(true);
+        setItemIndex(index);
+      }}
     ></InfoCard>
   );
 
@@ -45,14 +52,20 @@ const StoreScreen = () => {
         // image sending not working
       ></BannerCard> */}
 
-        <FlatList
-          style={styles.list}
-          data={products}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.prodId}
-          numColumns={2}
+      <FlatList
+        style={styles.list}
+        data={products}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.prodId}
+        numColumns={2}
+      />
+      {selectedItemIndex !== null ? (
+        <ItemModal
+          modalVisible={modalVisible}
+          closeDetails={closeDetails}
+          index={selectedItemIndex}
         />
-        <ItemModal modalVisible={modalVisible} closeDetails={closeDetails}></ItemModal>
+      ) : null}
     </View>
   );
 };
@@ -62,8 +75,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
   },
-  list:{
-    width:"100%",
-  }
+  list: {
+    width: "100%",
+  },
 });
 export default StoreScreen;

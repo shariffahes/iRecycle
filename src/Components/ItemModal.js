@@ -7,20 +7,18 @@ import CardTitleText from "./CustomUI/CardTitleText";
 import CustomButton from "./CustomUI/CustomButton";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 import Colors from "../constants/Colors";
-import Logo from "../../assets/svg/Logo.svg"
+import Logo from "../../assets/svg/Logo.svg";
+import { useSelector } from "react-redux";
 
 const ItemModal = ({
   onPressHandler,
-  title,
-  coins,
-  discount,
-  image,
   modalVisible,
   closeDetails,
+  index,
   ...rest
 }) => {
-  const { width } = useWindowDimensions();
-
+  const product = useSelector((state) => state.prod.products[index]);
+    console.log(product)
   return (
     <Modal
       animationType="slide"
@@ -33,34 +31,29 @@ const ItemModal = ({
           <Image
             style={styles.image}
             source={{
-              uri: "https://img.freepik.com/free-psd/fully-editable-green-juice-glass-bottle-mockup_1361-2500.jpg?t=st=1647432634~exp=1647433234~hmac=fcc485a1b233b041a016ab18e3c3dfe90b440dba27ee7adc454e1d17f3b4cd9b&w=826",
+              uri: product.image,
             }}
           />
         </View>
         <View style={styles.desc}>
           <View style={styles.func}>
-            <View style={{alignItems:"flex-start"}}>
-                <View style={{position:"relative", left:-45}}>
-                <Logo height={27}/></View>
-              <CardTitleText>Smoothies</CardTitleText>
+            <View style={{ alignItems: "flex-start" }}>
+              <View style={{ position: "relative", left: -45 }}>
+                <Logo height={27} />
+              </View>
+              <CardTitleText>{product.title}</CardTitleText>
             </View>
-            <CustomButton title={`Claim For`} style={styles.button}>
+            <CustomButton title={`Claim For`} style={styles.button} onPressHandler={closeDetails}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <CustomText bold={true} style={{ marginHorizontal: 8 }}>
-                  200
+                  {product.pointExchange}
                 </CustomText>
                 <CurrencyCoin />
               </View>
             </CustomButton>
-            {/* <Pressable style={styles.button} onPress={closeDetails}>
-              <Text style={styles.textStyle}>Cancel</Text>
-            </Pressable> */}
           </View>
           <View style={{ width: "85%" }}>
-            <CustomText color={"grey"}>
-              Smoothies is the smoothiest thing that a smoothie like you would
-              smooth
-            </CustomText>
+            <CustomText color={"grey"}>{product.description}</CustomText>
           </View>
         </View>
       </View>
