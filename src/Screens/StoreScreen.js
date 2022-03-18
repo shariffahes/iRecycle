@@ -22,7 +22,7 @@ const StoreScreen = () => {
   const closeDetails = useCallback( () =>{
     setModalVisible(false)
   }, [setModalVisible]);
-  // console.log(products[1])
+  console.log(products[1])
   
   const renderItem = ({ item }) => (
     <InfoCard
@@ -36,14 +36,14 @@ const StoreScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <BannerCard
+      {/* <BannerCard
         title={"Hello World"}
         coins={250}
         discount={50}
         website={"helloworld.com"}
         image="../../assets/icons/purseIcon.jpg"
         // image sending not working
-      ></BannerCard>
+      ></BannerCard> */}
 
         <FlatList
           style={styles.list}
