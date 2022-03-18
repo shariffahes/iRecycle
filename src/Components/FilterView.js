@@ -1,19 +1,71 @@
-import React, { useMemo, useState } from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import React, { useMemo, useState, useRef, useCallback } from "react";
+import { ScrollView, View, StyleSheet, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
 import CustomText from "./CustomUI/CustomText";
 import { Ionicons } from '@expo/vector-icons';
-
+import BottomSheet from '@gorhom/bottom-sheet';
+import { useSelector } from "react-redux";
+import NavigateIcon from '../../assets/svg/circular-navigate.svg'
 const FilterView = ({children, enabled, setFilterOff, setFilter}) => {
-  const tabs = [{name: 'near me'}, {name: 'vending machines'}]
+  const tabs = [{name: 'near me'}, {name: 'vending machines'}];
+  const bottomSheetRef = useRef(null);
+  const recycleAreas = useSelector(state => state.recycleAreas);
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  // callbacks 
+  const handleSheetChanges = useCallback((index) => {
+    console.log('handleSheetChanges', index);
+  }, []);
   return (
+    <>
     <View style={{flex: 1}}>
       {enabled && <FilterTabs tabs={tabs} setFilterOff={setFilterOff} setFilter={setFilter}/>}
       {children}
     </View>
+      {enabled && <BottomSheet ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <CustomText style={{marginBottom: 14}} bold={true} fontSize={35} color='#a00'>Plastic{'\n'}recycle points</CustomText>
+        {recycleAreas.vendingMachines.map((area, index) => {
+          return (
+            <FilterItem item={area} index={index}/>
+           )
+        })}
+      </ScrollView>
+    </BottomSheet>}
+    </>
  );
 };
+
+const FilterItem = ({item, index}) => {
+  return (
+    <View style={{width: '100%'}}>
+      <View style={{flexDirection: 'row', width: '85%', alignItems: 'center'}}>
+        <View key={index} style={{ width: '100%' }}>
+          <CustomText fontSize={18} bold={true} style={styles.fontStyle}>{item.title}</CustomText>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <CustomText fontSize={14} style={{ ...styles.fontStyle, ...{ color: '#777' } }}>
+              2.9 km
+            </CustomText>
+            <View style={styles.bullet}/>
+            <CustomText fontSize={14} style={{ ...styles.fontStyle, ...{ color: '#777' } }}>
+              Plastic recycle point
+            </CustomText>
+          </View>
+          <CustomText fontSize={14} style={{ ...styles.fontStyle, ...{ color: '#777' } }}>
+            Hamra, Beirut 
+          </CustomText>
+        </View>
+        <TouchableOpacity onPress={() => console.log('navigate')}>
+          <NavigateIcon height={45} width={45} />
+        </TouchableOpacity>
+      </View>
+      <View style={[styles.divider, { width: '100%' }]} />
+    </View>
+  );
+}
 
 const FilterTabs = ({ tabs, setFilterOff, setFilter}) => {
   const [selectedTab, selectTabWithIndex] = useState(0);
@@ -80,6 +132,27 @@ const styles = StyleSheet.create({
   },
   scrollContentStyle: {
     alignItems: 'center'
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    padding: 13
+  },
+  fontStyle: {
+    color: '#000',
+    marginVertical: 2
+  },
+  divider: {
+    height: 5,
+    backgroundColor: '#eee',
+    marginVertical: 8
+  },
+  bullet: {
+    height: 4,
+    width: 4,
+    borderRadius: 2,
+    backgroundColor: '#aaa',
+    marginHorizontal: 4
   }
 });
 export default FilterView;
