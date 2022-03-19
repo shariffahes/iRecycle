@@ -1,29 +1,61 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import ScanButton from "../Components/ScanButton";
 import * as Location from "expo-location";
 import YellowBinIcon from '../../assets/svg/YellowBin.svg';
-import RecyclePointIcon from '../../assets/svg/RecyclePoint.svg';
-import ShoppingCenterIcon from '../../assets/svg/ShoppingCenter.svg';
 import FilterView from "../Components/FilterView";
 import { useDispatch, useSelector } from "react-redux";
 import { PopulateData } from "../Store/Actions/RecyclePoints";
-
+import BlueBin from '../../assets/svg/BlueBin.svg'
+import VendingMachine from "../../assets/svg/VendingMachine.svg";
+import RedBin from '../../assets/svg/RedBin.svg';
+import GreenBin from "../../assets/svg/GreenBin.svg";
 
 const MapScreen = ({ navigation, route }) => {
-  const materialType = useRef(route.params?.materialType);
-  const [shouldFilterOpen, setFilterStatus] = useState(materialType);
+  const [materialType, setMaterialType] = useState(route.params?.materialType);
+  const bin = useRef(null);
+  const [shouldFilterOpen, setFilterStatus] = useState(null);
   const dispatch = useDispatch();
   const recycleAreas = useSelector(state => state.recycleAreas);
-  const [filterKey, setFilterKey] = useState([true, true, true]);
+  //[VM, YB, RB, BB, GB]
+  const [filterKey, setFilterKey] = useState([true, true, true, true, true]);
   useEffect( () => {
     dispatch(PopulateData());
   }, []);
 
   useEffect(() => {
-    materialType.current = route.params?.materialType;
-    setFilterStatus(materialType.current);
+    //when there are params, this means we are coming from the recycle result screen
+    //so we should open filters
+    setMaterialType(route.params?.materialType);
+    bin.current = route.params?.bin;
+    let filteredBins = [];
+    //check the bin type and prevent the other bin type from rendering by setting to false
+    //filter status is an array that includes the index of bin and the bin type which will 
+    //be used in filterView for displaying name.
+    switch(bin.current) {
+      case 'Yellow':
+        setFilterStatus([1, 'Yellow']);
+        filteredBins = [true, true, false, false, false];
+        break;
+      case 'Red':
+        setFilterStatus([2, 'Red']);
+        filteredBins = [true, false, true, false, false];
+        break;
+      case 'Blue':
+        setFilterStatus([3, 'Blue']);
+        filteredBins = [true, false, false, true, false];
+        break;
+      case 'Green':
+        setFilterStatus([4,'Green']);
+        filteredBins = [true, false, false, false, true];
+        break;
+      default:
+        setFilterStatus(null);
+        filteredBins = [true, true, true, true, true];
+      }
+    setFilterKey(filteredBins);
+
   },[route.params]);
 
   if(materialType) {
@@ -46,7 +78,6 @@ const MapScreen = ({ navigation, route }) => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
       let myLocation = await Location.getCurrentPositionAsync({});
       setMyLocation(myLocation);
     })();
@@ -60,10 +91,10 @@ const MapScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.mainContainer}>
-      <FilterView setFilter={setFilterKey} enabled={shouldFilterOpen} setFilterOff={() => {
+      <FilterView setFilter={setFilterKey} filteredBin={shouldFilterOpen} setFilterOff={() => {
         setFilterStatus(null);
-        setFilterKey([true,true, true]);
-      }}>
+        setFilterKey([true, true, true, true, true]);
+      }} materialType={materialType} filterKey={filterKey}>
       <MapView
         style={StyleSheet.absoluteFillObject}
         provider={PROVIDER_GOOGLE} maptype="hybrid" region={location}>
@@ -71,35 +102,50 @@ const MapScreen = ({ navigation, route }) => {
           {  
             const coordinate = VM.coordinates;
             if(!coordinate.lat || !coordinate.lon) return;
-            console.log(coordinate);
             return (
               <Marker key={index} coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}} title={VM.title} description={VM.description}>
-                <RecyclePointIcon/>
+                <VendingMachine height={45} width={45}/>
                 {renderPointPreview(VM.title, VM.description)}
               </Marker>);
           })
         }  
-          {filterKey[1] && recycleAreas.yellowBins.map((YBS, index) => 
-          {  
+        {filterKey[1] && recycleAreas.yellowBins.map((YBS, index) => {
             const coordinate = YBS.coordinates;
             return (
-              <Marker key={index} coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}}
-                      title={YBS.title} description={YBS.description}>
-                <YellowBinIcon/>
+              <Marker key={index} coordinate={{ latitude: coordinate.lat, longitude: coordinate.lon }} title={YBS.title} description={YBS.description}>
+                <YellowBinIcon height={35} width={35} />
                 {renderPointPreview(YBS.title, YBS.description)}
               </Marker>);
           })
         }
-          {/*filterKey[2] && {recycleAreas.yellowBins.map((YBS, index) => {
-            const coordinate = YBS.coordinates;
+        {filterKey[2] && recycleAreas.redBins.map((RBS, index) => 
+          {  
+            const coordinate = RBS.coordinates;
             return (
-              <Marker key={index} coordinate={{ latitude: coordinate.lat, longitude: coordinate.lon }}
-                title={YBS.title} description={YBS.description}>
-                <ShoppingCenterIcon />
-                {renderPointPreview(YBS.title, YBS.description)}
+              <Marker key={index} coordinate={{latitude: coordinate.lat, longitude: coordinate.lon}} title={RBS.title} description={RBS.description}>
+                <RedBin height={35} width={35}/>
+                {renderPointPreview(RBS.title, RBS.description)}
               </Marker>);
           })
-          } */}
+        }
+        {filterKey[3] && recycleAreas.blueBins.map((BBS, index) => {
+          const coordinate = BBS.coordinates;
+          return (
+            <Marker key={index} coordinate={{ latitude: coordinate.lat, longitude: coordinate.lon }} title={BBS.title} description={BBS.description}>
+              <BlueBin height={35} width={35}/>
+              {renderPointPreview(BBS.title, BBS.description)}
+            </Marker>);
+          })
+        }
+        {filterKey[4] && recycleAreas.greenBins.map((GBS, index) => {
+          const coordinate = GBS.coordinates;
+          return (
+            <Marker key={index} coordinate={{ latitude: coordinate.lat, longitude: coordinate.lon }} title={GBS.title} description={GBS.description}>
+              <GreenBin height={35} width={35}/>
+              {renderPointPreview(GBS.title, GBS.description)}
+            </Marker>);
+          })
+          }
       </MapView>
       <ScanButton
         onPressHandler={() => navigation.navigate("Scan")}

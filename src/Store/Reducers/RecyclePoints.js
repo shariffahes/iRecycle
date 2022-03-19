@@ -4,7 +4,8 @@ const initialState = {
   vendingMachines: [],
   yellowBins: [],
   greenBins: [],
-  redBins: []
+  redBins: [],
+  blueBins: []
 };
 
 export default (state = initialState, action) => {
@@ -31,7 +32,12 @@ export default (state = initialState, action) => {
         const temp = data.RBS[element];
         allRedBins.push(temp);
       });
-      return {vendingMachines: allVMS, yellowBins: allYBNS, greenBins: allGreenBins, redBins: allRedBins};
+      let allBlueBins = [];
+      Object.keys(data.BBS).forEach(element => {
+        const temp = data.BBS[element];
+        allBlueBins.push(temp);
+      });
+      return {vendingMachines: allVMS, yellowBins: allYBNS, greenBins: allGreenBins, redBins: allRedBins, blueBins: allBlueBins};
     default: 
       return state;
   }
