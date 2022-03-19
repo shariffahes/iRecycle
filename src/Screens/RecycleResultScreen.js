@@ -7,7 +7,7 @@ import CustomText from '../Components/CustomUI/CustomText';
 const RecycleResultScreen = ({route, navigation}) => {
   const {result} = route.params;
   const _findRecyclePoints = useCallback(() => {
-    navigation.navigate('Main Map', {materialType: result.materialType});
+    navigation.navigate('Main Map', {materialType: result.materialType, bin: result.bin});
   },[]);
   return (
     <>
