@@ -42,7 +42,8 @@ export const materialInfo = {
     ],
     pointsValue: 20, //CHANGE
   },
-  Carton: { //SAME AS PAPER AND CARDBOARD
+  Carton: {
+    //SAME AS PAPER AND CARDBOARD
     materialType: "Carton",
     bin: "Yellow",
     generalInfo:
@@ -55,5 +56,27 @@ export const materialInfo = {
       "Rather than recycling good boxes, try to donate them to schools, charities, and people who use a lot of boxes",
     ],
     pointsValue: 5, //CHANGE
+  },
+  Batteries: {
+    materialType: "Batteries",
+    bin: "Yellow", //CHANGEEE
+    generalInfo:
+      "Lead-acid batteries are one of the most recycled products. In 2018, 2.9 million were recycled, representing 99 percent of generation. Recycling rates of other battery types are not as well tracked. Although batteries are recyclable, most batteries, including lithium-ion, lithium metal, lead-acid, nickel cadmium, and other rechargeable batteries, should NOT go in household garbage or recycling bins. These batteries require special handling and should be taken to specialty drop-off locations",
+    tips: [
+      "Dry-Cell Batteries are used in a variety of electronics and include alkaline and carbon zinc",
+      "Lithium-ion Batteries are used in many rechargeable products such as electronics, toys, wireless headphones...",
+      "Lithium Metal Batteries are similar to lithium-ion batteries but are not rechargeable.",
+      "Lead-Acid Batteries can be found in automobiles, boats, snowmobiles, motorcycles, golf carts, wheelchairs, and other large transportation vehicles.",
+      "Do not dispose batteries in household waste containers.",
+    ],
+    pointsValue: 15, //CHANGE
+  },
+  Metal: {
+    materialType: "Batteries",
+    bin: "Yellow", //CHANGEEE
+    generalInfo:
+      "In 2018, 19.2 million tons of ferrous metals (iron and steel) were generated. EPA estimates that the recycling rate of ferrous metals from durable goods was 27.8 percent. The same year, 2.5 million tons of nonferrous metals (not containing iron) were generated. The recycling rate for nonferrous metals was approximately 68 percent.",
+    tips: ["There are different programs and options for metal recycling"],
+    pointsValue: 30, //CHANGE
   },
 };
