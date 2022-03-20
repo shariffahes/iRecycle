@@ -1,10 +1,20 @@
 export const materials = {
-    'aluminium': 'yellow',
-    'glass': 'yellow',
-    'carton': 'yellow',
-    'paper': 'yellow',
-    'cardboard': 'yellow',
-    'soft plastic': 'red',
-    'hard plastic': 'yellow'
+  aluminium: "yellow",
+  glass: "green",
+  carton: "blue",
+  paper: "blue",
+  cardboard: "blue",
+  "soft plastic": "red",
+  "hard plastic": "red",
+  metal: "yellow",
 };
-export const materialTypes = [{name: 'aluminium'}, {name: 'glass'}, {name: 'carton'},{name: 'paper'}, {name: 'cardboard'}, {name: 'soft plastic'}, {name: 'hard plastic'}];
+export const materialTypes = [
+  { name: "aluminium" },
+  { name: "glass" },
+  { name: "carton" },
+  { name: "paper" },
+  { name: "cardboard" },
+  { name: "soft plastic" },
+  { name: "hard plastic" },
+  { name: "metal" },
+];

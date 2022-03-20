@@ -2,12 +2,39 @@ export const materials = {
   "water bottle": "Plastic",
   bucket: "Plastic",
   pail: "Plastic",
+  beaker: "Glass",
+  envelope: "Carton",
+  paper: "Carton",
+  binder: "Carton",
+  syringe: "Plastic",
+  "pill bottle": "Plastic",
+  "fountain pen": "Plastic",
+  ballpoint: "Plastic",
+  "ballpoint pen": "Plastic",
+  ballpen: "Plastic",
+  "beer glass": "Glass",
+  sunglass: "Glass",
+  sunglasses: "Glass",
+  "dark glasses": "Glass",
+  "paper towel": "Paper",
+  "toilet tissue": "Paper",
+  "toilet paper": "Paper",
+  "bathroom tissue": "Paper",
+  "pop bottle": "Plastic",
+  "soda bottle": "Plastic",
+  pillow: "Paper",
+  necklace: "Metal",
+  "comic book": "Carton",
+  notebook: "Cartoon",
+  "crossword puzzle": "Cartoon",
+  crossword: "Cartoon",
+  "plastic bag": "Plastic",
 };
 
 export const materialInfo = {
   Plastic: {
     materialType: "Plastic",
-    bin: "Yellow",
+    bin: "Red",
     generalInfo:
       "More than 35 million tons of plastics were generated in the United States in 2018 and only 8.7 percent was recycled. Some types of plastics are not accepted in community recycling programs. Check with your local recycling program to find out which types of plastic they accept. When possible, purchase products made from recycled plastic materials. ",
     tips: [
@@ -21,7 +48,7 @@ export const materialInfo = {
   },
   Glass: {
     materialType: "Glass",
-    bin: "Yellow",
+    bin: "Green",
     generalInfo:
       "Glass, especially glass food and beverage containers, can be recycled over and over again. In the United States in 2018, 12.3 million tons of glass were generated, 31.3 percent of which was recycled. Making new glass from recycled glass is typically cheaper than using raw materials.",
     tips: [
@@ -45,7 +72,7 @@ export const materialInfo = {
   Carton: {
     //SAME AS PAPER AND CARDBOARD
     materialType: "Carton",
-    bin: "Yellow",
+    bin: "Blue",
     generalInfo:
       "Paper makes up 23 percent of municipal solid waste (trash) generated each year, more than any other material. Americans recycled about 68 percent of the paper they used in 2018. This recovered paper is used to make new paper products, which saves trees and other natural resources. Most community or office recycling programs accept paper and paper products. Check what your community or office program accepts before you put it in the bin. Look for products that are made from recycled paper when you shop. Better yet, consider if you really need to print in the first place.",
     tips: [
@@ -59,7 +86,7 @@ export const materialInfo = {
   },
   Batteries: {
     materialType: "Batteries",
-    bin: "Yellow", //CHANGEEE
+    bin: "Black", //CHANGEEE
     generalInfo:
       "Lead-acid batteries are one of the most recycled products. In 2018, 2.9 million were recycled, representing 99 percent of generation. Recycling rates of other battery types are not as well tracked. Although batteries are recyclable, most batteries, including lithium-ion, lithium metal, lead-acid, nickel cadmium, and other rechargeable batteries, should NOT go in household garbage or recycling bins. These batteries require special handling and should be taken to specialty drop-off locations",
     tips: [
