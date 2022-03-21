@@ -53,9 +53,9 @@ const InfoCard = ({
 
 const styles = StyleSheet.create({
   card: {
+    flex:1,
     backgroundColor: "white",
     width: "45%",
-    height: "120%",
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowOffset: { width: 1, height: 5 },
@@ -82,11 +82,12 @@ const styles = StyleSheet.create({
   info: {
     opacity: 1,
     padding: 5,
+    width:100
   },
 
   image: {
     width: "100%",
-    height: "100%",
+    height: 300,
     marginHorizontal: 40,
     justifyContent: "flex-end",
     borderRadius: 8,

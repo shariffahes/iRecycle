@@ -27,7 +27,6 @@ const StoreScreen = () => {
   //  console.log(selectedItemIndex)
   //  console.log(modalVisible)
 
-
   const renderItem = ({ item, index }) => (
     <InfoCard
       title={item.title}
@@ -43,30 +42,21 @@ const StoreScreen = () => {
 
   return (
     <View style={styles.screen}>
-      {/* <BannerCard
-        title={"Hello World"}
-        coins={250}
-        discount={50}
-        website={"helloworld.com"}
-        image="../../assets/icons/purseIcon.jpg"
-        // image sending not working
-      ></BannerCard> */}
-
-      <FlatList
-        style={styles.list}
-        data={products}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.prodId}
-        numColumns={2}
-      />
-      {selectedItemIndex !== null ? (
-        <ItemModal
-          modalVisible={modalVisible}
-          closeDetails={closeDetails}
-          index={selectedItemIndex}
+        <FlatList
+          style={styles.list}
+          data={products}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.prodId}
+          numColumns={2}
         />
-      ) : null}
-    </View>
+        {selectedItemIndex !== null ? (
+          <ItemModal
+            modalVisible={modalVisible}
+            closeDetails={closeDetails}
+            index={selectedItemIndex}
+          />
+        ) : null}
+      </View>
   );
 };
 
@@ -76,6 +66,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   list: {
+    flex:1,
+    flexGrow:1,
     width: "100%",
   },
 });
