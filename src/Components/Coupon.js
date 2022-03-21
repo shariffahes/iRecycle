@@ -2,37 +2,60 @@ import React, { useSelector } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import CustomText from "./CustomUI/CustomText";
 
-const Coupon = ({ ...rest }) => {
-  const arr = [
-    {
-      title: "Smoothies",
-      coins: "200",
-      expiryDate: "35",
-      image:
-        "https://img.freepik.com/free-psd/colorful-smoothies-green-background_23-2148237124.jpg?t=st=1647432634~exp=1647433234~hmac=350e876eb1f3ba7c8fcc118705dedecfd5f80c268d834a09c59774de99f2fea7&w=740",
-    },
-  ];
+const Coupon = ({ title, coins, expiryDate, discount, image, style, ...rest }) => {
   return (
     <ImageBackground
-      {...rest}
-      style={styles.container}
+      style={[styles.container,style]}
       resizeMode="cover"
-      imageStyle={{ borderRadius: 8 }}
-      source={{ uri: arr[0].image }}
+      imageStyle={{ borderRadius: 20 }}
+      source={{ uri: image }}
+      {...rest}
     >
-      <CustomText color={"black"} fontSize={20}>{arr[0].title}</CustomText>
+      <View>
+        <View style={styles.title}>
+          <CustomText
+            color={"black"}
+            fontSize={25}
+            bold={true}
+            style={{ letterSpacing: 1.5 }}
+          >
+            {title}
+          </CustomText>
+        </View>
+        {discount !== undefined ? (
+          <CustomText>
+            Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
+            {title}!
+          </CustomText>
+        ) : null}
+      </View>
+      {expiryDate !== undefined ? (
+        <View>
+          <CustomText bold={true} style={styles.expiry}>
+            {expiryDate} days left.
+          </CustomText>
+        </View>
+      ) : null}
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    alignItems: "flex-start",
     width: 280,
     height: 150,
-    borderRadius: 20,
     padding: 10,
-    marginVertical:10
+    marginVertical: 10,
+    justifyContent: "space-between",
+    marginRight: 20,
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 5, height: 3 },
+  },
+  title: {
+    backgroundColor: "#rgba(255,255,255,0.15)",
+    marginVertical: 5,
   },
 });
 

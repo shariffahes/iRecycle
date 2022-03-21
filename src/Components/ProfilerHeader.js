@@ -7,7 +7,7 @@ import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 
 const ProfileHeader = ({ name, points, ...rest }) => {
   return (
-    <View {...rest} style={styles.header}>
+    <View style={styles.header} {...rest}>
       <View style={styles.profile}></View>
       <CustomText style={styles.name} color={"black"} fontSize={25}>
         {name}
@@ -26,10 +26,10 @@ const ProfileHeader = ({ name, points, ...rest }) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: "35%",
     alignItems: "center",
     justifyContent: "flex-end",
     padding: 20,
+    marginVertical: 20,
   },
   name: {
     letterSpacing: 1,
