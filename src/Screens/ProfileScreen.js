@@ -5,7 +5,7 @@ import ProfileHeader from "../Components/ProfilerHeader";
 const ProfileScreen = () => {
   return (
     <View style={styles.screen}>
-      <ProfileHeader />
+      <ProfileHeader name={"Sharif Fahes"}  points={"1000"}/>
     </View>
   );
 };

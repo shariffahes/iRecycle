@@ -5,17 +5,17 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 
-const ProfileHeader = ({ ...rest }) => {
+const ProfileHeader = ({ name, points, ...rest }) => {
   return (
-    <View style={styles.header}>
+    <View {...rest} style={styles.header}>
       <View style={styles.profile}></View>
       <CustomText style={styles.name} color={"black"} fontSize={25}>
-        Sharif Fahes
+        {name}
       </CustomText>
       <View>
         <View style={styles.points}>
           <CustomText fontSize={15} bold={true}>
-            10000 <CurrencyCoin />
+            {points} <CurrencyCoin />
           </CustomText>
         </View>
       </View>
