@@ -2,14 +2,14 @@ import React, { useSelector } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import CustomText from "./CustomUI/CustomText";
 
-const Coupon = ({ title, coins, expiryDate, discount, image, ...rest }) => {
+const Coupon = ({ title, coins, expiryDate, discount, image, style, ...rest }) => {
   return (
     <ImageBackground
-      {...rest}
-      style={styles.container}
+      style={[styles.container,style]}
       resizeMode="cover"
       imageStyle={{ borderRadius: 20 }}
       source={{ uri: image }}
+      {...rest}
     >
       <View>
         <View style={styles.title}>
@@ -22,16 +22,20 @@ const Coupon = ({ title, coins, expiryDate, discount, image, ...rest }) => {
             {title}
           </CustomText>
         </View>
-        <CustomText>
-          Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
-          {title}!
-        </CustomText>
+        {discount !== undefined ? (
+          <CustomText>
+            Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
+            {title}!
+          </CustomText>
+        ) : null}
       </View>
-      <View>
-        <CustomText bold={true} style={styles.expiry}>
-          {expiryDate} days left.
-        </CustomText>
-      </View>
+      {expiryDate !== undefined ? (
+        <View>
+          <CustomText bold={true} style={styles.expiry}>
+            {expiryDate} days left.
+          </CustomText>
+        </View>
+      ) : null}
     </ImageBackground>
   );
 };
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 5, height: 3 },
   },
   title: {
-    backgroundColor: "#rgba(255,255,255,0.2)",
+    backgroundColor: "#rgba(255,255,255,0.15)",
     marginVertical: 5,
   },
 });
