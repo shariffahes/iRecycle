@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 
-const InfoCard = ({ ...rest }) => {
+const ProfileHeader = ({ ...rest }) => {
   return (
     <View style={styles.header}>
       <View style={styles.profile}></View>
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InfoCard;
+export default ProfileHeader;
