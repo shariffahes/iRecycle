@@ -15,7 +15,7 @@ const Coupon = ({ title, coins, expiryDate, discount, image, style, ...rest }) =
         <View style={styles.title}>
           <CustomText
             color={"black"}
-            fontSize={30}
+            fontSize={25}
             bold={true}
             style={{ letterSpacing: 1.5 }}
           >
