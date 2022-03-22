@@ -69,8 +69,8 @@ export const materialInfo = {
     ],
     pointsValue: 25, //CHANGE
   },
-  Aluminium: {
-    materialType: "Aluminium",
+  Aluminum: {
+    materialType: "Aluminum",
     bin: "Yellow",
     generalInfo:
       "In 2018, 3.9 million tons of aluminum municipal solid waste was generated. The total recycling rate for aluminum items was 34.9 percent. Both aluminum cans and foil can be recycled. ",
