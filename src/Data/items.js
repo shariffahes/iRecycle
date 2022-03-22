@@ -25,7 +25,9 @@ export const materials = {
   pillow: "Paper",
   necklace: "Metal",
   "comic book": "Carton",
-  notebook: "Cartoon",
+  notebook: "Metal",
+  computer:"Metal",
+  keyboard:"Plastic",
   "crossword puzzle": "Cartoon",
   crossword: "Cartoon",
   "plastic bag": "Plastic",
@@ -112,7 +114,7 @@ export const materialInfo = {
     pointsValue: 15, //CHANGE
   },
   Metal: {
-    materialType: "Batteries",
+    materialType: "Metal",
     bin: "Yellow", //CHANGEEE
     generalInfo:
       "In 2018, 19.2 million tons of ferrous metals (iron and steel) were generated. EPA estimates that the recycling rate of ferrous metals from durable goods was 27.8 percent. The same year, 2.5 million tons of nonferrous metals (not containing iron) were generated. The recycling rate for nonferrous metals was approximately 68 percent.",
