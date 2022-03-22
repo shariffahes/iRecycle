@@ -108,7 +108,7 @@ export const materialInfo = {
     ],
     pointsValue: 5, //CHANGE
   },
-  Electoronics: {
+  Electronics: {
     materialType: "Electronics",
     bin: "Black", //CHANGEEE
     generalInfo:
