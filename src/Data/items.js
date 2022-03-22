@@ -69,9 +69,22 @@ export const materialInfo = {
     ],
     pointsValue: 20, //CHANGE
   },
-  Carton: {
-    //SAME AS PAPER AND CARDBOARD
-    materialType: "Carton",
+  Paper: {
+    materialType: "Paper",
+    bin: "Blue",
+    generalInfo:
+      "Paper makes up 23 percent of municipal solid waste (trash) generated each year, more than any other material. Americans recycled about 68 percent of the paper they used in 2018. This recovered paper is used to make new paper products, which saves trees and other natural resources. Most community or office recycling programs accept paper and paper products. Check what your community or office program accepts before you put it in the bin. Look for products that are made from recycled paper when you shop. Better yet, consider if you really need to print in the first place.",
+    tips: [
+      "Newspapers can be recycled",
+      "Magazines can be recycled",
+      "Cartoon boxes can be recycled but make sure they are clean",
+      "Envelopes with plastic windows can be recycled",
+      "Rather than recycling good boxes, try to donate them to schools, charities, and people who use a lot of boxes",
+    ],
+    pointsValue: 5, //CHANGE
+  },
+  Cartoon: {
+    materialType: "Cartoon",
     bin: "Blue",
     generalInfo:
       "Paper makes up 23 percent of municipal solid waste (trash) generated each year, more than any other material. Americans recycled about 68 percent of the paper they used in 2018. This recovered paper is used to make new paper products, which saves trees and other natural resources. Most community or office recycling programs accept paper and paper products. Check what your community or office program accepts before you put it in the bin. Look for products that are made from recycled paper when you shop. Better yet, consider if you really need to print in the first place.",
