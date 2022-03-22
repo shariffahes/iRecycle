@@ -25,12 +25,21 @@ export const materials = {
   pillow: "Paper",
   necklace: "Metal",
   "comic book": "Carton",
-  notebook: "Metal",
-  computer:"Metal",
-  keyboard:"Plastic",
+  notebook: "Electronics",
+  computer: "Electronics",
+  laptop: "Electronics",
+  keyboard: "Electronics",
+  "computer keyboard": "Electronics",
+  keypad: "Electronics",
+  spacebar: "Electronics",
   "crossword puzzle": "Cartoon",
   crossword: "Cartoon",
   "plastic bag": "Plastic",
+  "cellular telephone": "Electronics",
+  "cellular phone": "Electronics",
+  cellphone: "Electronics",
+  cell: "Electronics",
+  "mobile phone": "Electronics",
 };
 
 export const materialInfo = {
@@ -99,11 +108,11 @@ export const materialInfo = {
     ],
     pointsValue: 5, //CHANGE
   },
-  Batteries: {
-    materialType: "Batteries",
+  Electoronics: {
+    materialType: "Electronics",
     bin: "Black", //CHANGEEE
     generalInfo:
-      "Lead-acid batteries are one of the most recycled products. In 2018, 2.9 million were recycled, representing 99 percent of generation. Recycling rates of other battery types are not as well tracked. Although batteries are recyclable, most batteries, including lithium-ion, lithium metal, lead-acid, nickel cadmium, and other rechargeable batteries, should NOT go in household garbage or recycling bins. These batteries require special handling and should be taken to specialty drop-off locations",
+      "Electronics & Batteries should be recycled in a special way. Lead-acid batteries are one of the most recycled products. In 2018, 2.9 million were recycled, representing 99 percent of generation. Recycling rates of other battery types are not as well tracked. Although batteries are recyclable, most batteries, including lithium-ion, lithium metal, lead-acid, nickel cadmium, and other rechargeable batteries, should NOT go in household garbage or recycling bins. These batteries require special handling and should be taken to specialty drop-off locations",
     tips: [
       "Dry-Cell Batteries are used in a variety of electronics and include alkaline and carbon zinc",
       "Lithium-ion Batteries are used in many rechargeable products such as electronics, toys, wireless headphones...",
