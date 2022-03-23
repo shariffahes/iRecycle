@@ -20,12 +20,15 @@ export const signUp = (email, password) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          points: 0
+          points: 0,
+          coupons: [],
+          location: ''
         })
       });
       const serverPostResponse = await response.json();
       if (serverPostResponse.error?.message) _handleError(serverPostResponse.error?.message);
-      dispatch(linkUser({ userId: data.localId, points: 0 }));
+      //TODO: on sign up location null. Error in map
+      dispatch(linkUser({ userId: data.localId, points: 0, coupons: [], location: {} }));
     } catch (error) {
         throw error;
     }
@@ -39,12 +42,11 @@ export const logIn = (email, password) => {
       if (data.error?.message) _handleError(data.error.message);
       dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
-      console.log('completed');
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
       const userRequest = await fetch(baseFireBaseURL+`/users/${data.localId}.json`);
       const userDataResponse = await userRequest.json();
       if (userDataResponse.error?.message) _handleError(userDataResponse.error?.messag);
-      dispatch(linkUser({userId: data.localId, points: userDataResponse.points }));
+      dispatch(linkUser({userId: data.localId, points: userDataResponse.points, location: userDataResponse.location, coupons: userDataResponse.coupons }));
     } catch (error) {
         console.log(error);
         throw error;
