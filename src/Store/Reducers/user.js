@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
     case AUTHENTICATE: 
       return {...state, userId: action.userId};
     case ADD_COUPON: 
-      return {...state, coupons: [state.coupons, action.couponInfo]}
+      return {...state, coupons: action.coupons}
     case INVALIDATE_COUPON:
       return {...state, coupons: action.freshCoupons};
     case RESET: 

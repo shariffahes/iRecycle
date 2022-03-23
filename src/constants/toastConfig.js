@@ -37,6 +37,13 @@ export const toastConfig = {
         </View>
       </TouchableOpacity>
     );
+  },
+  noEnoughPoints: () => {
+    return (
+    <View style={{backgroundColor: '#b00', padding: 10, margin: 5, borderRadius: 9, }}>
+      <CustomText bold={true}>You don't have enough points to claim this object</CustomText>
+    </View>
+    )
   }
 };
 

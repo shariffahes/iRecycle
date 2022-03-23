@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import {
   View,
   StyleSheet,
-  Text,
   Modal,
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
 import CustomText from "./CustomUI/CustomText";
 import CardTitleText from "./CustomUI/CardTitleText";
 import CustomButton from "./CustomUI/CustomButton";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
-import Colors from "../constants/Colors";
 import Logo from "../../assets/svg/Logo.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addCoupon, invalidateCoupon } from "../Store/Actions/user";
+import Toast from 'react-native-toast-message';
+import { toastConfig } from "../constants/toastConfig";
 
 const ItemModal = ({
   onPressHandler,
@@ -25,7 +24,24 @@ const ItemModal = ({
   ...rest
 }) => {
   const product = useSelector((state) => state.prod.products[index]);
-  // console.log(product)
+  const userPoints = useSelector(state => state.user.points);
+  const coupons = useSelector(state => state.user.coupons);
+  const dispatch = useDispatch();
+
+  const _onClaimHandler = useCallback(() => {
+    if(userPoints < product.pointExchange) {
+      Toast.show({
+        type: 'noEnoughPoints',
+        position: 'bottom',
+        bottomOffset: 520,
+        autoHide: true,
+        visibilityTime: 2500
+      });
+      return;
+    };
+    dispatch(addCoupon(product.pointExchange));
+    closeDetails();
+  }, [dispatch, userPoints, product, addCoupon]);
   return (
     <Modal
       animationType="slide"
@@ -52,8 +68,7 @@ const ItemModal = ({
             </View>
             <CustomButton
               title={`Claim For`}
-              style={styles.button}
-            >
+              style={styles.button} onPressHandler={_onClaimHandler}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <CustomText bold={true} style={{ marginHorizontal: 8 }}>
                   {product.pointExchange}
@@ -67,11 +82,7 @@ const ItemModal = ({
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.screen}
-        onPress={closeDetails}
-
-      ></TouchableOpacity>
+      <TouchableOpacity style={styles.screen} onPress={closeDetails}/>
     </Modal>
   );
 };
@@ -86,7 +97,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   centeredView: {
-    zIndex: 100,
+    zIndex: 10,
     justifyContent: "space-around",
     alignItems: "center",
     position: "absolute",

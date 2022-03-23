@@ -75,14 +75,15 @@ export const addCoupon = (pointsClaimed) => {
       else code += `${randNum}`
     };
     date.setMonth(date.getMonth() + 2);
-    const couponInfo = {code, invalid: false, expiryDate: date.toISOString()}
-    dispatch({type: DECREMENT_POINTS, points: pointsClaimed});
-    dispatch({type: ADD_COUPON, couponInfo});
+    const couponInfo = {code, invalid: false, expiryDate: date.toISOString()};
+    const newCoupons = [...coupons, couponInfo];
+    dispatch(decrementPoints(pointsClaimed));
+    dispatch({type: ADD_COUPON, coupons: newCoupons});
     console.log('coupons', coupons);
     fetch(baseFireBaseURL+`/users/${userId}.json`, {
       method: 'PATCH',
       body: JSON.stringify({
-        coupons: [...coupons, couponInfo],
+        coupons: newCoupons,
         points: points - pointsClaimed
       })
     })
@@ -95,6 +96,7 @@ export const invalidateCoupon = (code) => {
   return async (dispatch, getState) => {
     const staleCoupons = getState().user.coupons.filter(coupon => coupon.code !== code) ?? [];
     const freshCoupons = [...staleCoupons, { code: code, invalid: true, expiryDate: '' }];
+    console.log(freshCoupons);
     dispatch({type: INVALIDATE_COUPON, freshCoupons});
     fetch(baseFireBaseURL+`/users/${getState().user.userId}.json`, {
       method: 'PATCH',
