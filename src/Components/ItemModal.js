@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Modal, Pressable, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Modal,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
 import CustomText from "./CustomUI/CustomText";
@@ -18,7 +25,7 @@ const ItemModal = ({
   ...rest
 }) => {
   const product = useSelector((state) => state.prod.products[index]);
-    // console.log(product)
+  // console.log(product)
   return (
     <Modal
       animationType="slide"
@@ -43,7 +50,10 @@ const ItemModal = ({
               </View>
               <CardTitleText>{product.title}</CardTitleText>
             </View>
-            <CustomButton title={`Claim For`} style={styles.button} onPressHandler={closeDetails}>
+            <CustomButton
+              title={`Claim For`}
+              style={styles.button}
+            >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <CustomText bold={true} style={{ marginHorizontal: 8 }}>
                   {product.pointExchange}
@@ -57,13 +67,26 @@ const ItemModal = ({
           </View>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.screen}
+        onPress={closeDetails}
+
+      ></TouchableOpacity>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  screen: {
+    backgroundColor: "rgba(0,0,0,0)",
     flex: 1,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    top: 0,
+  },
+  centeredView: {
+    zIndex: 100,
     justifyContent: "space-around",
     alignItems: "center",
     position: "absolute",
@@ -72,7 +95,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "white",
     height: "60%",
-    borderRadius: 35,
+    borderTopLeftRadius:35,
+    borderTopRightRadius:35,
     paddingHorizontal: 10,
     paddingVertical: 10,
     shadowColor: "#000",
