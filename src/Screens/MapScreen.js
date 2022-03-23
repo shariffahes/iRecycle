@@ -11,6 +11,7 @@ import BlueBin from '../../assets/svg/BlueBin.svg'
 import VendingMachine from "../../assets/svg/VendingMachine.svg";
 import RedBin from '../../assets/svg/RedBin.svg';
 import GreenBin from "../../assets/svg/GreenBin.svg";
+import { addCoupon, updateUserLocation } from "../Store/Actions/user";
 
 const MapScreen = ({ navigation, route }) => {
   const [materialType, setMaterialType] = useState(route.params?.materialType);
@@ -57,38 +58,36 @@ const MapScreen = ({ navigation, route }) => {
     setFilterKey(filteredBins);
 
   },[route.params]);
-
-  if(materialType) {
-    //apply filters
-  }
-  const location = {
-    latitude: 33.89653974328971,
-    longitude: 35.479633221996096,
-    latitudeDelta: 0.006,
-    longitudeDelta: 0.02,
-  };
-
-  const [myLocation, setMyLocation] = useState(null);
+  
+  const location = { latitude: 33.89653974328971, longitude: 35.479633221996096, latitudeDelta: 0.006, longitudeDelta: 0.02 };
+  //const location = useSelector(state => state.user.location);
   const [errorMsg, setErrorMsg] = useState(null);
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
+        const l = {
+          latitude: 33.89653974328971,
+          longitude: 35.479633221996096,
+          latitudeDelta: 0.006,
+          longitudeDelta: 0.02 };
+        dispatch(updateUserLocation(l));
         return;
       }
-      let myLocation = await Location.getCurrentPositionAsync({});
-      setMyLocation(myLocation);
+      const myLocation = await Location.getCurrentPositionAsync({});
+      dispatch(updateUserLocation({
+        latitude: myLocation.coords.latitude,
+        longitude: myLocation.coords.longitude,
+        latitudeDelta: 0.006,
+        longitudeDelta: 0.02
+      }));
     })();
   }, []);
-
+  
   if (errorMsg) {
-    console.log(errorMsg);
-  } else if (myLocation) {
-    // console.log(myLocation.coords.latitude);
+    console.error(errorMsg);
   }
-
   return (
     <View style={styles.mainContainer}>
       <FilterView setFilter={setFilterKey} filteredBin={shouldFilterOpen} setFilterOff={() => {

@@ -1,19 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import BannerCard from "../Components/BannerCard";
+import { FlatList, StyleSheet, View } from "react-native";
 import InfoCard from "../Components/InfoCard";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../Store/Actions/products";
-import { addPoints, decrementPoints } from "../Store/Actions/user";
-import Colors from "../constants/Colors";
-import { diffClamp } from "react-native-reanimated";
 import ItemModal from "../Components/ItemModal";
 
 const StoreScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const products = useSelector((state) => state.prod.products);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);

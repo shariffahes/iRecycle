@@ -13,7 +13,6 @@ const MainNavigator = () => {
   useEffect(() => {
     const isTokenValid = async () => {
       const userData = await AsyncStorage.getItem("userData");
-      console.log(userData);
       if (!userData) return;
       const parsedData = JSON.parse(userData);
       const { token, userId, expiresIn } = parsedData;
