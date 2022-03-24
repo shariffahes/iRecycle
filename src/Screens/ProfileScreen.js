@@ -3,7 +3,10 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
 import Coupon from "../Components/Coupon";
+import { useSelector } from "react-redux";
 const ProfileScreen = () => {
+  const coupons = useSelector(state => state.user.coupons);
+  
   const arr = [
     {
       title: "Smoothies",

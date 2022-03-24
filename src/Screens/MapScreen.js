@@ -11,7 +11,7 @@ import BlueBin from '../../assets/svg/BlueBin.svg'
 import VendingMachine from "../../assets/svg/VendingMachine.svg";
 import RedBin from '../../assets/svg/RedBin.svg';
 import GreenBin from "../../assets/svg/GreenBin.svg";
-import { addCoupon, updateUserLocation } from "../Store/Actions/user";
+import { updateUserLocation } from "../Store/Actions/user";
 
 const MapScreen = ({ navigation, route }) => {
   const [materialType, setMaterialType] = useState(route.params?.materialType);

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { View, StyleSheet, useWindowDimensions, Image, TouchableOpacity } from 'react-native';
 import CustomText from '../Components/CustomUI/CustomText';
+import Toast from 'react-native-toast-message';
 
 export const toastConfig = {
   recycleResult: (setting) => {
@@ -13,6 +14,7 @@ export const toastConfig = {
     }), [width]);
     const _onPressHandler = () => {
       navigation.navigate('Result', { result: {materialType, generalInfo, tips, bin} });
+      Toast.hide();
     };
 
     return (

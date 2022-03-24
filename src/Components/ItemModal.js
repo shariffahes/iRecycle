@@ -39,7 +39,7 @@ const ItemModal = ({
       });
       return;
     };
-    dispatch(addCoupon(product.pointExchange));
+    dispatch(addCoupon(product.pointExchange, product.company, product.logo, product.title));
     closeDetails();
   }, [dispatch, userPoints, product, addCoupon]);
   return (

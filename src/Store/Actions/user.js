@@ -1,17 +1,20 @@
 import { baseFireBaseURL } from "../../constants/Constants";
 
-export const LINK_ID = 'link_id';
 export const ADD_POINTS = 'add-points';
 export const DECREMENT_POINTS = 'decrement_points';
 export const RESET = 'reset';
 export const UPDATE_LOCATION = 'update_location';
 export const ADD_COUPON = 'add_coupon';
 export const INVALIDATE_COUPON = 'invalidate_coupon';
+export const POPULATE_USER_DATA = 'populate_user_data';
 
-
-export const linkUser = (userInfo) => {
+export const populateUserData = (id) => {
   return async (dispatch) => {
-    dispatch({type: LINK_ID, userInfo});
+    const userRequest = await fetch(baseFireBaseURL + `/users/${id}.json`);
+    const userDataResponse = await userRequest.json();
+    if (userDataResponse.error?.message) _handleError(userDataResponse.error?.messag);
+    dispatch({ type: POPULATE_USER_DATA, userData: { userId: id, points: userDataResponse.points, location: userDataResponse.location, coupons: userDataResponse.coupons }
+});
   }
 };
 
@@ -59,7 +62,7 @@ export const updateUserLocation = (location) => {
   }
 };
 
-export const addCoupon = (pointsClaimed) => {
+export const addCoupon = (pointsClaimed, company, logo, title) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
     const coupons = getState().user.coupons ?? [];
@@ -75,11 +78,12 @@ export const addCoupon = (pointsClaimed) => {
       else code += `${randNum}`
     };
     date.setMonth(date.getMonth() + 2);
-    const couponInfo = {code, invalid: false, expiryDate: date.toISOString()};
+    const couponInfo = {code, invalid: false, expiryDate: date.toISOString(), companyName: company,
+      bgImageURL: logo, logo: logo, title: title};
     const newCoupons = [...coupons, couponInfo];
+    console.log('all coupons: ', newCoupons);
     dispatch(decrementPoints(pointsClaimed));
     dispatch({type: ADD_COUPON, coupons: newCoupons});
-    console.log('coupons', coupons);
     fetch(baseFireBaseURL+`/users/${userId}.json`, {
       method: 'PATCH',
       body: JSON.stringify({

@@ -4,15 +4,18 @@ import WasteCoins from '../../../assets/svg/WasteCoins.svg';
 import HDivider from '../../../assets/svg/Divider.svg';
 import CustomText from './CustomText';
 import Colors from '../../constants/Colors';
+import { useSelector } from "react-redux";
 
 const RedeemedPointsView = () => {
+  const userPoints = useSelector(state => state.user.points);
+
   return (
     <TouchableOpacity style={styles.mainContainer}>
       <WasteCoins/>
       <View style={{paddingHorizontal: 7}}>
         <HDivider />
       </View>
-      <CustomText style={styles.font}>22</CustomText>
+      <CustomText style={styles.font}>{userPoints}</CustomText>
     </TouchableOpacity>
   );
 }

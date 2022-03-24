@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseFireBaseURL, FireBaseKey } from "../../constants/Constants";
-import { linkUser, resetUserInfo } from "./user";
+import { populateUserData, resetUserInfo } from "./user";
 export const SIGN_UP = "SIGN_UP";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOG_OUT = "LOG_OUT";
@@ -27,8 +27,6 @@ export const signUp = (email, password) => {
       });
       const serverPostResponse = await response.json();
       if (serverPostResponse.error?.message) _handleError(serverPostResponse.error?.message);
-      //TODO: on sign up location null. Error in map
-      dispatch(linkUser({ userId: data.localId, points: 0, coupons: [], location: {} }));
     } catch (error) {
         throw error;
     }
@@ -43,10 +41,7 @@ export const logIn = (email, password) => {
       dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
-      const userRequest = await fetch(baseFireBaseURL+`/users/${data.localId}.json`);
-      const userDataResponse = await userRequest.json();
-      if (userDataResponse.error?.message) _handleError(userDataResponse.error?.messag);
-      dispatch(linkUser({userId: data.localId, points: userDataResponse.points, location: userDataResponse.location, coupons: userDataResponse.coupons }));
+      dispatch(populateUserData(data.localId))
     } catch (error) {
         console.log(error);
         throw error;
@@ -111,6 +106,7 @@ export const setData = (token, userId, expireTime) => {
       token: token,
     });
     dispatch(_setLogOutTimer(expireTime));
+    dispatch(populateUserData(userId));
   };
 };
 const _handleError = (errorRes) => {

@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case POPULATE_PRODUCTS: 
       let products = [];
       for(const [key, value] of Object.entries(action.allProducts)) {
-        products.push({prodId: key, title: value.name, pointExchange: value.pointExchange, discount: value.discount, image: value.image, description: value.description});
+        products.push({prodId: key, title: value.name, pointExchange: value.pointExchange, discount: value.discount, image: value.image, description: value.description, logo: value.logo, company: value.company});
       }
       return {products}
     case ADD_PRODUCTS:
