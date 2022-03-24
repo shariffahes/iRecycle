@@ -5,26 +5,14 @@ import CustomText from "../Components/CustomUI/CustomText";
 import RankView from "../Components/RankView";
 import UpArrow from '../../assets/svg/UpArrow.svg';
 import DownArrow from '../../assets/svg/DownArrow.svg';
-
+import Colors from "../constants/Colors";
 const LeaderBoard = () => {
   return (
-    <View>
-      <View style={{flexDirection: 'row', marginTop: 20, marginLeft: 10, justifyContent: 'center'}}>
-        <CustomText fontSize={28} color='black' bold={true}>Leaderboard</CustomText>
-      </View>
+    <View style={{backgroundColor: '#fff', backgroundColor: 'rgba(0,200,25,0.2)',}}>
       <View style={styles.header}>
-        <RankView rank={2}/>
-        <RankView rank={1}/>
-        <RankView rank={3}/>
+         <RankView/>
       </View>
-      <View style={styles.currentRankContainer}>
-        <CustomText>Your Current Rank</CustomText>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around', flex: 0.3, alignItems: 'center'}}>
-          <CustomText bold={true} fontSize={16}>200</CustomText>
-          <DownArrow width={20} height={20} color='red'/>
-        </View>
-      </View>
-      <ScrollView style={{flexGrow: 0.53}}>
+      <ScrollView style={{flexGrow: 0.54,backgroundColor: 'white', borderTopLeftRadius: 27, borderTopRightRadius: 27}}>
         <RankItem/>
         <RankItem/>
         <RankItem/>
@@ -42,15 +30,20 @@ const LeaderBoard = () => {
 const RankItem = () => {
   return (
     <View style={styles.rankItemContainer}>
+      <View style={styles.rightContainer}>
+          <CustomText fontSize={16} bold={true} color='black'>200</CustomText>
+          <DownArrow width={15} height={15} />
+      </View>
       <View style={styles.leftContainer}>
-       <View style={styles.circle}>
-         <Image source={{uri: "https://img.favpng.com/19/16/1/computer-icons-png-favpng-t9NV5RQ9SB5GzU4r1kPEMaM3W.jpg"}} style={styles.imageStyle} resizeMode='cover'/>
-       </View>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.circle}> 
+          <Image source={{uri: "https://img.favpng.com/19/16/1/computer-icons-png-favpng-t9NV5RQ9SB5GzU4r1kPEMaM3W.jpg"}} style={styles.imageStyle} resizeMode='cover'/>
+        </View>
        <CustomText bold={true} fontSize={15} color='black'>Karem Al aridi</CustomText>
       </View>
-      <View style={styles.rightContainer}>
-       <CustomText fontSize={16} bold={true} color='black'>200</CustomText>
-       <DownArrow width={20} height={20}/>
+      <View style={{backgroundColor: Colors.green, borderRadius: 6, padding: 5}}>
+        <CustomText fontSize={14} bold={true}>9000 points</CustomText>
+      </View>
       </View>
     </View>
   );
@@ -60,7 +53,7 @@ const styles = StyleSheet.create({
   header: {
    flexDirection: 'row',
    justifyContent: 'space-around',
-   marginVertical: 8
+   overflow: 'hidden'
   },
   currentRankContainer: {
     flexDirection: 'row',
@@ -74,24 +67,24 @@ const styles = StyleSheet.create({
   },
   rankItemContainer: {
     flexDirection: 'row',
-    marginVertical: 10,
-    marginHorizontal: 12,
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingVertical: 6,
+    marginVertical: 6,
+    backgroundColor: 'rgba(235,235,235, 0.6)',
+    borderRadius: 14,
+    marginHorizontal: 14,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
     alignItems: 'center'
   },
   leftContainer: {
-    flex: 1.4,
+    flexGrow: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'space-between'
   },
   rightContainer: {
-    flex: 0.3,
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 8
   },
   imageStyle: {
     height: '100%',
