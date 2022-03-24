@@ -3,12 +3,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import HomeStack from "./HomeStack";
 import MenuStack from "./MenuStack";
-import BlogScreen from "../Screens/BlogScreen";
 import StoreScreen from "../Screens/StoreScreen";
 import RequestScreen from "../Screens/RequestScreen";
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import MenuScreen from "../Screens/MenuScreen";
 import { renderHeaderOptions } from "../constants/CustomFts";
+import LeaderBoard from "../Screens/LeaderBoard";
+import LBIcon from "../../assets/svg/LeaderBoardIcon.svg";
 
 const BottomStack = createBottomTabNavigator();
 
@@ -21,8 +21,8 @@ const renderScreenOptions = ({route}) => ({
         return <StoreIcon color={color} size={size} />
       case 'Request':
         return <RequestIcon color={color} size={size} />
-      case "Blog":
-        return <BlogIcon color={color} size={size} />
+      case "LeaderBoard":
+        return <LBIcon color={color} height={size} width={size}/>
       case "Menu":
         return <MenuIcon color={color} size={size} />
       default:
@@ -39,9 +39,6 @@ const MapIcon = ({size, color}) => {
 const StoreIcon = ({ size, color }) => {
     return <Entypo size={size} name="shop" color={color} />
 };
-const BlogIcon = ({ size, color }) => {
-    return <Ionicons size={size} name="newspaper-outline" color={color} />
-};
 const RequestIcon = ({ size, color }) => {
     return <Entypo size={size} name="message" color={color} />
 };
@@ -52,12 +49,12 @@ const MenuIcon = ({ size, color }) => {
 const BottomNavBar = () => {
     return (
         <BottomStack.Navigator screenOptions={renderScreenOptions}>
-            <BottomStack.Screen name="Map"component={HomeStack}
+            <BottomStack.Screen name="Map" component={HomeStack}
               options={{headerShown: false}} />
             <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
             <BottomStack.Screen name="Request" component={RequestScreen} options={renderHeaderOptions({applyMargin: true})}/>
-            <BottomStack.Screen name="Blog" component={BlogScreen} options={renderHeaderOptions({applyMargin: true})}/>
-            <BottomStack.Screen name="Menu" component={MenuStack} options={renderHeaderOptions({applyMargin: true})} options={{headerShown: false}} />
+            <BottomStack.Screen name="LeaderBoard" component={LeaderBoard} options={renderHeaderOptions({applyMargin: true})}/>
+            <BottomStack.Screen name="Menu" component={MenuStack} options={{...renderHeaderOptions({applyMargin: true}), headerShown: false}}/>
         </BottomStack.Navigator>
     );
 };
