@@ -10,7 +10,11 @@ const initialState = {
     longitude: 35.47821038113525, 
     latitudeDelta: 0.006, 
     longitudeDelta: 0.02 },
-  coupons: []
+  name: 'Guest',
+  avatar: '',
+  coupons: [],
+  //reset every month
+  accumulatedPoints: 0
 }
 
 export default (state = initialState, action) => {
@@ -18,7 +22,7 @@ export default (state = initialState, action) => {
     case POPULATE_USER_DATA:
       return action.userData;
     case ADD_POINTS: 
-      return {...state, points: state.points + action.newPoints}
+      return {...state, points: state.points + action.newPoints, accumulatedPoints: state.accumulatedPoints + action.newPoints}
     case DECREMENT_POINTS: 
       return {...state, points: state.points - action.deductedPoints}
     case UPDATE_LOCATION:

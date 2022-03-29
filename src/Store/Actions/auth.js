@@ -5,7 +5,7 @@ export const SIGN_UP = "SIGN_UP";
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOG_OUT = "LOG_OUT";
 
-export const signUp = (email, password) => {
+export const signUp = (email, password, fullName, avatar) => {
   return async (dispatch) => {
     try {
       const data = await _handleAuthentication(email, password, true);
@@ -22,7 +22,9 @@ export const signUp = (email, password) => {
         body: JSON.stringify({
           points: 0,
           coupons: [],
-          location: ''
+          location: '',
+          fullName: fullName,
+          avatar: avatar
         })
       });
       const serverPostResponse = await response.json();

@@ -1,5 +1,4 @@
 import { baseFireBaseURL } from "../../constants/Constants";
-
 export const ADD_POINTS = 'add-points';
 export const DECREMENT_POINTS = 'decrement_points';
 export const RESET = 'reset';
@@ -13,7 +12,7 @@ export const populateUserData = (id) => {
     const userRequest = await fetch(baseFireBaseURL + `/users/${id}.json`);
     const userDataResponse = await userRequest.json();
     if (userDataResponse.error?.message) _handleError(userDataResponse.error?.messag);
-    dispatch({ type: POPULATE_USER_DATA, userData: { userId: id, points: userDataResponse.points, location: userDataResponse.location, coupons: userDataResponse.coupons }
+    dispatch({ type: POPULATE_USER_DATA, userData: { userId: id, points: userDataResponse.points, location: userDataResponse.location, coupons: userDataResponse.coupons, name:  userDataResponse.fullName, avatar: userDataResponse.avatar, accumulatedPoints: userDataResponse.accumulatedPoints}
 });
   }
 };
@@ -28,7 +27,7 @@ export const addPoints = (numberOfPoints) => {
   return async (dispatch, getState) => {
    fetch(baseFireBaseURL+`/users/${getState().user.userId}.json`, {
       method: 'PATCH',
-      body: JSON.stringify({points: getState().user.points + numberOfPoints})
+      body: JSON.stringify({points: getState().user.points + numberOfPoints, accumulatedPoints: getState().user.accumulatedPoints + numberOfPoints})
     }).then(_ => console.log('points added: '))
       .catch(error => console.log('error: ', error));
 
@@ -52,6 +51,10 @@ export const updateUserLocation = (location) => {
   return async (dispatch, getState) => {
     try {
       dispatch({type: UPDATE_LOCATION, currentLocation: location});
+      if(!getState().user.userId) {
+        console.log('no user id');
+        return;
+      }
       await fetch(baseFireBaseURL+`/users/${getState().user.userId}.json`, {
         method: 'PATCH',
         body: JSON.stringify({location: location})

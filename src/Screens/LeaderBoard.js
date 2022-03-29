@@ -16,12 +16,12 @@ const LeaderBoard = () => {
         <RankItem/>
         <RankItem/>
         <RankItem/>
-              <RankItem />
-              <RankItem />
-              <RankItem />
-              <RankItem />
-              <RankItem />
-              <RankItem />
+        <RankItem />
+        <RankItem />
+        <RankItem />
+        <RankItem />
+        <RankItem />
+        <RankItem />
       </ScrollView>
     </View>
     );

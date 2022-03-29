@@ -4,7 +4,7 @@ import MainTopTabs from "./MainTopTabs";
 import MainScreen from "../Screens/MainScreen";
 import AuthBanner from "../../assets/svg/AuthBanner";
 import { StatusBar, SafeAreaView} from "react-native";
-
+import AvatarsScreen from "../Screens/AvatarsScreen";
 
 const AuthStack = createNativeStackNavigator();
 const AuthNavigator = () => {
@@ -18,6 +18,7 @@ const AuthNavigator = () => {
         </SafeAreaView>)
       }}/>
       <AuthStack.Screen name="MainScreen" component={MainScreen}/>
+      <AuthStack.Screen name="AvatarsScreen" component={AvatarsScreen}/>
     </AuthStack.Navigator>
   );
 };
