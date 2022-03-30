@@ -21,6 +21,7 @@ export const signUp = (email, password, fullName, avatar) => {
         },
         body: JSON.stringify({
           points: 0,
+          accumulatedPoints: 0,
           coupons: [],
           location: '',
           fullName: fullName,

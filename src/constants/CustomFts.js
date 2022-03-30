@@ -2,6 +2,7 @@ import Logo from '../../assets/svg/Logo.svg';
 import RedeemedPointsView from "../Components/CustomUI/RedeemedPointsView";
 import { View, StyleSheet } from 'react-native';
 import { materials, materialInfo } from '../Data/items';
+import { baseFireBaseURL } from './Constants';
 export const identifyMaterial = (itemName) => {
     let res;
     console.log(itemName);
@@ -47,3 +48,23 @@ const styles = StyleSheet.create({
     marginRight: 16
   }
 });
+
+export const getLeaderBoard = async () => {
+  try {
+    const users = await fetch(baseFireBaseURL + '/users.json');
+    const usersDecoded = await users.json();
+    const usersArray = Object.entries(usersDecoded);
+    usersArray.sort((a, b) => _extractInfo(a).accumulatedPoints < _extractInfo(b).accumulatedPoints);
+    return usersArray;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const _extractId = (user) => {
+  return user[0];
+};
+export const _extractInfo = (user) => {
+  return user[1];
+}

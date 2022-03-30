@@ -3,21 +3,26 @@ import {View, StyleSheet, Image} from 'react-native';
 import CustomText from './CustomUI/CustomText';
 import Crown from '../../assets/svg/crown.svg';
 import Colors from "../constants/Colors";
+import { _extractInfo } from "../constants/CustomFts";
 
-const RankView = ({ rank}) => {
+const RankView = ({ topThree}) => {
+  const firstRank = topThree[0];
+  const secondRank = topThree[1];
+  const thirdRank = topThree[2];
+
   return (
     <View style={{alignItems: 'center', justifyContent:'flex-end'}}>
       <View style={{flexDirection: 'row'}}>
-        <Profile rank={3} />
-        <Profile rank={1} />
-        <Profile rank={2} />
+        <Profile rank={3} data={thirdRank}/>
+        <Profile rank={1} data={firstRank}/>
+        <Profile rank={2} data={secondRank}/>
       </View>
       <Stand/>
     </View>
   );
 };
 
-const Profile = ({rank}) => {
+const Profile = ({rank, data}) => {
   const dynamicStyles = useMemo(() => StyleSheet.create({
     container: {
       marginTop: rank === 2 ? 65 : rank === 3 ? 100 : 30,
@@ -34,7 +39,7 @@ const Profile = ({rank}) => {
       borderRadius: 50
     },
   }),[rank]);
-
+  const currentUser = _extractInfo(data);
   return (
     <View style={dynamicStyles.container}>
       {rank === 1 ? <View style={styles.crownStyle}>
@@ -42,11 +47,11 @@ const Profile = ({rank}) => {
         </View>
           : null}
       <View style={[styles.rankView, dynamicStyles.rankView]}>  
-        <Image source={{ uri: "https://img.favpng.com/19/16/1/computer-icons-png-favpng-t9NV5RQ9SB5GzU4r1kPEMaM3W.jpg" }} style={dynamicStyles.imageStyle} resizeMode='cover' />
+        <Image source={{ uri: currentUser?.avatar }} style={dynamicStyles.imageStyle} resizeMode='cover' />
         <CustomText style={{ marginTop: 5 }} bold={true} color='black' fontSize={15}>
-          Sharif Fahes
+          {currentUser?.fullName}
         </CustomText>
-        <CustomText fontSize={12} bold={true} color='#aaa'>2k pts</CustomText>
+        <CustomText fontSize={12} bold={true} color='#aaa'>{currentUser?.accumulatedPoints} pts</CustomText>
       </View>
     </View>
   );

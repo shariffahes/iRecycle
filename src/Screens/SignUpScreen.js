@@ -13,6 +13,8 @@ import LeftArrow from '../../assets/svg/LeftArrow.svg';
 import { baseFireBaseURL } from "../constants/Constants";
 import BackIcon from '../../assets/svg/BackIcon.svg';
 import { SafeAreaView } from "react-native-safe-area-context";
+import UIProgressBar from "../Components/CustomUI/UIProgressBar";
+import CustomText from "../Components/CustomUI/CustomText";
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -65,6 +67,8 @@ const SignUpScreen = ({navigation}) => {
               <CardTitleText style={styles.title}>
                 Become Part of The Change.
               </CardTitleText>
+              <UIProgressBar progressValue={(pageIndex + 1) * 0.5}/>
+              <CustomText fontSize={14} style={{alignSelf: 'flex-end', marginBottom: 8}} color='#000'>Step {pageIndex + 1}</CustomText>
             </View>
          {pageIndex === 0 ? <FirstForm setConfirmPasswordHandler={setConfirmPasswordHandler} 
                               setEmailHandler={setEmailHandler} setPasswordHandler={setPasswordHandler} onNextPagePressed={() => {setIndex(1)}}
@@ -91,16 +95,15 @@ const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPassw
         value={password}/>
       <InputBar icon="lock-closed-outline" keyboardType="default" placeholder="Confirm Password" 
         secureTextBool={true} autoCapitalize="none" onChangeTextHandler={setConfirmPasswordHandler} value={confirmPassword}/>
-      <TouchableOpacity style={{width: width, alignItems: 'flex-end', marginRight: 45}} onPress={onNextPagePressed}>
-        <RightArrow height={35} width={35} />
-      </TouchableOpacity>
+      <CustomButton
+        title="Next"
+        style={styles.button}
+        onPressHandler={onNextPagePressed}/>
     </View>
   );
 };
 
-const SecondForm = ({onSubmit, isLoading, setFullName, goBack, avatar, fullName, setAvatar, navigation}) => {
-  const {width} = useWindowDimensions();
-  
+const SecondForm = ({onSubmit, isLoading, setFullName, goBack, avatar, fullName, setAvatar, navigation}) => {  
   return (
     <View style={{alignItems: 'center', justifyContent: 'center' }}>
       <View style={{height: 120, width: 120, borderRadius: 60}}>
@@ -111,16 +114,21 @@ const SecondForm = ({onSubmit, isLoading, setFullName, goBack, avatar, fullName,
       </View>
       <InputBar icon="person-outline" placeholder="Full Name"
         autoCapitalize="none" onChangeTextHandler={setFullName} value={fullName}/>
-      <TouchableOpacity style={{ width: width, alignItems: 'flex-start', marginLeft: 45}}
-        onPress={goBack}>
-        <LeftArrow height={30} width={30} />
-      </TouchableOpacity>
-      <CustomButton
-        title="Join Us!"
-        style={styles.button}
-        onPressHandler={onSubmit}
-        loading={isLoading}/>
-      <Text style={styles.quote}>Keep on Recycling!</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'center', width: '90%'}}>
+        <CustomButton
+          title="Back"
+          style={[styles.button, {flex: 0.4, backgroundColor: 'black'}]}
+          onPressHandler={goBack}/>
+        <View style={{flex: 1 }}>
+          <CustomButton
+            title="Join Us!"
+            style={[styles.button]}
+            onPressHandler={onSubmit}
+            loading={isLoading} />
+          <Text style={styles.quote}>Keep on Recycling!</Text>
+        </View>
+      </View>
+      
     </View>
   );
 };
@@ -139,10 +147,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleContainer: {
-    flexDirection: "row",
-    marginVertical: 20,
+    flexDirection: "column",
+    marginTop: 20,
     justifyContent: "flex-start",
-    width: "80%",
+    width: "85%",
   },
   title: {
     fontSize: 25,
@@ -152,12 +160,13 @@ const styles = StyleSheet.create({
     width: 200,
     borderRadius: 40,
     height: 50,
-    marginTop: 30,
+    marginTop: 20,
   },
   quote: {
     fontSize: 10,
     color: Colors.green,
     fontStyle: "italic",
+    alignSelf: 'center'
   },
 });
 
