@@ -63,8 +63,10 @@ export const getLeaderBoard = async () => {
 };
 
 export const _extractId = (user) => {
+  if (!user) return null;
   return user[0];
 };
 export const _extractInfo = (user) => {
+  if(!user) return {};
   return user[1];
 }

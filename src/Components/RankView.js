@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import {View, StyleSheet, Image} from 'react-native';
+import React, { useEffect, useMemo, useRef } from "react";
+import {View, StyleSheet, Image, Animated} from 'react-native';
 import CustomText from './CustomUI/CustomText';
 import Crown from '../../assets/svg/crown.svg';
 import Colors from "../constants/Colors";
@@ -57,10 +57,10 @@ const Profile = ({rank, data}) => {
   );
 };
 const Stand = () => {
+  const rank1HeightValue = useRef(new Animated.Value(0)).current;
+  const rank2HeightValue = useRef(new Animated.Value(0)).current;
+  const rank3HeightValue = useRef(new Animated.Value(0)).current;
   const dynamicStyles = useMemo(() => StyleSheet.create({
-    stand: {
-      height: 60
-    },
     standTop: {
       width: 100,
       position: 'absolute',
@@ -68,22 +68,42 @@ const Stand = () => {
       top: -30
     }
   }), []);
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(rank1HeightValue, {
+        toValue: 110,
+        duration: 2000,
+        useNativeDriver: false
+      }),
+      Animated.timing(rank2HeightValue, {
+        toValue: 80,
+        duration: 2000,
+        useNativeDriver: false
+      }),
+      Animated.timing(rank3HeightValue, {
+        toValue: 60,
+        duration: 2000,
+        useNativeDriver: false
+      })
+    ]).start();
+  }, []);
   return (
     <View style={{flexDirection: 'row'}}>
-    <View style={[styles.stand, dynamicStyles.stand,
+    <Animated.View style={[styles.stand, 
         { transform: [{ rotateZ: -0.3 }],
-          backgroundColor: 'rgba(0,0,180,1)', position: 'absolute', bottom: -20, left: -80}]}>
+          backgroundColor: 'rgba(0,0,180,1)', position: 'absolute', bottom: -20, left: -80, 
+          height: rank3HeightValue}]}>
       <View style={[dynamicStyles.standTop, {backgroundColor: 'rgba(50,50,180,0.5)'}]}/>
       <CustomText fontSize={27} bold={true}>{3}</CustomText>
-    </View>
-    <View style={[styles.stand, dynamicStyles.stand, {backgroundColor: 'rgba(235,190,0,1)', zIndex: 100, height: 110}]}>
+    </Animated.View>
+    <Animated.View style={[styles.stand, dynamicStyles.stand, {backgroundColor: 'rgba(235,190,0,1)', zIndex: 100, height: rank1HeightValue}]}>
       <View style={[dynamicStyles.standTop, {backgroundColor: 'rgba(240,190,90,0.7)'}]} />
       <CustomText fontSize={27} bold={true}>{1}</CustomText>
-    </View>
-    <View style={[styles.stand, dynamicStyles.stand, { transform: [{ rotateZ: 0.2 }], backgroundColor: 'rgba(0,180,0,1)', position: 'absolute', bottom: -10, right: -90, height: 80 }]}>
+    </Animated.View >
+    <Animated.View style={[styles.stand, dynamicStyles.stand, { transform: [{ rotateZ: 0.2 }], backgroundColor: 'rgba(0,180,0,1)', position: 'absolute', bottom: -10, right: -90, height: rank2HeightValue }]}>
       <View style={[dynamicStyles.standTop, {backgroundColor:  'rgba(50,180,50,0.5)'}]} />
       <CustomText fontSize={27} bold={true}>{2}</CustomText>
-    </View>
+    </Animated.View>
     </View>
   );
 };
