@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import {View, StyleSheet, Image, Animated} from 'react-native';
 import CustomText from './CustomUI/CustomText';
-import Crown from '../../assets/svg/crown.svg';
-import Colors from "../constants/Colors";
 import { _extractInfo } from "../constants/CustomFts";
 
 const RankView = ({ topThree}) => {
@@ -26,7 +24,7 @@ const Profile = ({rank, data}) => {
   const dynamicStyles = useMemo(() => StyleSheet.create({
     container: {
       marginTop: rank === 2 ? 65 : rank === 3 ? 100 : 30,
-      alignItems: 'center'
+      alignItems: 'center',
     },
     rankView: {
       borderColor: rank === 1 ? 'gold' : rank === 2 ? 'green' : 'blue',
@@ -42,10 +40,8 @@ const Profile = ({rank, data}) => {
   const currentUser = _extractInfo(data);
   return (
     <View style={dynamicStyles.container}>
-      {rank === 1 ? <View style={styles.crownStyle}>
-          <Crown width={50} height={50} />
-        </View>
-          : null}
+      {rank === 1 ? <View style={{transform: [{rotateZ: -0.5}]}}><Image source={require('../../assets/gif/crown.gif')} style={styles.crownStyle} resizeMode='cover' /></View>
+                  : null}
       <View style={[styles.rankView, dynamicStyles.rankView]}>  
         <Image source={{ uri: currentUser?.avatar }} style={dynamicStyles.imageStyle} resizeMode='cover' />
         <CustomText style={{ marginTop: 5 }} bold={true} color='black' fontSize={15}>
@@ -72,17 +68,17 @@ const Stand = () => {
     Animated.parallel([
       Animated.timing(rank1HeightValue, {
         toValue: 110,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: false
       }),
       Animated.timing(rank2HeightValue, {
         toValue: 80,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: false
       }),
       Animated.timing(rank3HeightValue, {
         toValue: 60,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: false
       })
     ]).start();
@@ -124,10 +120,11 @@ const styles = StyleSheet.create({
     width: 100,
   },
   crownStyle: {
-    transform: [{rotateZ: 0.5}],
     position: 'absolute',
-    top: -25,
-    right: -4,
+    width: 50,
+    height: 50,
+    top: -50,
+    right: 7,
     zIndex: 100
   }
 });
