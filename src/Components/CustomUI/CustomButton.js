@@ -9,9 +9,10 @@ import {
 import Colors from "../../constants/Colors";
 import CustomText from "./CustomText";
 
-const CustomButton = ({ onPressHandler, title, style, loading, children }) => {
+const CustomButton = ({ onPressHandler, title, style, loading, children, disabled }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       onPress={onPressHandler}
       style={[styles.buttonStyle, style]}
     >

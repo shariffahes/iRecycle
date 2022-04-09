@@ -19,8 +19,8 @@ const renderScreenOptions = ({route}) => ({
         return <MapIcon color={color} size={size}/>
       case "Store":
         return <StoreIcon color={color} size={size} />
-      case 'Request':
-        return <RequestIcon color={color} size={size} />
+      case 'Discover':
+        return <DiscoverIcon color={color} size={size} />
       case "LeaderBoard":
         return <LBIcon color={color} height={size} width={size}/>
       case "Menu":
@@ -39,8 +39,8 @@ const MapIcon = ({size, color}) => {
 const StoreIcon = ({ size, color }) => {
     return <Entypo size={size} name="shop" color={color} />
 };
-const RequestIcon = ({ size, color }) => {
-    return <Entypo size={size} name="message" color={color} />
+const DiscoverIcon = ({ size, color }) => {
+    return <Entypo size={size} name="compass" color={color} />
 };
 const MenuIcon = ({ size, color }) => {
   return <Entypo size={size} name="menu" color={color} />
@@ -50,9 +50,10 @@ const BottomNavBar = () => {
     return (
         <BottomStack.Navigator screenOptions={renderScreenOptions}>
             <BottomStack.Screen name="Map" component={HomeStack}
-              options={{headerShown: false}} />
+              options={{headerShown: false, tabBarShowLabel: false}} />
             <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
-            <BottomStack.Screen name="Request" component={RequestScreen} options={renderHeaderOptions({applyMargin: true})}/>
+        <BottomStack.Screen name="Discover" component={RequestScreen} options={{ ...
+            renderHeaderOptions({ applyMargin: true }), headerShown: true }}/>
             <BottomStack.Screen name="LeaderBoard" component={LeaderBoard} options={renderHeaderOptions({applyMargin: true})}/>
             <BottomStack.Screen name="Menu" component={MenuStack} options={{...renderHeaderOptions({applyMargin: true}), headerShown: false}}/>
         </BottomStack.Navigator>
