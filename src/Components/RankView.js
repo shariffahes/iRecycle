@@ -40,7 +40,7 @@ const Profile = ({rank, data}) => {
   const currentUser = _extractInfo(data);
   return (
     <View style={dynamicStyles.container}>
-      {rank === 1 ? <View style={{transform: [{rotateZ: -0.5}]}}><Image source={require('../../assets/gif/crown.gif')} style={styles.crownStyle} resizeMode='cover' /></View>
+      {rank === 1 ? <View style={{transform: [{rotateZ: "-25deg"}]}}><Image source={require('../../assets/gif/crown.gif')} style={styles.crownStyle} resizeMode='cover' /></View>
                   : null}
       <View style={[styles.rankView, dynamicStyles.rankView]}>  
         <Image source={{ uri: currentUser?.avatar }} style={dynamicStyles.imageStyle} resizeMode='cover' />
@@ -86,7 +86,7 @@ const Stand = () => {
   return (
     <View style={{flexDirection: 'row'}}>
     <Animated.View style={[styles.stand, 
-        { transform: [{ rotateZ: -0.3 }],
+        { transform: [{ rotateZ: "-25deg" }],
           backgroundColor: 'rgba(0,0,180,1)', position: 'absolute', bottom: -20, left: -80, 
           height: rank3HeightValue}]}>
       <View style={[dynamicStyles.standTop, {backgroundColor: 'rgba(50,50,180,0.5)'}]}/>
@@ -96,7 +96,7 @@ const Stand = () => {
       <View style={[dynamicStyles.standTop, {backgroundColor: 'rgba(240,190,90,0.7)'}]} />
       <CustomText fontSize={27} bold={true}>{1}</CustomText>
     </Animated.View >
-    <Animated.View style={[styles.stand, dynamicStyles.stand, { transform: [{ rotateZ: 0.2 }], backgroundColor: 'rgba(0,180,0,1)', position: 'absolute', bottom: -10, right: -90, height: rank2HeightValue }]}>
+    <Animated.View style={[styles.stand, dynamicStyles.stand, { transform: [{ rotateZ: "20deg" }], backgroundColor: 'rgba(0,180,0,1)', position: 'absolute', bottom: -10, right: -90, height: rank2HeightValue }]}>
       <View style={[dynamicStyles.standTop, {backgroundColor:  'rgba(50,180,50,0.5)'}]} />
       <CustomText fontSize={27} bold={true}>{2}</CustomText>
     </Animated.View>

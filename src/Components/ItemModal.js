@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import {
   View,
   StyleSheet,
   Modal,
   TouchableOpacity,
   Image,
+  Animated
 } from "react-native";
 import CustomText from "./CustomUI/CustomText";
 import CardTitleText from "./CustomUI/CardTitleText";
@@ -12,33 +13,19 @@ import CustomButton from "./CustomUI/CustomButton";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 import Logo from "../../assets/svg/Logo.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { addCoupon, invalidateCoupon } from "../Store/Actions/user";
+import { addCoupon } from "../Store/Actions/user";
 import Toast from 'react-native-toast-message';
-import { toastConfig } from "../constants/toastConfig";
 
 const ItemModal = ({
-  onPressHandler,
   modalVisible,
   closeDetails,
-  index,
-  ...rest
+  index
 }) => {
   const product = useSelector((state) => state.prod.products[index]);
   const userPoints = useSelector(state => state.user.points);
-  const coupons = useSelector(state => state.user.coupons);
   const dispatch = useDispatch();
-
+  const canClaim = useMemo(() => userPoints >= product.pointExchange,[userPoints, product])
   const _onClaimHandler = useCallback(() => {
-    if(userPoints < product.pointExchange) {
-      Toast.show({
-        type: 'noEnoughPoints',
-        position: 'bottom',
-        bottomOffset: 520,
-        autoHide: true,
-        visibilityTime: 2500
-      });
-      return;
-    };
     dispatch(addCoupon(product.pointExchange, product.company, product.logo, product.title));
     closeDetails();
   }, [dispatch, userPoints, product, addCoupon]);
@@ -68,7 +55,7 @@ const ItemModal = ({
             </View>
             <CustomButton
               title={`Claim For`}
-              style={styles.button} onPressHandler={_onClaimHandler}>
+              style={[styles.button, !canClaim && styles.disabledButton]} onPressHandler={_onClaimHandler} disabled={!canClaim}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <CustomText bold={true} style={{ marginHorizontal: 8 }}>
                   {product.pointExchange}
@@ -89,12 +76,16 @@ const ItemModal = ({
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "rgba(0,0,0,0)",
+    backgroundColor: "rgb(0,0,0)",
+    opacity: 0,
     flex: 1,
     right: 0,
     left: 0,
     bottom: 0,
     top: 0,
+  },
+  disabledButton: {
+    backgroundColor: 'grey'
   },
   centeredView: {
     zIndex: 10,

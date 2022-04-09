@@ -1,8 +1,9 @@
 import Logo from '../../assets/svg/Logo.svg';
 import RedeemedPointsView from "../Components/CustomUI/RedeemedPointsView";
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { materials, materialInfo } from '../Data/items';
 import { baseFireBaseURL } from './Constants';
+import CustomText from '../Components/CustomUI/CustomText';
 export const identifyMaterial = (itemName) => {
     let res;
     console.log(itemName);
@@ -26,7 +27,8 @@ export const renderHeaderOptions = ({applyMargin}) => {
     headerRight: () => <View style={applyMargin && styles.rightStyles}>
                          <RedeemedPointsView/>
                        </View>,
-    title: ''
+    title: '',
+    tabBarShowLabel: false
   });
 };
 

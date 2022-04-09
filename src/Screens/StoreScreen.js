@@ -19,20 +19,17 @@ const StoreScreen = () => {
 
   const [selectedItemIndex, setItemIndex] = useState(null);
 
-  //  console.log(selectedItemIndex)
-  //  console.log(modalVisible)
-
   const renderItem = ({ item, index }) => (
     <InfoCard
       title={item.title}
       coins={item.pointExchange}
       discount={item.discount}
       image={item.image}
+      logo={item.logo}
       onPressHandler={() => {
         setModalVisible(true);
         setItemIndex(index);
-      }}
-    ></InfoCard>
+      }}/>
   );
 
   return (

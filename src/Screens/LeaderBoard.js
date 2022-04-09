@@ -27,7 +27,7 @@ const LeaderBoard = () => {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%'}}>
         <View style={{ height: 90, width: 90, borderRadius: 17, backgroundColor: '#ddd', alignItems: 'center', justifyContent: 'center' }}>
-          <ActivityIndicator color='#000' size='large'/>
+          <Image source={require('../../assets/gif/JudgeLoad.gif')} resizeMode='contain' style={{width: '100%', height: '100%', marginLeft: 20}}/>
         </View>
       </View>
     );

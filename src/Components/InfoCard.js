@@ -2,14 +2,11 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  ImageBackground,
-  Text,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import RedeemedPointsViewVertical from "./CustomUI/RedeemedPointsViewVertical";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
 
 const InfoCard = ({
   onPressHandler,
@@ -17,6 +14,7 @@ const InfoCard = ({
   coins,
   discount,
   image,
+  logo,
   section,
   ...rest
 }) => {
@@ -25,28 +23,19 @@ const InfoCard = ({
       {...rest}
       style={styles.card}
       onPress={onPressHandler}
-      activeOpacity="0.9"
-    >
-      <ImageBackground
-        style={styles.image}
-        resizeMode="cover"
-        imageStyle={{ borderRadius: 8 }}
-        source={{uri: image}}
-      >
+      activeOpacity="0.9">
+      <View style={styles.headerInfo}>
+        <Image source={{ uri: logo}} style={styles.icon}/>
         <View style={styles.redeemPointsContainer}>
           <RedeemedPointsViewVertical coins={coins} discount={discount} />
         </View>
-
-        <View style={styles.bottom}>
-          <View style={styles.info}>
-            <CustomText>{title}</CustomText>
-          </View>
-          <View style={styles.cart}>
-            <CustomText bold={true}>- {discount}%</CustomText>
-            <Ionicons name="cart-outline" size={25} color={Colors.green} />
-          </View>
-        </View>
-      </ImageBackground>
+      </View>
+      <View style={styles.middleSection}>
+        <Image source={{uri: image}} resizeMode='cover' style={styles.image}/>
+      </View>
+      <View style={styles.footerSection}>
+        <CustomText color='#000' fontSize={16} bold={true}>{title}</CustomText>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -58,9 +47,11 @@ const styles = StyleSheet.create({
     width: "45%",
     shadowColor: "black",
     shadowOpacity: 0.2,
-    shadowOffset: { width: 1, height: 5 },
+    shadowOffset: { width: 2, height: 5 },
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: 12,
+    height: 210,
+    padding: 5,
     margin: 10,
   },
   redeemPointsContainer: {
@@ -68,34 +59,27 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-end",
   },
-
-  bottom: {
-    flexDirection: "row",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    height: "20%",
-    alignItems: "center",
-    justifyContent: "space-between",
+  middleSection: {
+    flex: 0.9,
+    width: '100%',
+    marginVertical: 5,
+    padding: 5
   },
-
-  info: {
-    opacity: 1,
-    padding: 5,
-    width:100
+  icon: {
+    height: 35,
+    width: 50,
+    backgroundColor: 'white',
+    resizeMode: 'cover'
   },
-
+  headerInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   image: {
-    width: "100%",
-    height: 300,
-    marginHorizontal: 40,
-    justifyContent: "flex-end",
+    width: '100%',
+    height: '100%',
     borderRadius: 8,
-  },
-  cart: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 5,
   },
 });
 

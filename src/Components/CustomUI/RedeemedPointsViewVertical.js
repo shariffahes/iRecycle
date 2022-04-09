@@ -1,7 +1,6 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import CurrencyCoin from "../../../assets/svg/CurrencyCoin.svg";
-import HDivider from "../../../assets/svg/HorizontalDivider.svg";
 import CustomText from "./CustomText";
 import Colors from "../../constants/Colors";
 
@@ -10,7 +9,7 @@ const RedeemedPointsViewVertical = ({coins, discount }) => {
     <View style={styles.mainContainer}>
       <View style={styles.coin}>
         <CurrencyCoin />
-        <CustomText fontSize={18} bold={true}>{coins}</CustomText>
+        <CustomText style={{marginLeft: 4}} fontSize={15} bold={true}>{coins}</CustomText>
       </View>
     </View>
   );
@@ -21,13 +20,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     backgroundColor: Colors.greenFaded,
-    height: 40,
-    width:60,
-    borderRadius: 10,
+    height: 30,
+    width:50,
+    borderRadius: 8,
     marginBottom: 3,
     marginRight: 3,
     marginTop:10,
-    
+    padding: 7
   },
   coin:{
     flexDirection:"row",
