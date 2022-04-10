@@ -1,11 +1,20 @@
-import React from "react";
-import { View, StyleSheet } from 'react-native';
+import React, {useEffect, useRef} from "react";
+import { View, StyleSheet, Animated, useWindowDimensions} from 'react-native';
 import Colors from "../../constants/Colors";
 
 const UIProgressBar = ({progressValue}) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const {width} = useWindowDimensions();
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: progressValue * (width * 0.85),
+      duration: 600,
+      useNativeDriver: false
+    }).start()
+  }, [progressValue])
   return (
     <View style={styles.mainBar}>
-        <View style={[styles.backgroundBar, {width: progressValue * 100 + '%'}]} />
+        <Animated.View style={[styles.backgroundBar, {width: animatedValue}]} />
     </View>
   );
 };

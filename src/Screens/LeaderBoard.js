@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import CustomText from "../Components/CustomUI/CustomText";
 import RankView from "../Components/RankView";
@@ -8,6 +8,7 @@ import DownArrow from '../../assets/svg/DownArrow.svg';
 import Colors from "../constants/Colors";
 import { getLeaderBoard, _extractId, _extractInfo } from "../constants/CustomFts";
 import { useSelector } from "react-redux";
+import { SvgUri } from "react-native-svg";
 
 const LeaderBoard = () => {
   const [isLoading , setLoading] = useState(true);
@@ -52,6 +53,11 @@ const LeaderBoard = () => {
 
 const RankItem = ({points, avatar, name, rank, rankId}) => {
   const userId = useSelector(state => state.user.userId);
+  const [avtr, setAvtr] = useState(null);
+  useEffect(() => {
+    const t = setTimeout(() => setAvtr(avatar), 1000);
+    return () => clearTimeout(t);
+  }, [avatar]);
   return (
     <View style={[styles.rankItemContainer,
       { backgroundColor: userId === rankId ? 'rgba(0, 200, 25, 0.2)' 
@@ -63,7 +69,7 @@ const RankItem = ({points, avatar, name, rank, rankId}) => {
       <View style={styles.leftContainer}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View style={styles.circle}> 
-          <Image source={{uri: avatar}} style={styles.imageStyle} resizeMode='cover'/>
+          <SvgUri uri={avtr} height='100%' width='100%'/>
         </View>
        <CustomText bold={true} fontSize={15} color='black'>{name}</CustomText>
       </View>
@@ -112,14 +118,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 8
   },
-  imageStyle: {
-    height: '100%',
-    width: '100%',
-    borderRadius: 20
-  },
   circle: {
     height: 50,
     width: 50,
+    overflow: 'hidden',
     borderRadius: 25,
     marginRight: 10,
     backgroundColor: 'red'

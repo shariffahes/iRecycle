@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {View, StyleSheet, Image, Animated} from 'react-native';
 import CustomText from './CustomUI/CustomText';
 import { _extractInfo } from "../constants/CustomFts";
+import { SvgUri } from "react-native-svg";
 
 const RankView = ({ topThree}) => {
   const firstRank = topThree[0];
@@ -31,19 +32,21 @@ const Profile = ({rank, data}) => {
       height: rank === 1 ? 100 : rank === 2 ? 85 : 75,
       width: rank === 1 ? 100 : rank === 2 ? 85 : 75,
     },
-    imageStyle: {
-      height: '100%',
-      width: '100%',
-      borderRadius: 50
-    },
   }),[rank]);
   const currentUser = _extractInfo(data);
+  const [avtr, setAvtr] = useState(null);
+  useEffect(() => {
+    const t = setTimeout(() => setAvtr(currentUser?.avatar), 1000);
+    return () => clearTimeout(t);
+  }, [currentUser]);
   return (
     <View style={dynamicStyles.container}>
       {rank === 1 ? <View style={{transform: [{rotateZ: "-25deg"}]}}><Image source={require('../../assets/gif/crown.gif')} style={styles.crownStyle} resizeMode='cover' /></View>
                   : null}
       <View style={[styles.rankView, dynamicStyles.rankView]}>  
-        <Image source={{ uri: currentUser?.avatar }} style={dynamicStyles.imageStyle} resizeMode='cover' />
+        <View style={{overflow: 'hidden', borderRadius: 50, height: '100%', width: '100%'}}>
+          <SvgUri uri={avtr} height='100%' width='100%' />
+        </View>
         <CustomText style={{ marginTop: 5 }} bold={true} color='black' fontSize={15}>
           {currentUser?.fullName}
         </CustomText>
@@ -68,17 +71,17 @@ const Stand = () => {
     Animated.parallel([
       Animated.timing(rank1HeightValue, {
         toValue: 110,
-        duration: 1000,
+        duration: 900,
         useNativeDriver: false
       }),
       Animated.timing(rank2HeightValue, {
         toValue: 80,
-        duration: 1000,
+        duration: 900,
         useNativeDriver: false
       }),
       Animated.timing(rank3HeightValue, {
         toValue: 60,
-        duration: 1000,
+        duration: 900,
         useNativeDriver: false
       })
     ]).start();

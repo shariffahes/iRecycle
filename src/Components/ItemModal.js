@@ -5,7 +5,6 @@ import {
   Modal,
   TouchableOpacity,
   Image,
-  Animated
 } from "react-native";
 import CustomText from "./CustomUI/CustomText";
 import CardTitleText from "./CustomUI/CardTitleText";
@@ -14,7 +13,6 @@ import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
 import Logo from "../../assets/svg/Logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addCoupon } from "../Store/Actions/user";
-import Toast from 'react-native-toast-message';
 
 const ItemModal = ({
   modalVisible,

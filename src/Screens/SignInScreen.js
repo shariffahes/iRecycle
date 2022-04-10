@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import {
     StyleSheet,
     View,
@@ -16,17 +16,17 @@ import * as Crypto from "expo-crypto";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from "../Store/Actions/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SignInScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
-
+    const isInputEmpty = useMemo(() => email.length == 0 || password.length == 0, [email, password])
     const setEmailHandler = (selectedEmail) => {
         setEmail(selectedEmail);
     };
-
     const onSubmit = useCallback(async () => {
       setLoading(true);
       const encryptedPassword = await Crypto.digestStringAsync(
@@ -40,53 +40,30 @@ const SignInScreen = () => {
       });
       
     }, [email, password, dispatch]);
-
     const setPasswordHandler = (selectedPassword) => {
         setPassword(selectedPassword);
     };
 
     return (
-        <ScrollView>
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
-        >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.screen}>
-                    <View style={styles.titleContainer}>
-                        <CardTitleText style={styles.title}>
-                            Log in your account.
-                        </CardTitleText>
-                    </View>
-                    <InputBar
-                        icon="mail-outline"
-                        keyboardType="email-address"
-                        placeholder="Email"
-                        autoCapitalize="none"
-                        onChangeTextHandler={setEmailHandler}
-                    ></InputBar>
-
-                    <InputBar
-                        icon="lock-closed-outline"
-                        keyboardType="default"
-                        placeholder="Password"
-                        secureTextBool={true}
-                        autoCapitalize="none"
-                        onChangeTextHandler={setPasswordHandler}
-                    ></InputBar>
-
-                    <CustomButton
-                        title="Log in"
-                        style={styles.button}
-                        onPressHandler={onSubmit}
-                        loading={isLoading}
-                    />
-
-                    <Text style={styles.quote}>Keep on Recycling!</Text>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-        </ScrollView>
+      <KeyboardAwareScrollView extraHeight={-10}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+           <View style={styles.screen}>
+              <View style={styles.titleContainer}>
+                <CardTitleText style={styles.title}>
+                   Log in your account.
+                </CardTitleText>
+              </View>
+              <InputBar icon="mail-outline" keyboardType="email-address" placeholder="Email" 
+                autoCapitalize="none" onChangeTextHandler={setEmailHandler}/>
+              <InputBar icon="lock-closed-outline" keyboardType="default" 
+                placeholder="Password" secureTextBool={true} autoCapitalize="none"
+                onChangeTextHandler={setPasswordHandler}/>
+              <CustomButton title="Log in" style={styles.button} onPressHandler={onSubmit}
+                loading={isLoading} disabled={isInputEmpty}/>
+              <Text style={styles.quote}>Keep on Recycling!</Text>
+            </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     );
 };
 

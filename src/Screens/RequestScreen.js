@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { StyleSheet, ImageBackground, View, useWindowDimensions } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useCallback, useEffect, useRef } from "react";
+import { StyleSheet, ImageBackground, View, Linking, useWindowDimensions, TouchableOpacity, ScrollView } from "react-native";
 import EntryHeader from '../../assets/svg/EntryHeader.svg'
 import CustomText from "../Components/CustomUI/CustomText";
-import {Video, AVPlaybackStatus} from 'expo-av';
+import {Video} from 'expo-av';
+
 const imagesURL = [
   "https://static.vecteezy.com/system/resources/previews/004/599/903/original/hand-putting-empty-plastic-bottle-to-trash-recycle-bin-cartoon-illustration-vector.jpg",
   "https://www.recyclingbins.co.uk/media/wysiwyg/Recycling_Mistakes.jpg",
@@ -14,7 +13,7 @@ const RequestScreen = () => {
   const video = useRef(null);
   const { height, width } = useWindowDimensions();
   useEffect(() => {
-    if(video) {
+    if(video.current) {
       video.current.playAsync();
     }
   }, [video]);
@@ -49,8 +48,13 @@ const renderSection = () => {
 };
 
 const ContentView = ({title, url, imageURL}) => {
+  const onArticleClick = useCallback(() => {
+    Linking.canOpenURL('https://sapphirevn.com/introduction-to-plastic-recycling/').then(_ => {
+      Linking.openURL('https://sapphirevn.com/introduction-to-plastic-recycling/');
+    })
+  }, []);
   return (
-    <View style={{alignItems: 'center', marginHorizontal: 6}}>
+    <TouchableOpacity style={{alignItems: 'center', marginHorizontal: 6}} onPress={onArticleClick}>
       <ImageBackground
         style={{width: 150, height: 130, borderRadius: 10}}
         imageStyle={{borderRadius: 10}}
@@ -59,7 +63,7 @@ const ContentView = ({title, url, imageURL}) => {
       <CustomText style={{marginTop: 5}} fontSize={16} bold={true} color='#000'>
         {title}
       </CustomText>
-    </View>
+    </TouchableOpacity>
   );
 }
 

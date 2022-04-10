@@ -12,7 +12,6 @@ export const signUp = (email, password, fullName, avatar) => {
       if(data.error?.message) _handleError(data.error.message);
       dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
-      console.log('completed');
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
       const response = await fetch(baseFireBaseURL + `/users/${data.localId}.json`, {
         method: 'PUT',
@@ -30,6 +29,7 @@ export const signUp = (email, password, fullName, avatar) => {
       });
       const serverPostResponse = await response.json();
       if (serverPostResponse.error?.message) _handleError(serverPostResponse.error?.message);
+      dispatch(populateUserData(data.localId));
     } catch (error) {
         throw error;
     }
@@ -44,7 +44,7 @@ export const logIn = (email, password) => {
       dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
-      dispatch(populateUserData(data.localId))
+      dispatch(populateUserData(data.localId));
     } catch (error) {
         console.log(error);
         throw error;
@@ -109,7 +109,6 @@ export const setData = (token, userId, expireTime) => {
       token: token,
     });
     dispatch(_setLogOutTimer(expireTime));
-    dispatch(populateUserData(userId));
   };
 };
 const _handleError = (errorRes) => {

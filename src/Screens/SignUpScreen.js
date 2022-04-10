@@ -1,20 +1,16 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, useWindowDimensions, Image, Modal } from "react-native";
+import React, { useState, useCallback, useMemo } from "react";
+import { StyleSheet, View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
 import * as Crypto from "expo-crypto";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch } from 'react-redux';
 import { signUp } from "../Store/Actions/auth";
-import RightArrow from '../../assets/svg/RightArrow.svg';
-import LeftArrow from '../../assets/svg/LeftArrow.svg';
-import { baseFireBaseURL } from "../constants/Constants";
-import BackIcon from '../../assets/svg/BackIcon.svg';
-import { SafeAreaView } from "react-native-safe-area-context";
 import UIProgressBar from "../Components/CustomUI/UIProgressBar";
 import CustomText from "../Components/CustomUI/CustomText";
+import { SvgUri } from "react-native-svg";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -22,7 +18,7 @@ const SignUpScreen = ({navigation}) => {
   const [isLoading,setLoading] = useState(false);
   const [pageIndex, setIndex] = useState(0);
   const [fullName, setFullName] = useState('');
-  const [avatar, setAvatar] = useState('https://ik.imagekit.io/zdphhwaxuat/iRecycle/profiles/Avatars/nerd-guy_dh-UfLDnN?ik-sdk-version=javascript-1.4.3&updatedAt=1648401816086');
+  const [avatar, setAvatar] = useState('https://ik.imagekit.io/zdphhwaxuat/iRecycle/profiles/Avatars/Memoji-19.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1649586249615');
   const dispatch = useDispatch();
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -47,7 +43,7 @@ const SignUpScreen = ({navigation}) => {
       console.log('password difference');
     }
     
-  }, [password]);
+  }, [password, confirmPassword, email, fullName, avatar]);
   const setPasswordHandler = (selectedPassword) => {
     setPassword(selectedPassword);
   };
@@ -56,11 +52,7 @@ const SignUpScreen = ({navigation}) => {
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
+      <KeyboardAwareScrollView style={styles.container} extraHeight={-100}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.screen}>
             <View style={styles.titleContainer}>
@@ -79,13 +71,14 @@ const SignUpScreen = ({navigation}) => {
                               navigation={navigation}/>}
           </View>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </KeyboardAwareScrollView>
   );
 };
 
 const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPasswordHandler, setConfirmPasswordHandler, onNextPagePressed}) => {
-  const {width} = useWindowDimensions();
+  const isInputEmpty = useMemo(() => {
+    return email.length == 0 || password.length == 0 || confirmPassword.length == 0
+  }, [email, confirmPassword, password]);
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <InputBar icon="mail-outline" keyboardType="email-address" placeholder="Email" 
@@ -96,6 +89,7 @@ const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPassw
       <InputBar icon="lock-closed-outline" keyboardType="default" placeholder="Confirm Password" 
         secureTextBool={true} autoCapitalize="none" onChangeTextHandler={setConfirmPasswordHandler} value={confirmPassword}/>
       <CustomButton
+        disabled={isInputEmpty}
         title="Next"
         style={styles.button}
         onPressHandler={onNextPagePressed}/>
@@ -104,12 +98,16 @@ const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPassw
 };
 
 const SecondForm = ({onSubmit, isLoading, setFullName, goBack, avatar, fullName, setAvatar, navigation}) => {  
+  const onSetAvatarHandler = useCallback((avtr) => {
+    setAvatar(avtr);
+  }, [setAvatar])
   return (
     <View style={{alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{height: 120, width: 120, borderRadius: 60}}>
+      <View style={{height: 120, width: 120, backgroundColor: '#bbb', borderRadius: 60, overflow: 'hidden'}}>
         <TouchableWithoutFeedback 
-          onPress={() => navigation.navigate('AvatarsScreen', {setAvatar: setAvatar})}>
-          <Image source={{ uri: avatar }} resizeMode='cover' style={{ width: '100%', height: '100%'}}/>
+          style={{alignItems: 'center', justifyContent: 'center',}}
+          onPress={() => navigation.navigate('AvatarsScreen', {setAvatar: onSetAvatarHandler})}>
+          <SvgUri uri={avatar} width='100%' height='100%'/>
         </TouchableWithoutFeedback>
       </View>
       <InputBar icon="person-outline" placeholder="Full Name"

@@ -52,9 +52,9 @@ const BottomNavBar = () => {
             <BottomStack.Screen name="Map" component={HomeStack}
               options={{headerShown: false, tabBarShowLabel: false}} />
             <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
-        <BottomStack.Screen name="Discover" component={RequestScreen} options={{ ...
-            renderHeaderOptions({ applyMargin: true }), headerShown: true }}/>
-            <BottomStack.Screen name="LeaderBoard" component={LeaderBoard} options={renderHeaderOptions({applyMargin: true})}/>
+        <BottomStack.Screen name="Discover" component={RequestScreen} options={
+            renderHeaderOptions({ applyMargin: true })}/>
+        <BottomStack.Screen name="LeaderBoard" component={LeaderBoard} options={{ ...renderHeaderOptions({ applyMargin: true }), unmountOnBlur: true}}/>
             <BottomStack.Screen name="Menu" component={MenuStack} options={{...renderHeaderOptions({applyMargin: true}), headerShown: false}}/>
         </BottomStack.Navigator>
     );

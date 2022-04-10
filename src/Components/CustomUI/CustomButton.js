@@ -14,7 +14,7 @@ const CustomButton = ({ onPressHandler, title, style, loading, children, disable
     <TouchableOpacity
       disabled={disabled}
       onPress={onPressHandler}
-      style={[styles.buttonStyle, style]}
+      style={[styles.buttonStyle,disabled && {backgroundColor: 'grey'}, style]}
     >
       {loading ? (
         <ActivityIndicator color="#fff" />
