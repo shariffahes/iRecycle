@@ -43,7 +43,9 @@ const CouponScreen = () => {
           </View>
           <View style={[styles.circle, styles.circle2]}></View>
         </View>
-        <View style={styles.barcode}></View>
+        <View style={styles.barcode}>
+          <Image style={{width:"75%",height:"90%",}} source={{uri:"https://barcode.tec-it.com/barcode.ashx?data=iRecycle&code=&translate-esc=true&dpi=100&imagetype=Png"}}></Image>
+        </View>
       </View>
     </View>
   );
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
   },
   barcode: {
     height: "20%",
+    alignItems:"center"
   },
   circle: {
     backgroundColor: "#f2f2f2",
