@@ -1,42 +1,55 @@
 import React, { useSelector } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import CustomText from "./CustomUI/CustomText";
 
-const Coupon = ({ title, coins, expiryDate, discount, image, style, ...rest }) => {
+const Coupon = ({
+  title,
+  coins,
+  expiryDate,
+  discount,
+  image,
+  style,
+  onPressHandler,
+  navigation,
+  ...rest
+}) => {
   return (
-    <ImageBackground
-      style={[styles.container,style]}
-      resizeMode="cover"
-      imageStyle={{ borderRadius: 20 }}
-      source={{ uri: image }}
-      {...rest}
-    >
-      <View>
-        <View style={styles.title}>
-          <CustomText
-            color={"black"}
-            fontSize={25}
-            bold={true}
-            style={{ letterSpacing: 1.5 }}
-          >
-            {title}
-          </CustomText>
-        </View>
-        {discount !== undefined ? (
-          <CustomText>
-            Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
-            {title}!
-          </CustomText>
-        ) : null}
-      </View>
-      {expiryDate !== undefined ? (
+    <TouchableOpacity onPress={()=> navigation.navigate("Coupon")}>
+      <ImageBackground
+        style={[styles.container, style]}
+        resizeMode="cover"
+        imageStyle={{ borderRadius: 20 }}
+        source={{ uri: image }}
+        {...rest}
+      >
         <View>
-          <CustomText bold={true} style={styles.expiry}>
-            {expiryDate} days left.
-          </CustomText>
+          <View style={styles.title}>
+            <CustomText
+              color={"black"}
+              fontSize={25}
+              bold={true}
+              style={{ letterSpacing: 1.5 }}
+            >
+              {title}
+            </CustomText>
+          </View>
+          {discount !== undefined ? (
+            <CustomText>
+              Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
+              {title}!
+            </CustomText>
+          ) : null}
         </View>
-      ) : null}
-    </ImageBackground>
+        {expiryDate !== undefined ? (
+          <View>
+            <CustomText bold={true} style={styles.expiry}>
+              {expiryDate} days left.
+            </CustomText>
+          </View>
+        ) : null}
+      </ImageBackground>
+    </TouchableOpacity>
   );
 };
 

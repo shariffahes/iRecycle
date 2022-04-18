@@ -4,7 +4,7 @@ import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
 import Coupon from "../Components/Coupon";
 import { useSelector } from "react-redux";
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const coupons = useSelector(state => state.user.coupons);
   
   const arr = [
@@ -43,6 +43,7 @@ const ProfileScreen = () => {
                     expiryDate={coupon.expiryDate}
                     discount={coupon.discount}
                     image={coupon.image}
+                    navigation={navigation}
                   />
                 </View>
               );
