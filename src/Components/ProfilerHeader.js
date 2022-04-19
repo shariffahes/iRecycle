@@ -4,11 +4,14 @@ import CustomText from "../Components/CustomUI/CustomText";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import CurrencyCoin from "./../../assets/svg/CurrencyCoin.svg";
+import { SvgUri } from "react-native-svg";
 
-const ProfileHeader = ({ name, points, ...rest }) => {
+const ProfileHeader = ({ name, points, avatar, ...rest }) => {
   return (
     <View style={styles.header} {...rest}>
-      <View style={styles.profile}></View>
+      <View style={styles.circle}> 
+          <SvgUri uri={avatar} height='100%' width='100%'/>
+        </View>
       <CustomText style={styles.name} color={"black"} fontSize={25}>
         {name}
       </CustomText>
@@ -40,13 +43,14 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 8,
   },
-  profile: {
+  circle: {
     width: 100,
-    backgroundColor: Colors.green,
-    height: 100,
-    borderRadius: 50,
-    marginVertical: 10,
-  },
+      backgroundColor: Colors.green,
+      height: 100,
+      borderRadius: 50,
+      marginVertical: 10,
+      overflow:"hidden",
+  }
 });
 
 export default ProfileHeader;

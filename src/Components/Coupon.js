@@ -9,13 +9,15 @@ const Coupon = ({
   expiryDate,
   discount,
   image,
+  logo,
+  description,
   style,
   onPressHandler,
   navigation,
   ...rest
 }) => {
   return (
-    <TouchableOpacity onPress={()=> navigation.navigate("Coupon")}>
+    <TouchableOpacity onPress={()=> navigation.navigate("Coupon",{logo, title, description, discount})}>
       <ImageBackground
         style={[styles.container, style]}
         resizeMode="cover"
@@ -36,18 +38,17 @@ const Coupon = ({
           </View>
           {discount !== undefined ? (
             <CustomText>
-              Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on{" "}
-              {title}!
+              Enjoy <CustomText bold={true}>{discount}%</CustomText> discount on {title}!
             </CustomText>
           ) : null}
         </View>
-        {expiryDate !== undefined ? (
+        {/* {expiryDate !== undefined ? (
           <View>
             <CustomText bold={true} style={styles.expiry}>
               {expiryDate} days left.
             </CustomText>
           </View>
-        ) : null}
+        ) : null} */}
       </ImageBackground>
     </TouchableOpacity>
   );

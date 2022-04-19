@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
-const CouponScreen = () => {
+const CouponScreen = ({route, navigation}) => {
+  const {logo, title, description, discount, otherRoute} = route.params;
   return (
     <View style={styles.screen}>
       <View style={styles.card}>
@@ -10,7 +11,7 @@ const CouponScreen = () => {
             <Image
               style={styles.logo}
               source={{
-                uri: "https://ik.imagekit.io/zdphhwaxuat/iRecycle/partners-logo/dunkin-donut.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648115006661",
+                uri: {logo},
               }}
             />
           </View>
@@ -19,20 +20,19 @@ const CouponScreen = () => {
               color={"black"}
               bold={true}
               fontSize={30}
-              style={{marginBottom: 5 }}
+              style={{ marginBottom: 5 }}
             >
-              Smoothies
+              {title}
             </CustomText>
             <CustomText
               color={"black"}
               fontSize={20}
               style={{ textAlign: "center", marginBottom: 20 }}
             >
-              Smoothies is the smoothiest thing that a smoothie like you would
-              smooth
+              {description}
             </CustomText>
             <CustomText color={"black"} bold={true} fontSize={23}>
-              20% Discount
+              {discount}% Discount
             </CustomText>
           </View>
         </View>
@@ -44,7 +44,12 @@ const CouponScreen = () => {
           <View style={[styles.circle, styles.circle2]}></View>
         </View>
         <View style={styles.barcode}>
-          <Image style={{width:"75%",height:"90%",}} source={{uri:"https://barcode.tec-it.com/barcode.ashx?data=iRecycle&code=&translate-esc=true&dpi=100&imagetype=Png"}}></Image>
+          <Image
+            style={{ width: "75%", height: "90%" }}
+            source={{
+              uri: "https://barcode.tec-it.com/barcode.ashx?data=iRecycle&code=&translate-esc=true&dpi=100&imagetype=Png",
+            }}
+          ></Image>
         </View>
       </View>
     </View>
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
   },
   barcode: {
     height: "20%",
-    alignItems:"center"
+    alignItems: "center",
   },
   circle: {
     backgroundColor: "#f2f2f2",
