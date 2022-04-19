@@ -7,29 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import populateUserData from "../Store/Actions/user";
 const ProfileScreen = ({ navigation }) => {
   const userData = useSelector((state) => state.user);
-  console.log("CCCC", userData.coupons);
-  // console.log("------------")
   const arr = userData.coupons;
-  // const arr = [
-  //   {
-  //     title: "Smoothies",
-  //     coins: "200",
-  //     expiryDate: "35",
-  //     discount: "20",
-  //     image:
-  //       "https://img.freepik.com/free-psd/colorful-smoothies-green-background_23-2148237124.jpg?t=st=1647432634~exp=1647433234~hmac=350e876eb1f3ba7c8fcc118705dedecfd5f80c268d834a09c59774de99f2fea7&w=740",
-  //   },
-  //   {
-  //     title: "Juice",
-  //     coins: "100",
-  //     expiryDate: "27",
-  //     discount: "10",
-  //     image:
-  //       "https://img.freepik.com/free-psd/fully-editable-green-juice-glass-bottle-mockup_1361-2500.jpg?t=st=1647432634~exp=1647433234~hmac=fcc485a1b233b041a016ab18e3c3dfe90b440dba27ee7adc454e1d17f3b4cd9b&w=826",
-  //   },
-  // ];
-  // console.log(arr)
-
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
@@ -50,6 +28,7 @@ const ProfileScreen = ({ navigation }) => {
                     <Coupon
                       title={coupon.title}
                       discount={coupon.discount}
+                      description={coupon.description}
                       image={"https://wallpaperaccess.com/full/1288346.jpg"}
                       logo={coupon.bgImageURL}
                       navigation={navigation}

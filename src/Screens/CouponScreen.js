@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
-const CouponScreen = (logo, title, description, discount) => {
+const CouponScreen = ({route, navigation}) => {
+  const {logo, title, description, discount, otherRoute} = route.params;
   return (
     <View style={styles.screen}>
       <View style={styles.card}>
