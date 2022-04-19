@@ -51,6 +51,7 @@ const ProfileScreen = ({ navigation }) => {
                       title={coupon.title}
                       discount={coupon.discount}
                       image={"https://wallpaperaccess.com/full/1288346.jpg"}
+                      logo={coupon.bgImageURL}
                       navigation={navigation}
                     />
                   </View>
