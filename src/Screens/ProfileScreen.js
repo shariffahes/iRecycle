@@ -35,7 +35,7 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.screen}>
         <ProfileHeader
           name={userData.name}
-          points={userData.points}
+          points={userData.accumulatedPoints}
           avatar={userData.avatar}
         />
         <View style={styles.container}>
@@ -49,9 +49,8 @@ const ProfileScreen = ({ navigation }) => {
                   <View>
                     <Coupon
                       title={coupon.title}
-                      expiryDate={coupon.expiryDate}
-                      discount={"20"}
-                      // image={coupon.bgImageURL}
+                      discount={coupon.discount}
+                      image={"https://wallpaperaccess.com/full/1288346.jpg"}
                       navigation={navigation}
                     />
                   </View>

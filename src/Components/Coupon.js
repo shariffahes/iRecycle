@@ -41,13 +41,13 @@ const Coupon = ({
             </CustomText>
           ) : null}
         </View>
-        {expiryDate !== undefined ? (
+        {/* {expiryDate !== undefined ? (
           <View>
             <CustomText bold={true} style={styles.expiry}>
               {expiryDate} days left.
             </CustomText>
           </View>
-        ) : null}
+        ) : null} */}
       </ImageBackground>
     </TouchableOpacity>
   );

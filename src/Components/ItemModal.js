@@ -24,7 +24,7 @@ const ItemModal = ({
   const dispatch = useDispatch();
   const canClaim = useMemo(() => userPoints >= product.pointExchange,[userPoints, product])
   const _onClaimHandler = useCallback(() => {
-    dispatch(addCoupon(product.pointExchange, product.company, product.logo, product.title));
+    dispatch(addCoupon(product.pointExchange, product.company, product.logo, product.title, product.discount));
     closeDetails();
   }, [dispatch, userPoints, product, addCoupon]);
   return (

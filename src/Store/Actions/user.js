@@ -65,7 +65,7 @@ export const updateUserLocation = (location) => {
   }
 };
 
-export const addCoupon = (pointsClaimed, company, logo, title) => {
+export const addCoupon = (pointsClaimed, company, logo, title, discount) => {
   return async (dispatch, getState) => {
     const userId = getState().user.userId;
     const coupons = getState().user.coupons ?? [];
@@ -82,7 +82,7 @@ export const addCoupon = (pointsClaimed, company, logo, title) => {
     };
     date.setMonth(date.getMonth() + 2);
     const couponInfo = {code, invalid: false, expiryDate: date.toISOString(), companyName: company,
-      bgImageURL: logo, logo: logo, title: title};
+      bgImageURL: logo, logo: logo, title: title, discount: discount};
     const newCoupons = [...coupons, couponInfo];
     console.log('all coupons: ', newCoupons);
     dispatch(decrementPoints(pointsClaimed));
