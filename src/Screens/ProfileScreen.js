@@ -1,52 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
 import Coupon from "../Components/Coupon";
-import { useSelector } from "react-redux";
-const ProfileScreen = ({navigation}) => {
-  const coupons = useSelector(state => state.user.coupons);
-  
-  const arr = [
-    {
-      title: "Smoothies",
-      coins: "200",
-      expiryDate: "35",
-      discount: "20",
-      image:
-        "https://img.freepik.com/free-psd/colorful-smoothies-green-background_23-2148237124.jpg?t=st=1647432634~exp=1647433234~hmac=350e876eb1f3ba7c8fcc118705dedecfd5f80c268d834a09c59774de99f2fea7&w=740",
-    },
-    {
-      title: "Juice",
-      coins: "100",
-      expiryDate: "27",
-      discount: "10",
-      image:
-        "https://img.freepik.com/free-psd/fully-editable-green-juice-glass-bottle-mockup_1361-2500.jpg?t=st=1647432634~exp=1647433234~hmac=fcc485a1b233b041a016ab18e3c3dfe90b440dba27ee7adc454e1d17f3b4cd9b&w=826",
-    },
-  ];
+import { useDispatch, useSelector } from "react-redux";
+import populateUserData from "../Store/Actions/user";
+const ProfileScreen = ({ navigation }) => {
+  const userData = useSelector((state) => state.user);
+  console.log("CCCC", userData.coupons);
+  // console.log("------------")
+  const arr = userData.coupons;
+  // const arr = [
+  //   {
+  //     title: "Smoothies",
+  //     coins: "200",
+  //     expiryDate: "35",
+  //     discount: "20",
+  //     image:
+  //       "https://img.freepik.com/free-psd/colorful-smoothies-green-background_23-2148237124.jpg?t=st=1647432634~exp=1647433234~hmac=350e876eb1f3ba7c8fcc118705dedecfd5f80c268d834a09c59774de99f2fea7&w=740",
+  //   },
+  //   {
+  //     title: "Juice",
+  //     coins: "100",
+  //     expiryDate: "27",
+  //     discount: "10",
+  //     image:
+  //       "https://img.freepik.com/free-psd/fully-editable-green-juice-glass-bottle-mockup_1361-2500.jpg?t=st=1647432634~exp=1647433234~hmac=fcc485a1b233b041a016ab18e3c3dfe90b440dba27ee7adc454e1d17f3b4cd9b&w=826",
+  //   },
+  // ];
+  // console.log(arr)
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.screen}>
-        <ProfileHeader name={"Sharif Fahes"} points={"1000"} />
+        <ProfileHeader
+          name={userData.name}
+          points={userData.points}
+          avatar={userData.avatar}
+        />
         <View style={styles.container}>
           <CustomText fontSize={24} bold={true} color={"black"}>
             Coupons
           </CustomText>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {arr.map((coupon) => {
-              return (
-                <View>
-                  <Coupon
-                    title={coupon.title}
-                    coins={coupon.coins}
-                    expiryDate={coupon.expiryDate}
-                    discount={coupon.discount}
-                    image={coupon.image}
-                    navigation={navigation}
-                  />
-                </View>
-              );
+              if (coupon != null) {
+                return (
+                  <View>
+                    <Coupon
+                      title={coupon.title}
+                      expiryDate={coupon.expiryDate}
+                      discount={"20"}
+                      // image={coupon.bgImageURL}
+                      navigation={navigation}
+                    />
+                  </View>
+                );
+              }
             })}
           </ScrollView>
           <CustomText
@@ -58,7 +68,11 @@ const ProfileScreen = ({navigation}) => {
           >
             Activities
           </CustomText>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{marginBottom:10}}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={{ marginBottom: 10 }}
+          >
             <View>
               <Coupon
                 title={"Recycle Now!"}
