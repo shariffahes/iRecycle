@@ -17,7 +17,7 @@ const BannerVertical = ({
   ...rest
 }) => {
   return (
-    <TouchableOpacity onPress={()=> navigation.navigate("Coupon",{logo, title, description, discount})}>
+    <TouchableOpacity>
       <ImageBackground
         style={[styles.container, style]}
         resizeMode="cover"

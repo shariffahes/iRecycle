@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
 import BannerVertical from "../Components/BannerVertical";
+import Coupon from "../Components/Coupon"
 import { useDispatch, useSelector } from "react-redux";
 import populateUserData from "../Store/Actions/user";
 const ProfileScreen = ({ navigation }) => {
@@ -25,7 +26,7 @@ const ProfileScreen = ({ navigation }) => {
               if (coupon != null) {
                 return (
                   <View>
-                    <BannerVertical
+                    <Coupon
                       title={coupon.title}
                       discount={coupon.discount}
                       description={coupon.description}
