@@ -3,7 +3,7 @@ import { View, StyleSheet, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CustomText from "./CustomUI/CustomText";
 
-const Coupon = ({
+const BannerVertical = ({
   title,
   coins,
   expiryDate,
@@ -42,13 +42,7 @@ const Coupon = ({
             </CustomText>
           ) : null}
         </View>
-        {/* {expiryDate !== undefined ? (
-          <View>
-            <CustomText bold={true} style={styles.expiry}>
-              {expiryDate} days left.
-            </CustomText>
-          </View>
-        ) : null} */}
+
       </ImageBackground>
     </TouchableOpacity>
   );
@@ -73,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Coupon;
+export default BannerVertical;
