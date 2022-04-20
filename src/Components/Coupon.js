@@ -9,7 +9,6 @@ const Coupon = ({
   coins,
   expiryDate,
   discount,
-  image,
   logo,
   description,
   style,
@@ -39,7 +38,7 @@ const Coupon = ({
       <View style={styles.body}>
         <CustomText fontSize={30}>Enjoy</CustomText>
         <CustomText fontSize={35} bold={true}>
-          20%
+          {discount}%
         </CustomText>
         <CustomText fontSize={30}>Off!</CustomText>
       </View>
@@ -62,8 +61,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderRadius: 15,
     shadowColor: "black",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 3, height: 3 },
   },
   head: {
     width: 10,
