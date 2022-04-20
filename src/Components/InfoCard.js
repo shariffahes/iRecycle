@@ -25,13 +25,13 @@ const InfoCard = ({
       onPress={onPressHandler}
       activeOpacity="0.9">
       <View style={styles.headerInfo}>
-        <Image source={{ uri: logo}} style={styles.icon}/>
+        <Image source={{ uri: logo}} style={styles.icon}  resizeMode='contain'/>
         <View style={styles.redeemPointsContainer}>
           <RedeemedPointsViewVertical coins={coins} discount={discount} />
         </View>
       </View>
       <View style={styles.middleSection}>
-        <Image source={{uri: image}} resizeMode='cover' style={styles.image}/>
+        <Image source={{uri: image}} resizeMode='contain' style={styles.image}/>
       </View>
       <View style={styles.footerSection}>
         <CustomText color='#000' fontSize={16} bold={true}>{title}</CustomText>

@@ -10,6 +10,7 @@ import LeaderBoard from "../Screens/LeaderBoard";
 import LBIcon from "../../assets/svg/LeaderBoardIcon.svg";
 import { useNavigation } from "@react-navigation/native";
 import ProfileScreen from "../Screens/ProfileScreen";
+import ProfileStack from "./ProfileStack";
 
 const BottomStack = createBottomTabNavigator();
 
@@ -75,7 +76,7 @@ const BottomNavBar = () => {
             <BottomStack.Screen name="Store" component={StoreScreen} options={renderHeaderOptions({applyMargin: true})}/>
             <BottomStack.Screen name="Discover" component={RequestScreen} options={renderHeaderOptions({ applyMargin: true })}/>
             <BottomStack.Screen name="LeaderBoard" component={LeaderBoard} options={{ ...renderHeaderOptions({ applyMargin: true }), unmountOnBlur: true}}/>
-            <BottomStack.Screen name="Profile" component={ProfileScreen} options={{...renderHeaderOptions({applyMargin: true}), headerShown: false}}/>
+            <BottomStack.Screen name="Profile" component={ProfileStack} options={{...renderHeaderOptions({applyMargin: true}), headerShown: false}}/>
         </BottomStack.Navigator>
     );
 };
