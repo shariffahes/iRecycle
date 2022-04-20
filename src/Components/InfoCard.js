@@ -25,7 +25,7 @@ const InfoCard = ({
       onPress={onPressHandler}
       activeOpacity="0.9">
       <View style={styles.headerInfo}>
-        <Image source={{ uri: logo}} style={styles.icon}/>
+        <Image source={{ uri: logo}} style={styles.icon}  resizeMode='contain'/>
         <View style={styles.redeemPointsContainer}>
           <RedeemedPointsViewVertical coins={coins} discount={discount} />
         </View>
