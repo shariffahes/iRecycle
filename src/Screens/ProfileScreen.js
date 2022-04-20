@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
-import Coupon from "../Components/Coupon";
+import BannerVertical from "../Components/BannerVertical";
+import Coupon from "../Components/Coupon"
 import { useDispatch, useSelector } from "react-redux";
 import populateUserData from "../Store/Actions/user";
 const ProfileScreen = ({ navigation }) => {
@@ -29,7 +30,6 @@ const ProfileScreen = ({ navigation }) => {
                       title={coupon.title}
                       discount={coupon.discount}
                       description={coupon.description}
-                      image={"https://wallpaperaccess.com/full/1288346.jpg"}
                       logo={coupon.bgImageURL}
                       navigation={navigation}
                     />
@@ -53,7 +53,7 @@ const ProfileScreen = ({ navigation }) => {
             style={{ marginBottom: 10 }}
           >
             <View>
-              <Coupon
+              <BannerVertical
                 title={"Recycle Now!"}
                 image={
                   "https://img.freepik.com/free-vector/flat-design-ecology-concept-with-natural-elements_23-2148219476.jpg?t=st=1647895379~exp=1647895979~hmac=352b7c86229d2acb244df05669459ae7231b04efdc7435fda5fd06e37b0deff5&w=740"
@@ -62,7 +62,7 @@ const ProfileScreen = ({ navigation }) => {
               />
             </View>
             <View>
-              <Coupon
+              <BannerVertical
                 title={"Volunteer With Us!"}
                 image={
                   "https://img.freepik.com/free-vector/flat-design-ecology-concept-with-natural-elements_23-2148220332.jpg?t=st=1647896607~exp=1647897207~hmac=78ef9df72ebb24d83f1d9a5328beb990e6b5851a4fe40c36bd559b518e2e648e&w=740"
