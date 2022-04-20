@@ -1,6 +1,7 @@
 import React, { useSelector } from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Colors from "../constants/Colors";
 import CustomText from "./CustomUI/CustomText";
 
 const Coupon = ({
@@ -24,37 +25,53 @@ const Coupon = ({
       }
     >
       <View style={styles.head}>
-      <View style={[styles.circle, styles.circle1]}></View>
-
+        <View style={[styles.circle, styles.circle1]}></View>
       </View>
-      <View style={styles.logo}></View>
-      <View style={styles.hr}></View>
-      <View style={styles.body}></View>
-      <View style={styles.tail}></View>
+      <Image
+        source={{
+          uri: "https://ik.imagekit.io/zdphhwaxuat/iRecycle/partners-logo/dunkin-donut.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648115006661",
+        }}
+        style={styles.logo}
+      ></Image>
+      <View style={styles.hr}>
+        <Text style={styles.dotted}>| | | |</Text>
+      </View>
+      <View style={styles.body}>
+        <CustomText fontSize={30}>Enjoy</CustomText>
+        <CustomText fontSize={35} bold={true}>
+          20%
+        </CustomText>
+        <CustomText fontSize={30}>Off!</CustomText>
+      </View>
+      <View style={styles.tail}>
+        <View style={[styles.circle, styles.circle2]}></View>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    backgroundColor: Colors.green,
     width: 250,
     height: 150,
     flex: 1,
     position: "relative",
     marginRight: 20,
     flexDirection: "row",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
+    borderRadius: 15,
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 1, height: 1 },
   },
   head: {
-    width: 40,
+    width: 10,
     height: 150,
-    backgroundColor: "blue",
   },
   tail: {
-    width: 40,
+    width: 10,
     height: 150,
-    backgroundColor: "green",
   },
   circle: {
     backgroundColor: "#f2f2f2",
@@ -72,12 +89,33 @@ const styles = StyleSheet.create({
     shadowRadius: 0.1,
   },
   circle2: {
-    right: -25,
-    top: 8,
+    right: -20,
+    top: 55,
     shadowColor: "grey",
     shadowOpacity: 0.15,
     shadowOffset: { width: -5, height: -2 },
     shadowRadius: 0.1,
+  },
+  logo: {
+    width: 110,
+    height: 150,
+  },
+  hr: {
+    width: 20,
+    height: 150,
+    position: "absolute",
+    right: 100,
+  },
+  dotted: {
+    color: "black",
+    fontSize: 30,
+    textAlign: "center",
+  },
+  body: {
+    width: 80,
+    height: 150,
+    justifyContent: "center",
+    textAlign: "center",
   },
 });
 
