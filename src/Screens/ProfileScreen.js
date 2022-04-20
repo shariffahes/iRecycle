@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import populateUserData from "../Store/Actions/user";
 const ProfileScreen = ({ navigation }) => {
   const userData = useSelector((state) => state.user);
-  const arr = [];
+  let arr = [];
   if (userData.coupons) {
     arr = userData.coupons;
   }
@@ -41,6 +41,13 @@ const ProfileScreen = ({ navigation }) => {
                 );
               }
             })}
+            {arr.length == 0 && (
+              <View style={styles.empty}>
+                <CustomText fontSize={20} color={"grey"}>
+                  Start Recycling and Redeem Coupons!
+                </CustomText>
+              </View>
+            )}
           </ScrollView>
           <CustomText
             fontSize={24}
@@ -88,6 +95,12 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
+  },
+  empty: {
+    width: 350,
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default ProfileScreen;
