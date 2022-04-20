@@ -43,7 +43,7 @@ const DiscoverIcon = ({ size, color }) => {
     return <Entypo size={size} name="compass" color={color} />
 };
 const MenuIcon = ({ size, color }) => {
-  return <Entypo size={size} name="menu" color={color} />
+  return <Entypo size={size} name="user" color={color} />
 };
 
 const BottomNavBar = () => {
