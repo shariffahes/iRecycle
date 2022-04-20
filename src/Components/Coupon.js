@@ -16,6 +16,7 @@ const Coupon = ({
   navigation,
   ...rest
 }) => {
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -28,22 +29,21 @@ const Coupon = ({
       </View>
       <Image
         source={{
-          uri: "https://ik.imagekit.io/zdphhwaxuat/iRecycle/partners-logo/dunkin-donut.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648115006661",
+          uri: logo,
         }}
         style={styles.logo}
-      ></Image>
+        resizeMode="contain"
+
+      />
       <View style={styles.hr}>
         <Text style={styles.dotted}>| | | |</Text>
       </View>
       <View style={styles.body}>
-        <CustomText fontSize={30}>Enjoy</CustomText>
-        <CustomText fontSize={35} bold={true}>
+        <CustomText fontSize={20}>Enjoy</CustomText>
+        <CustomText fontSize={25} bold={true}>
           {discount}%
         </CustomText>
-        <CustomText fontSize={30}>Off!</CustomText>
-      </View>
-      <View style={styles.tail}>
-        <View style={[styles.circle, styles.circle2]}></View>
+        <CustomText fontSize={20}>Off!</CustomText>
       </View>
     </TouchableOpacity>
   );
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     shadowColor: "black",
     shadowOpacity: 0.3,
-    shadowOffset: { width: 3, height: 3 },
+    shadowOffset: { width: 1, height:1 },
   },
   head: {
     width: 10,
@@ -74,13 +74,13 @@ const styles = StyleSheet.create({
   },
   circle: {
     backgroundColor: "#f2f2f2",
-    height: 40,
-    width: 40,
+    height: 35,
+    width: 35,
     borderRadius: 20,
     position: "absolute",
   },
   circle1: {
-    left: -20,
+    left: -15,
     top: 55,
     shadowColor: "grey",
     shadowOpacity: 0.15,
@@ -96,14 +96,15 @@ const styles = StyleSheet.create({
     shadowRadius: 0.1,
   },
   logo: {
+    top:15,
     width: 110,
-    height: 150,
+    height: 120,
   },
   hr: {
     width: 20,
     height: 150,
     position: "absolute",
-    right: 100,
+    right: 85,
   },
   dotted: {
     color: "black",

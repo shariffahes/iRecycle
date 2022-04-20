@@ -31,7 +31,7 @@ const InfoCard = ({
         </View>
       </View>
       <View style={styles.middleSection}>
-        <Image source={{uri: image}} resizeMode='cover' style={styles.image}/>
+        <Image source={{uri: image}} resizeMode='contain' style={styles.image}/>
       </View>
       <View style={styles.footerSection}>
         <CustomText color='#000' fontSize={16} bold={true}>{title}</CustomText>

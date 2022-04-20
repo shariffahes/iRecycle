@@ -11,8 +11,9 @@ const CouponScreen = ({route, navigation}) => {
             <Image
               style={styles.logo}
               source={{
-                uri: {logo},
+                uri: logo,
               }}
+              resizeMode="contain"
             />
           </View>
           <View style={styles.description}>
