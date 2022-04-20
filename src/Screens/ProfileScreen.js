@@ -5,9 +5,12 @@ import ProfileHeader from "../Components/ProfilerHeader";
 import BannerVertical from "../Components/BannerVertical";
 import Coupon from "../Components/Coupon";
 import { useDispatch, useSelector } from "react-redux";
-import populateUserData from "../Store/Actions/user";
+import { Logout } from "../Store/Actions/auth";
+import CustomButton from "../Components/CustomUI/CustomButton";
 const ProfileScreen = ({ navigation }) => {
   const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   let arr = [];
   if (userData.coupons) {
     arr = userData.coupons;
@@ -84,6 +87,14 @@ const ProfileScreen = ({ navigation }) => {
           </ScrollView>
         </View>
       </View>
+      <View style={styles.logout}>
+        <CustomButton
+          onPressHandler={() => {
+            dispatch(Logout());
+          }}
+          title="Log out"
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -101,6 +112,10 @@ const styles = StyleSheet.create({
     height: 150,
     justifyContent: "center",
     alignItems: "center",
+  },
+  logout: {
+    alignItems: "center",
+    marginBottom:20,
   },
 });
 export default ProfileScreen;
