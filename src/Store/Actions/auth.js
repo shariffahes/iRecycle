@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseFireBaseURL, FireBaseKey } from "../../constants/Constants";
+import { showError } from "../../constants/CustomFts";
 import { populateUserData, resetUserInfo } from "./user";
 export const SIGN_UP = "SIGN_UP";
 export const AUTHENTICATE = "AUTHENTICATE";
@@ -113,6 +114,7 @@ export const setData = (token, userId, expireTime) => {
 };
 const _handleError = (errorRes) => {
   let message = undefined;
+  console.log(errorRes);
   switch(errorRes) {
     case "INVALID_EMAIL": 
       message = "This email is not registered. Check again or Sign up with this email";
@@ -123,9 +125,12 @@ const _handleError = (errorRes) => {
     case "EMAIL_EXISTS":
       message = "This email is already registered. Sign in instead";
       break;
+    case "EMAIL_NOT_FOUND":
+      message = "The email is invalid. Please check again";
+      break;
     default: 
       message = "Ops, an error has occured from our side. Please try again shortly";
   }
-  console.log(errorRes);
+  showError(message);
   throw new Error(message);
 }

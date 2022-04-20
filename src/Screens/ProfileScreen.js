@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import CustomText from "../Components/CustomUI/CustomText";
 import ProfileHeader from "../Components/ProfilerHeader";
 import Coupon from "../Components/Coupon";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CustomButton from "../Components/CustomUI/CustomButton";
+import { Logout } from "../Store/Actions/auth";
 const ProfileScreen = () => {
   const coupons = useSelector(state => state.user.coupons);
-  
+  const dispatch = useDispatch();
   const arr = [
     {
       title: "Smoothies",
@@ -79,6 +81,12 @@ const ProfileScreen = () => {
           </ScrollView>
         </View>
       </View>
+      <CustomButton
+        onPressHandler={() => {
+          dispatch(Logout());
+        }}
+        title="Log out"
+      />
     </ScrollView>
   );
 };

@@ -11,6 +11,7 @@ import UIProgressBar from "../Components/CustomUI/UIProgressBar";
 import CustomText from "../Components/CustomUI/CustomText";
 import { SvgUri } from "react-native-svg";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { showError } from "../constants/CustomFts";
 
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -40,6 +41,7 @@ const SignUpScreen = ({navigation}) => {
     }else{
       //Passwords did not match!
       setLoading(false);
+      showError("Confirmation password does not match the entered password.")
       console.log('password difference');
     }
     
@@ -122,7 +124,7 @@ const SecondForm = ({onSubmit, isLoading, setFullName, goBack, avatar, fullName,
             title="Join Us!"
             style={[styles.button]}
             onPressHandler={onSubmit}
-            loading={isLoading} />
+            loading={isLoading} disabled={fullName.length === 0} />
           <Text style={styles.quote}>Keep on Recycling!</Text>
         </View>
       </View>

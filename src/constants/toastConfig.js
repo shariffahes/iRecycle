@@ -46,6 +46,13 @@ export const toastConfig = {
       <CustomText bold={true}>You don't have enough points to claim this object</CustomText>
     </View>
     )
+  },
+  error: (setting) => {
+    return (
+      <View style={{backgroundColor: '#b00', padding: 10, margin: 5, borderRadius: 9}}>
+        <CustomText bold={true}>{setting.props.errorContent}</CustomText>
+      </View>
+    )
   }
 };
 
