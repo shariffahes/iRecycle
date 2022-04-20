@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import MainNavigator from "./src/Navigation/MainNavigator";
 import AppLoading from "expo-app-loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Font from "expo-font";
 import { ModelProvider } from './src/contexts/ModelContext';
 import { LogBox } from 'react-native';
@@ -15,6 +15,7 @@ import userReducer from "./src/Store/Reducers/user";
 import recycleAreasReducer from "./src/Store/Reducers/RecyclePoints";
 import Toast from "react-native-toast-message";
 import { toastConfig } from './src/constants/toastConfig';
+import { initializeFB } from './src/constants/CustomFts';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -38,6 +39,9 @@ export default function App() {
   //ignore the ANNOYING warning about tf supress :|
   LogBox.ignoreLogs([warningMSG]);
 
+  useEffect(() => {
+    initializeFB();
+  }, []);
   if (!loadedFont) {
     return (
       <AppLoading

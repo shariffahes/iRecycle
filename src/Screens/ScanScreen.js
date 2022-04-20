@@ -9,7 +9,7 @@ import CustomText from "../Components/CustomUI/CustomText";
 import CustomButton from '../Components/CustomUI/CustomButton';
 import Colors from '../constants/Colors';
 import { useModel } from '../contexts/ModelContext';
-import { identifyMaterial } from '../constants/CustomFts';
+import { identifyMaterial, showError } from '../constants/CustomFts';
 import BackIcon from '../../assets/svg/BackIcon.svg';
 import Toast from 'react-native-toast-message';
 
@@ -62,6 +62,11 @@ const ScanScreen = ({navigation}) => {
       setPredictions(newPredictions);
       const result = identifyMaterial(newPredictions[0].className);
       console.log(result);
+      if(result.generalInfo === "no info") {
+        showError('Sorry, I did not recognize the scanned object. My Bad!');
+        setmodelActivityStatus(false);
+        return;
+      }
       Toast.show({
         type: 'recycleResult',
         position: 'bottom',

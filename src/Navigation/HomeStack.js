@@ -3,6 +3,7 @@ import React from "react";
 import MapScreen from "../Screens/MapScreen";
 import ScanScreen from "../Screens/ScanScreen";
 import RecycleResultScreen from "../Screens/RecycleResultScreen";
+import RecyclingScreen from "../Screens/RecyclingScreen";
 import { renderHeaderOptions } from "../constants/CustomFts";
 
 
@@ -14,6 +15,7 @@ const HomeStack = () => {
       <MainStack.Screen name="Main Map" component={MapScreen} options={renderHeaderOptions}/>
       <MainStack.Screen name="Scan" component={ScanScreen} options={renderHeaderOptions}/>
       <MainStack.Screen name="Result" component={RecycleResultScreen} options={{headerShown: false}}/>
+      <MainStack.Screen name="Recycling" component={RecyclingScreen} options={renderHeaderOptions}/>
     </MainStack.Navigator>
   );
 };

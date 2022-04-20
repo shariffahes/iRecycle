@@ -3,7 +3,9 @@ import RedeemedPointsView from "../Components/CustomUI/RedeemedPointsView";
 import { View, StyleSheet, Text } from 'react-native';
 import { materials, materialInfo } from '../Data/items';
 import { baseFireBaseURL } from './Constants';
-import CustomText from '../Components/CustomUI/CustomText';
+import { initializeApp } from 'firebase/app';
+import Toast from 'react-native-toast-message';
+
 export const identifyMaterial = (itemName) => {
     let res;
     console.log(itemName);
@@ -40,7 +42,19 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
     (1 - c((lon2 - lon1) * p)) / 2;
   return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
+const _firebaseConfig = {
+  apiKey: 'AIzaSyDlSkOA8UMGKTL1oz4bId9iz1RiNJtMxII',
+  authDomain: 'irecycle-fa7d5.firebaseapp.com',
+  databaseURL: 'https://irecycle-fa7d5-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'irecycle-fa7d5',
+  storageBucket: 'irecycle-fa7d5.appspot.com',
+  messagingSenderId: '348552091572',
+  appId: '1:348552091572:web:8ac8ade4cf252555c684e1',
+}
 
+export const initializeFB = () => {
+  initializeApp(_firebaseConfig);
+}
 const styles = StyleSheet.create({
   leftStyles: {
     marginLeft: 16,
@@ -71,4 +85,14 @@ export const _extractId = (user) => {
 export const _extractInfo = (user) => {
   if(!user) return {};
   return user[1];
+}
+
+export const showError = (errorContent) => {
+  Toast.show({
+    type: 'error',
+    position: 'bottom',
+    autoHide: true,
+    visibilityTime: 1500,
+    props: { errorContent: errorContent }
+  })
 }
