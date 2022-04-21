@@ -6,6 +6,7 @@ export const materials = {
   envelope: "Carton",
   paper: "Carton",
   binder: "Carton",
+  carton: "Carton",
   syringe: "Plastic",
   "pill bottle": "Plastic",
   "fountain pen": "Plastic",
@@ -23,7 +24,7 @@ export const materials = {
   "pop bottle": "Plastic",
   "soda bottle": "Plastic",
   pillow: "Paper",
-  carton: 'Carton',
+  carton: "Carton",
   necklace: "Metal",
   "comic book": "Carton",
   notebook: "Electronics",
@@ -41,7 +42,6 @@ export const materials = {
   cellphone: "Electronics",
   cell: "Electronics",
   "mobile phone": "Electronics",
-  "carton": ''
 };
 
 export const materialInfo = {
