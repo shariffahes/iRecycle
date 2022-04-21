@@ -13,8 +13,6 @@ export const identifyMaterial = (itemName) => {
   for (let i = 0; i < alias.length; i++) {
     for (const [key, value] of Object.entries(materials)) {
       if (alias[i] == key) {
-        console.log("KEY ", key);
-        console.log("Alias ", alias[i]);
         res = materialInfo[value];
       }
     }

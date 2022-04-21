@@ -35,6 +35,7 @@ export const materials = {
   keypad: "Electronics",
   spacebar: "Electronics",
   "crossword puzzle": "Carton",
+  "Band Aid":"Carton",
   crossword: "Carton",
   "plastic bag": "Plastic",
   "cellular telephone": "Electronics",
