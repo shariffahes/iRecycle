@@ -74,7 +74,6 @@ const ItemModal = ({
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "rgb(0,0,0)",
     opacity: 0,
     flex: 1,
     right: 0,
