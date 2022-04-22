@@ -1,20 +1,17 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
     StyleSheet,
     View,
     Text,
     TouchableWithoutFeedback,
     Keyboard,
-    KeyboardAvoidingView,
 } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
 import Colors from "../constants/Colors";
-import AuthBanner from "../../assets/svg/AuthBanner";
 import * as Crypto from "expo-crypto";
-import { ScrollView } from "react-native-gesture-handler";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logIn } from "../Store/Actions/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 

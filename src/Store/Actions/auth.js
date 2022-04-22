@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseFireBaseURL, FireBaseKey } from "../../constants/Constants";
 import { showError } from "../../constants/CustomFts";
@@ -11,7 +12,7 @@ export const signUp = (email, password, fullName, avatar) => {
     try {
       const data = await _handleAuthentication(email, password, true);
       if(data.error?.message) _handleError(data.error.message);
-      dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
+      dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000), data.refreshToken);
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
       const response = await fetch(baseFireBaseURL + `/users/${data.localId}.json`, {
@@ -41,8 +42,9 @@ export const logIn = (email, password) => {
   return async (dispatch) => {
     try {
       const data = await _handleAuthentication(email, password);
+      console.log(data);
       if (data.error?.message) _handleError(data.error.message);
-      dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000));
+      dispatch(setData(data.idToken, data.localId, parseInt(data.expiresIn) * 1000, data.refreshToken));
       const expirationDuration = new Date().getTime() + parseInt(data.expiresIn) * 1000;
       _saveDataToStorage(data.idToken, data.localId, expirationDuration);
       dispatch(populateUserData(data.localId));
@@ -64,10 +66,10 @@ export const Logout = () => {
 };
 
 let timer;
-const _saveDataToStorage = (token, userId, expireDuration) => {
+const _saveDataToStorage = (token, userId, expireDuration, refreshToken) => {
   AsyncStorage.setItem(
     "userData",
-    JSON.stringify({ token: token, userId: userId, expiresIn: expireDuration })
+    JSON.stringify({ token: token, userId: userId, expiresIn: expireDuration, refreshToken: refreshToken })
   );
 };
 const _handleAuthentication = async (email, password, isSignUp) => {
@@ -93,23 +95,42 @@ const _handleAuthentication = async (email, password, isSignUp) => {
 
 }
 const _clearAnyPrevTimer = () => {
-  if (timer) clearTimeout(timer);
+  if (timer) {
+    clearTimeout(timer);
+  }
 };
-const _setLogOutTimer = (expirationDuration) => {
-  return (dispatch) => {
-    timer = setTimeout(() => {
-        dispatch(Logout());
-    }, expirationDuration);
+const _setLogOutTimer = (expirationDuration, refreshToken) => {
+  return (dispatch, getState) => {
+    _clearAnyPrevTimer();
+    timer = setTimeout(async () => {
+        console.log('called to refresh\n');
+        try {
+          const response = await fetch(`https://securetoken.googleapis.com/v1/token?key=${FireBaseKey}`,
+                          { method: 'POST',
+                            body: JSON.stringify({ grant_type: "refresh_token", refresh_token: refreshToken }),
+                            headers: { "Content-Type": "application/json" }});
+          const res = await response.json();
+          const id = getState().user.userId;
+          if (res.error?.message) {
+            console.log(res.error);
+            return;
+          }
+          dispatch(setData(res.id_token, id, parseInt(res.expires_in) * 1000, res.refresh_token));
+        } catch (error) {
+          console.log(error);
+        }
+    }, expirationDuration - 60000);
   };
 };
-export const setData = (token, userId, expireTime) => {
+export const setData = (token, userId, expireTime, refreshToken) => {
   return (dispatch) => {
     dispatch({
       type: AUTHENTICATE,
       userId: userId,
       token: token,
+      refreshToken
     });
-    dispatch(_setLogOutTimer(expireTime));
+    dispatch(_setLogOutTimer(expireTime, refreshToken));
   };
 };
 const _handleError = (errorRes) => {

@@ -1,5 +1,6 @@
 export const materials = {
   "water bottle": "Plastic",
+  "water jug": "Plastic",
   bucket: "Plastic",
   pail: "Plastic",
   beaker: "Glass",
@@ -8,6 +9,7 @@ export const materials = {
   binder: "Carton",
   carton: "Carton",
   syringe: "Plastic",
+  "beer bottle": "Glass",
   "pill bottle": "Plastic",
   "fountain pen": "Plastic",
   ballpoint: "Plastic",
@@ -35,7 +37,7 @@ export const materials = {
   keypad: "Electronics",
   spacebar: "Electronics",
   "crossword puzzle": "Carton",
-  "Band Aid":"Carton",
+  "Band Aid": "Carton",
   crossword: "Carton",
   "plastic bag": "Plastic",
   "cellular telephone": "Electronics",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, ActivityIndicator } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import CustomText from "../Components/CustomUI/CustomText";
 import RankView from "../Components/RankView";
@@ -9,6 +9,7 @@ import Colors from "../constants/Colors";
 import { getLeaderBoard, _extractId, _extractInfo } from "../constants/CustomFts";
 import { useSelector } from "react-redux";
 import { SvgUri } from "react-native-svg";
+
 
 const LeaderBoard = () => {
   const [isLoading , setLoading] = useState(true);
@@ -28,7 +29,8 @@ const LeaderBoard = () => {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%'}}>
         <View style={{ height: 90, width: 90, borderRadius: 17, backgroundColor: '#ddd', alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../assets/gif/JudgeLoad.gif')} resizeMode='contain' style={{width: '100%', height: '100%', marginLeft: 20}}/>
+          {/* <Image source={require('../../assets/gif/JudgeLoad.gif')} resizeMode='contain' style={{width: '100%', height: '100%', marginLeft: 20}}/> */}
+          <ActivityIndicator size='large'/>
         </View>
       </View>
     );

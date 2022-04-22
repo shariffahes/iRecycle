@@ -49,7 +49,7 @@ const RecycleCounter = ({db, navigation}) => {
     };
     set(reference, {'Code': code});
     dispatch(addPoints(pointsCollected));
-    navigation.navigate('Main Map');
+    navigation.goBack();
   }, [ref, navigation, pointsCollected]);
   return (
     <View>

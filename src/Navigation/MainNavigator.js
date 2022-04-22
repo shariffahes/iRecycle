@@ -15,12 +15,12 @@ const MainNavigator = () => {
       const userData = await AsyncStorage.getItem("userData");
       if (!userData) return;
       const parsedData = JSON.parse(userData);
-      const { token, userId, expiresIn } = parsedData;
+      const { token, userId, expiresIn, refreshToken } = parsedData;
       const expirationDuration = new Date(expiresIn);
       if (expirationDuration <= new Date() || !token || !userId) return;
       const currDate = new Date();
       const expireTime = expirationDuration.getTime() - currDate.getTime();
-      dispatch(setData(token, userId, expireTime));
+      dispatch(setData(token, userId, expireTime, refreshToken));
     };
     isTokenValid();
 

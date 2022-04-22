@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
 import CardTitleText from "../Components/CustomUI/CardTitleText";
 import CustomButton from "../Components/CustomUI/CustomButton";
 import InputBar from "../Components/InputBar";
@@ -12,13 +12,43 @@ import CustomText from "../Components/CustomUI/CustomText";
 import { SvgUri } from "react-native-svg";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { showError } from "../constants/CustomFts";
+import { Entypo } from '@expo/vector-icons';
+const digitPattern = new RegExp("(?=.*[0-9]+).*$");
+const specialCharacterPattern = new RegExp("(?=[.*!@#$%^&*]+).*$");
+const upperCasePattern = new RegExp("(?=.*[A-Z]+).*$");
+const lowerCasePattern = new RegExp("(?=.*[a-z]).*$");
 
+const validatePasswordPattern = (password) => {
+  const pattern = [false, false, false, false, false];
+  if (password.length >= 8) {
+    pattern[0] = true;
+  }
+  if (password.match(digitPattern)) {
+    pattern[1] = true;
+  }
+  if (password.match(specialCharacterPattern)) {
+    pattern[2] = true;
+  }
+  if (password.match(upperCasePattern)) {
+    pattern[3] = true;
+  }
+  if (password.match(lowerCasePattern)) {
+    pattern[4] = true;
+  }
+  return pattern;
+}
+const passwordRules =  ["At least 8 characters in length", "Should include digit", "Should include special character", "Should include uppercase", "Should include lowercase"];
 const SignUpScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading,setLoading] = useState(false);
   const [pageIndex, setIndex] = useState(0);
   const [fullName, setFullName] = useState('');
+  const [passwordPattern, setPasswordPatternValidation] = useState([false, false, false, false, false]);
+  const canGoNext = useMemo(() => {
+    const filtered = passwordPattern.filter(res => res === false);
+    return filtered.length === 0;
+  }, [passwordPattern]);
   const [avatar, setAvatar] = useState('https://ik.imagekit.io/zdphhwaxuat/iRecycle/profiles/Avatars/Memoji-19.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1649586249615');
   const dispatch = useDispatch();
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,6 +58,7 @@ const SignUpScreen = ({navigation}) => {
   };
   const onSubmit = useCallback(async () => {
     setLoading(true);
+   
     if (password === confirmPassword) {
       const encryptedPassword = await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA256,
@@ -47,6 +78,8 @@ const SignUpScreen = ({navigation}) => {
     
   }, [password, confirmPassword, email, fullName, avatar]);
   const setPasswordHandler = (selectedPassword) => {
+    const result = validatePasswordPattern(selectedPassword);
+    setPasswordPatternValidation(result);
     setPassword(selectedPassword);
   };
   const setConfirmPasswordHandler = (selectedConfirmPassword) => {
@@ -66,7 +99,8 @@ const SignUpScreen = ({navigation}) => {
             </View>
          {pageIndex === 0 ? <FirstForm setConfirmPasswordHandler={setConfirmPasswordHandler} 
                               setEmailHandler={setEmailHandler} setPasswordHandler={setPasswordHandler} onNextPagePressed={() => {setIndex(1)}}
-                              email={email} password={password} confirmPassword={confirmPassword}/>
+                              email={email} password={password} confirmPassword={confirmPassword} 
+                              passwordPattern={passwordPattern} canGoNext={canGoNext}/>
                           : <SecondForm setFullName={setFullName} isLoading={isLoading}
                               onSubmit={onSubmit} goBack={() => setIndex(0)}
                               avatar={avatar} setAvatar={setAvatar} fullName={fullName}
@@ -76,13 +110,25 @@ const SignUpScreen = ({navigation}) => {
       </KeyboardAwareScrollView>
   );
 };
+const PasswordRulesText = ({rule, valid}) => {
+  return (
+    <View style={{flexDirection: 'row', margin: 3, alignItems: 'center'}}>
+      <CustomText fontSize={12} color={valid ? 'green' : 'red'} style={{marginRight: 5}}>{rule}</CustomText>
+      <Entypo size={14} name={valid ? "check" : "circle-with-cross"} color={valid ? "green" : "red"}/>
+    </View>
+  );
+};
 
-const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPasswordHandler, setConfirmPasswordHandler, onNextPagePressed}) => {
+const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPasswordHandler, setConfirmPasswordHandler, onNextPagePressed, passwordPattern, canGoNext}) => {
   const isInputEmpty = useMemo(() => {
     return email.length == 0 || password.length == 0 || confirmPassword.length == 0
   }, [email, confirmPassword, password]);
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ alignSelf: 'flex-start' }}>
+        <Text style={{marginLeft: 3, marginBottom: 5}}>Password Policy:</Text>
+        {passwordRules.map((rule, index) => <PasswordRulesText key={index} rule={rule} valid={passwordPattern[index]} />)}
+      </View>
       <InputBar icon="mail-outline" keyboardType="email-address" placeholder="Email" 
         autoCapitalize="none" onChangeTextHandler={setEmailHandler} value={email}/>
       <InputBar icon="lock-closed-outline" keyboardType="default" placeholder="Password" 
@@ -91,7 +137,7 @@ const FirstForm = ({ email, password, confirmPassword, setEmailHandler, setPassw
       <InputBar icon="lock-closed-outline" keyboardType="default" placeholder="Confirm Password" 
         secureTextBool={true} autoCapitalize="none" onChangeTextHandler={setConfirmPasswordHandler} value={confirmPassword}/>
       <CustomButton
-        disabled={isInputEmpty}
+        disabled={isInputEmpty || !canGoNext}
         title="Next"
         style={styles.button}
         onPressHandler={onNextPagePressed}/>
@@ -161,6 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     height: 50,
     marginTop: 20,
+    marginBottom: 30,
   },
   quote: {
     fontSize: 10,

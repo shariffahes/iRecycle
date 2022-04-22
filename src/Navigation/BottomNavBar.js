@@ -9,7 +9,6 @@ import { renderHeaderOptions } from "../constants/CustomFts";
 import LeaderBoard from "../Screens/LeaderBoard";
 import LBIcon from "../../assets/svg/LeaderBoardIcon.svg";
 import { useNavigation } from "@react-navigation/native";
-import ProfileScreen from "../Screens/ProfileScreen";
 import ProfileStack from "./ProfileStack";
 
 const BottomStack = createBottomTabNavigator();
@@ -68,6 +67,9 @@ const BottomNavBar = () => {
       Linking.getInitialURL().then((url) => {
         handleURL({url});
       });
+      () => {
+        removeEventListener('url', handleURL);
+      }
     }, []);
     return (
         <BottomStack.Navigator screenOptions={renderScreenOptions}>
